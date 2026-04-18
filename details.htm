@@ -883,8 +883,8 @@
 <div class="site">
 
       <nav class="nav">
-    <button class="active" onclick="window.location.href='index.htm'">Home</button>
-    <button onclick="window.location.href='details.htm'">Wedding Details</button>
+    <button onclick="window.location.href='index.htm'">Home</button>
+    <button class="active" onclick="window.location.href='details.htm'">Wedding Details</button>
     <button onclick="window.location.href='party.htm'">Wedding Party</button>
     <button onclick="window.location.href='rsvp.htm'">RSVP</button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
@@ -894,175 +894,92 @@
   </nav>
 
   <!-- ══ HOME ══ -->
-  <div class="page visible" id="page-home">
-    <div class="hero">
-      <span class="hero-ornament">Together on this special day</span>
-      <div class="monogram" style="display:flex;align-items:center;justify-content:center;gap:10px;">
-        <svg width="90" height="40" viewBox="0 0 90 40" xmlns="http://www.w3.org/2000/svg">
-          <path d="M88,20 C75,20 65,8 50,12 C38,15 28,22 15,18 C8,16 4,12 2,8" fill="none" stroke="#C4A97A" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M88,20 C75,20 65,32 50,28 C38,25 28,18 15,22 C8,24 4,28 2,32" fill="none" stroke="#C4A97A" stroke-width="0.6" stroke-linecap="round" opacity="0.5"/>
-          <circle cx="88" cy="20" r="1.5" fill="#C4A97A" opacity="0.7"/>
-          <circle cx="2" cy="8" r="1" fill="#C4A97A" opacity="0.5"/>
-          <circle cx="2" cy="32" r="1" fill="#C4A97A" opacity="0.3"/>
-        </svg>
-        <span>C <span class="ampersand">&amp;</span> M</span>
-        <svg width="90" height="40" viewBox="0 0 90 40" xmlns="http://www.w3.org/2000/svg">
-          <path d="M2,20 C15,20 25,8 40,12 C52,15 62,22 75,18 C82,16 86,12 88,8" fill="none" stroke="#C4A97A" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M2,20 C15,20 25,32 40,28 C52,25 62,18 75,22 C82,24 86,28 88,32" fill="none" stroke="#C4A97A" stroke-width="0.6" stroke-linecap="round" opacity="0.5"/>
-          <circle cx="2" cy="20" r="1.5" fill="#C4A97A" opacity="0.7"/>
-          <circle cx="88" cy="8" r="1" fill="#C4A97A" opacity="0.5"/>
-          <circle cx="88" cy="32" r="1" fill="#C4A97A" opacity="0.3"/>
-        </svg>
-      </div>
-      <div class="hero-rule"><div class="hero-diamond"></div></div>
-      <div class="date-line">Sunday, April 18, 2027 &nbsp;·&nbsp; Coral Gables, Florida</div>
-      <div class="tagline">We're getting married!</div>
+  <div class="page visible" id="page-details">
+    <div class="page-header">
+      <h1>Wedding Details</h1>
+      <p>Everything you need to know for the big day</p>
+    </div>
 
-      <!-- Countdown Timer -->
-      <div class="countdown-wrap">
-        <div class="countdown-label">Days Until We Say I Do</div>
-        <div class="countdown-boxes">
-          <div class="countdown-box"><span class="countdown-num" id="cd-days">000</span><span class="countdown-unit">Days</span></div>
-          <div class="countdown-sep">·</div>
-          <div class="countdown-box"><span class="countdown-num" id="cd-hours">00</span><span class="countdown-unit">Hours</span></div>
-          <div class="countdown-sep">·</div>
-          <div class="countdown-box"><span class="countdown-num" id="cd-mins">00</span><span class="countdown-unit">Minutes</span></div>
-          <div class="countdown-sep">·</div>
-          <div class="countdown-box"><span class="countdown-num" id="cd-secs">00</span><span class="countdown-unit">Seconds</span></div>
-        </div>
+    <!-- Elegant venue banner -->
+    <div class="venue-banner">
+      <div class="venue-banner-inner">
+        <span class="venue-eyebrow">The Celebration of</span>
+        <div class="venue-names">Chelsea <span class="venue-amp">&amp;</span> Matt</div>
+        <div class="venue-rule"><div class="venue-diamond"></div></div>
+        <div class="venue-place">Hotel Colonnade</div>
+        <div class="venue-address">180 Aragon Ave &nbsp;·&nbsp; Coral Gables, FL 33134</div>
+        <a href="https://maps.google.com/?q=180+Aragon+Ave+Coral+Gables+FL+33134" class="venue-map-link" target="_blank">View on Google Maps →</a>
       </div>
+    </div>
 
-    <div class="carousel-wrap">
-      <div class="carousel-middle-row">
-        <button class="carousel-btn prev" onclick="goTo(carouselIdx - 1)" title="Previous"><svg viewBox="0 0 80 55" xmlns="http://www.w3.org/2000/svg">
-  <!-- post shadow -->
-  <rect x="36" y="36" width="9" height="19" rx="2" fill="#3D2B1A" opacity="0.3"/>
-  <!-- post -->
-  <rect x="34" y="34" width="9" height="20" rx="2" fill="#6B4A22"/>
-  <line x1="37" y1="34" x2="37" y2="54" stroke="#9A7B4F" stroke-width="0.5" opacity="0.5"/>
-  <line x1="40" y1="34" x2="40" y2="54" stroke="#3D2B1A" stroke-width="0.4" opacity="0.4"/>
-  <!-- sign shadow -->
-  <path d="M7,9 L1,21 L7,33 L73,33 L73,9 Z" fill="#3D2B1A" opacity="0.15" transform="translate(2,2)"/>
-  <!-- sign board -->
-  <path d="M7,9 L1,21 L7,33 L73,33 L73,9 Z" fill="#EDE0C4" stroke="#8B6914" stroke-width="1.2"/>
-  <!-- dark wood border inner -->
-  <path d="M9,12 L4,21 L9,30 L70,30 L70,12 Z" fill="none" stroke="#C4A97A" stroke-width="0.5" opacity="0.6"/>
-  <!-- wood grain -->
-  <line x1="16" y1="10" x2="16" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="24" y1="10" x2="24" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="32" y1="10" x2="32" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="40" y1="10" x2="40" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="48" y1="10" x2="48" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="56" y1="10" x2="56" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="64" y1="10" x2="64" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <!-- horizontal wood rings -->
-  <line x1="7" y1="17" x2="73" y2="17" stroke="#C4A97A" stroke-width="0.4" opacity="0.18"/>
-  <line x1="7" y1="25" x2="73" y2="25" stroke="#C4A97A" stroke-width="0.4" opacity="0.18"/>
-  <!-- arrow -->
-  <polyline points="30,17 16,21 30,25" fill="none" stroke="#6B4A22" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-  <line x1="16" y1="21" x2="58" y2="21" stroke="#6B4A22" stroke-width="2.2" stroke-linecap="round"/>
-  <!-- nail heads -->
-  <circle cx="68" cy="13" r="2.2" fill="#9A7B4F"/>
-  <circle cx="68" cy="13" r="0.9" fill="#C4A97A"/>
-  <circle cx="68" cy="29" r="2.2" fill="#9A7B4F"/>
-  <circle cx="68" cy="29" r="0.9" fill="#C4A97A"/>
-  <circle cx="10" cy="21" r="2.2" fill="#9A7B4F"/>
-  <circle cx="10" cy="21" r="0.9" fill="#C4A97A"/>
-</svg></button>
-        <div class="carousel">
-          <div class="carousel-slides" id="carousel-slides"></div>
-        </div>
-        <button class="carousel-btn next" onclick="goTo(carouselIdx + 1)" title="Next"><svg viewBox="0 0 80 55" xmlns="http://www.w3.org/2000/svg">
-  <!-- post shadow -->
-  <rect x="36" y="36" width="9" height="19" rx="2" fill="#3D2B1A" opacity="0.3"/>
-  <!-- post -->
-  <rect x="34" y="34" width="9" height="20" rx="2" fill="#6B4A22"/>
-  <line x1="37" y1="34" x2="37" y2="54" stroke="#9A7B4F" stroke-width="0.5" opacity="0.5"/>
-  <line x1="40" y1="34" x2="40" y2="54" stroke="#3D2B1A" stroke-width="0.4" opacity="0.4"/>
-  <!-- sign shadow -->
-  <path d="M7,9 L7,33 L73,33 L79,21 L73,9 Z" fill="#3D2B1A" opacity="0.15" transform="translate(2,2)"/>
-  <!-- sign board -->
-  <path d="M7,9 L7,33 L73,33 L79,21 L73,9 Z" fill="#EDE0C4" stroke="#8B6914" stroke-width="1.2"/>
-  <!-- inner border -->
-  <path d="M10,12 L10,30 L70,30 L76,21 L70,12 Z" fill="none" stroke="#C4A97A" stroke-width="0.5" opacity="0.6"/>
-  <!-- wood grain -->
-  <line x1="16" y1="10" x2="16" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="24" y1="10" x2="24" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="32" y1="10" x2="32" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="40" y1="10" x2="40" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="48" y1="10" x2="48" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="56" y1="10" x2="56" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <line x1="64" y1="10" x2="64" y2="32" stroke="#C4A97A" stroke-width="0.6" opacity="0.25"/>
-  <!-- horizontal rings -->
-  <line x1="7" y1="17" x2="73" y2="17" stroke="#C4A97A" stroke-width="0.4" opacity="0.18"/>
-  <line x1="7" y1="25" x2="73" y2="25" stroke="#C4A97A" stroke-width="0.4" opacity="0.18"/>
-  <!-- arrow -->
-  <polyline points="50,17 64,21 50,25" fill="none" stroke="#6B4A22" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-  <line x1="64" y1="21" x2="22" y2="21" stroke="#6B4A22" stroke-width="2.2" stroke-linecap="round"/>
-  <!-- nail heads -->
-  <circle cx="12" cy="13" r="2.2" fill="#9A7B4F"/>
-  <circle cx="12" cy="13" r="0.9" fill="#C4A97A"/>
-  <circle cx="12" cy="29" r="2.2" fill="#9A7B4F"/>
-  <circle cx="12" cy="29" r="0.9" fill="#C4A97A"/>
-  <circle cx="70" cy="21" r="2.2" fill="#9A7B4F"/>
-  <circle cx="70" cy="21" r="0.9" fill="#C4A97A"/>
-</svg></button>
-      </div>
-      <div class="carousel-controls">
-        <div class="carousel-dots" id="carousel-dots" style="display:none"></div>
-        <div class="rv-road-wrap">
-          <div class="rv-road-track" id="rv-road-track" onclick="roadClick(event)">
-            <div class="rv-road-surface"></div>
-            <div class="rv-road-progress" id="rv-road-progress"></div>
-            <div class="rv-road-dash"></div>
-            <div class="rv-road-vehicle" id="rv-road-vehicle">
-              <svg viewBox="0 0 52 26" xmlns="http://www.w3.org/2000/svg">
-                <rect x="1" y="5" width="38" height="13" rx="2.5" fill="#F0EBE0" stroke="#C4A97A" stroke-width="0.6"/>
-                <rect x="1" y="6.5" width="9" height="11.5" rx="2.5" fill="#E8E0D0" stroke="#C4A97A" stroke-width="0.5"/>
-                <rect x="2" y="7.5" width="7" height="6" rx="1" fill="#D9CEB8" opacity="0.9"/>
-                <line x1="2.5" y1="8.5" x2="4" y2="13" stroke="#fff" stroke-width="0.6" opacity="0.5"/>
-                <rect x="13" y="6" width="5.5" height="5" rx="0.8" fill="#D9CEB8" opacity="0.85"/>
-                <rect x="21" y="6" width="5.5" height="5" rx="0.8" fill="#D9CEB8" opacity="0.85"/>
-                <rect x="29" y="6" width="5.5" height="5" rx="0.8" fill="#D9CEB8" opacity="0.85"/>
-                <rect x="21" y="11" width="4" height="7" rx="0.8" fill="#EAE2D2" stroke="#C4A97A" stroke-width="0.3"/>
-                <rect x="1" y="13.5" width="38" height="1.5" fill="#C4A97A" opacity="0.45"/>
-                <rect x="3" y="17" width="33" height="2.5" rx="0.8" fill="#D9CEB8"/>
-                <ellipse cx="2.2" cy="14.5" rx="1" ry="1.2" fill="#FFF8E8" stroke="#C4A97A" stroke-width="0.3"/>
-                <rect x="38" y="16" width="5" height="1.5" rx="0.6" fill="#C4A97A" opacity="0.5"/>
-                <circle cx="8" cy="21" r="3.5" fill="#E8E0D0" stroke="#9A7B4F" stroke-width="0.7"/>
-                <circle cx="8" cy="21" r="1.8" fill="#F0EBE0" stroke="#9A7B4F" stroke-width="0.4"/>
-                <circle cx="8" cy="21" r="0.7" fill="#C4A97A"/>
-                <circle cx="30" cy="21" r="3.5" fill="#E8E0D0" stroke="#9A7B4F" stroke-width="0.7"/>
-                <circle cx="30" cy="21" r="1.8" fill="#F0EBE0" stroke="#9A7B4F" stroke-width="0.4"/>
-                <circle cx="30" cy="21" r="0.7" fill="#C4A97A"/>
-                <circle cx="46" cy="14" r="1.5" fill="#C4A97A" opacity="0.2"/>
-                <circle cx="49" cy="11" r="1" fill="#C4A97A" opacity="0.13"/>
-              </svg>
-            </div>
+    <!-- Timeline column -->
+    <div class="timeline-wrap">
+      <div class="timeline-heading">Day of Events</div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-time">Sunday, April 18, 2027</div>
+          <div class="timeline-dot-col">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">The Wedding Day</div>
+            <div class="timeline-desc">Coral Gables, Florida</div>
           </div>
         </div>
-      </div>
-      <div class="carousel-counter" style="display:none" id="carousel-counter"></div>
-    </div>
-    <div class="story-section">
-      <h2>Our Story</h2>
-      <p>It all started the best way possible — at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. As the night went on, Matt's dog, Titan, made himself right at home by Chelsea's side — and that's when Matt knew she was special. What began as a simple invitation quickly turned into something neither of them expected. From wagging tails to a forever kind of love, their story is one they'll always be grateful for.</p>
-      <div class="story-divider"><span class="story-divider-glyph">❧</span></div>
-      <p>After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt continued working remotely. Together, they set off to travel across the country and began a new chapter on the road. From glowing desert sunsets to peaceful mountain views, they discovered new dog parks, created lasting memories and grew even closer along the way. Life on the road brought them a deep sense of freedom, adventure and connection that they will always carry with them.</p>
-      <div class="story-divider"><span class="story-divider-glyph">❧</span></div>
-      <p>Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment — thanks to two dogs who knew they belonged together long before they did — has grown into a love filled with laughter, adventure and an unbreakable bond. Through every mile traveled and every memory made, they have found home in one another. Now, surrounded by those they love most, they step into this next chapter — heart full, side by side and forever intertwined.</p>
-      <p class="sign-off">With love, Chelsea &amp; Matt</p>
 
-      <div class="wedding-quote">
-        <div class="quote-rule"></div>
-        <p class="quote-text">"Whatever our souls are made of, his and hers are the same."</p>
-        <p class="quote-attr">— Emily Brontë</p>
-        <div class="quote-rule"></div>
+        <div class="timeline-item">
+          <div class="timeline-time">5:30 PM</div>
+          <div class="timeline-dot-col">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Ceremony</div>
+            <div class="timeline-desc">Please be seated by 5:15 PM.<br>The ceremony will begin promptly.</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-time">6:00 PM</div>
+          <div class="timeline-dot-col">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Cocktail Hour</div>
+            <div class="timeline-desc">Join us for drinks and light bites.<br>Open bar all evening.</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-time">7:00 PM</div>
+          <div class="timeline-dot-col">
+            <div class="timeline-dot timeline-dot-last"></div>
+            <div class="timeline-line timeline-line-hidden"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Reception</div>
+            <div class="timeline-desc">Dinner, dancing and celebrating into the night.<br>Open bar continues throughout the evening.</div>
+          </div>
+        </div>
+
       </div>
     </div>
+
+    <!-- Extra detail cards -->
+    <div class="detail-grid" style="margin-top:2rem">
+      <div class="card"><span class="card-icon">👗</span><span class="card-label">Dress Code</span><p>Black tie optional. Cocktail attire welcome. Heels? We recommend block or wedge on the venue floors.</p></div>
+      <div class="card"><span class="card-icon">🍽️</span><span class="card-label">Dinner</span><p>Seated plated dinner with choice of entrée. Vegan and gluten-free options available. Indicate preference in your RSVP.</p></div>
+      <div class="card"><span class="card-icon">🎵</span><span class="card-label">Entertainment</span><p>Live music during cocktail hour. DJ &amp; dancing to follow. Song requests welcome!</p></div>
+      <div class="card"><span class="card-icon">🍸</span><span class="card-label">Open Bar</span><p>Full open bar during cocktail hour and reception all evening long. Cheers! 🥂</p></div>
+    </div>
+
+    <div class="note-box">Please be seated by 5:15 PM — the ceremony begins promptly at 5:30 PM. We cannot wait to celebrate with you!</div>
   </div>
 
-  <!-- ══ WEDDING DETAILS ══ -->
+  <!-- ══ WEDDING PARTY ══ -->
 
 
 
