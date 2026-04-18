@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>C &amp; M — April 18, 2027</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500&family=Great+Vibes&display=swap');
 
   *{box-sizing:border-box;margin:0;padding:0}
 
@@ -139,10 +139,50 @@
 
   .story-section{max-width:560px;margin:2.5rem auto;text-align:center}
   .story-section h2{
-    font-size:22px;font-weight:400;letter-spacing:.25em;
-    color:var(--gold-dark);text-transform:uppercase;
-    margin-bottom:1.5rem;
+    font-size:22px;font-weight:400;
+    color:var(--gold-dark);
+    margin-bottom:6px;
     font-family:'Cormorant Garamond',Georgia,serif;
+    display:flex;align-items:center;justify-content:center;gap:0;
+  }
+  .story-heading-our{
+    font-family:'Great Vibes','Cormorant Garamond',cursive;
+    font-size:42px;font-weight:400;
+    color:#C9A96E;
+    margin-right:10px;
+    line-height:1;
+  }
+  .story-heading-story{
+    font-family:'Cinzel',serif;
+    font-size:24px;font-weight:500;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:#C9A96E;
+    line-height:1;
+  }
+  .story-heading-flourish{
+    display:flex;align-items:center;gap:12px;
+    margin-top:8px;justify-content:center;
+  }
+  .story-heading-flourish-line{
+    width:48px;height:0.5px;
+    background:linear-gradient(90deg,transparent,#C9A96E,transparent);
+  }
+  .story-heading-flourish-icon{
+    color:#C9A96E;font-size:13px;opacity:0.7;line-height:1;
+    animation:storyShimmer 3s ease-in-out infinite;
+  }
+  @keyframes storyFadeIn{
+    0%{opacity:0;transform:translateY(10px)}
+    100%{opacity:1;transform:translateY(0)}
+  }
+  @keyframes storyShimmer{
+    0%,100%{opacity:0.7}
+    50%{opacity:1}
+  }
+  .story-heading-wrapper{
+    margin-bottom:1.5rem;
+    animation:storyFadeIn 1.8s ease-out both;
   }
   .story-section p{
     font-size:17px;line-height:2;color:var(--text-body);
@@ -1045,7 +1085,14 @@
       <div class="carousel-counter" style="display:none" id="carousel-counter"></div>
     </div>
     <div class="story-section">
-      <h2>Our Story</h2>
+      <div class="story-heading-wrapper">
+        <h2><span class="story-heading-our">Our</span><span class="story-heading-story">Story</span></h2>
+        <div class="story-heading-flourish">
+          <span class="story-heading-flourish-line"></span>
+          <span class="story-heading-flourish-icon">✦</span>
+          <span class="story-heading-flourish-line"></span>
+        </div>
+      </div>
       <p>It all started the best way possible — at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. As the night went on, Matt's dog, Titan, made himself right at home by Chelsea's side — and that's when Matt knew she was special. What began as a simple invitation quickly turned into something neither of them expected. From wagging tails to a forever kind of love, their story is one they'll always be grateful for.</p>
       <div class="story-divider"><span class="story-divider-glyph">❧</span></div>
       <p>After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt continued working remotely. Together, they set off to travel across the country and began a new chapter on the road. From glowing desert sunsets to peaceful mountain views, they discovered new dog parks, created lasting memories and grew even closer along the way. Life on the road brought them a deep sense of freedom, adventure and connection that they will always carry with them.</p>
