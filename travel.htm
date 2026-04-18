@@ -327,6 +327,17 @@
   .faq-item.open .faq-chevron{transform:rotate(180deg)}
   .faq-item.open .faq-a{max-height:220px;padding-top:.55rem}
 
+  /* ── Directions buttons ── */
+  .directions-btns{display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap}
+  .directions-btns a{
+    display:inline-block;font-size:11px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--espresso);border:0.5px solid rgba(139,105,20,0.45);
+    border-radius:3px;padding:8px 16px;text-decoration:none;
+    transition:background .15s;
+  }
+  .directions-btns a:hover{background:rgba(196,169,122,0.18)}
+
   /* ── Note box ── */
   .note-box{
     background:rgba(196,169,122,0.1);
@@ -903,6 +914,16 @@
       <span class="card-icon">✈️</span>
       <span class="card-label">Getting Here</span>
       <p>The closest airport is San Francisco International (SFO), about 75 minutes south. Oakland International (OAK) is also a great option. We recommend renting a car to explore wine country freely.</p>
+    </div>
+    <div class="card" style="margin-top:1rem">
+      <span class="card-icon">🚗</span>
+      <span class="card-label">Getting There</span>
+      <p><strong>From Miami International Airport (MIA) to Hotel Colonnade</strong></p>
+      <p style="margin-top:.5rem">Hotel Colonnade is located at 180 Aragon Avenue, Coral Gables, FL 33134, about 3 miles from Miami International Airport. The easiest way to arrive is by Uber, Lyft, or taxi, and the drive is usually around 10–20 minutes, depending on traffic. The hotel does not provide an airport shuttle. If driving, the route from the airport is generally south on Le Jeune Road, then left onto Aragon Avenue, where the hotel will be on the right.</p>
+      <div class="directions-btns">
+        <a href="https://www.google.com/maps/dir/Miami+International+Airport/Hotel+Colonnade+Coral+Gables,+180+Aragon+Ave,+Coral+Gables,+FL+33134" target="_blank" rel="noopener">Google Maps →</a>
+        <a href="https://maps.apple.com/?saddr=Miami+International+Airport&amp;daddr=Hotel+Colonnade+Coral+Gables,+180+Aragon+Ave,+Coral+Gables,+FL+33134" target="_blank" rel="noopener">Apple Maps →</a>
+      </div>
     </div>
     <div class="section-label" style="margin-top:2rem">Hotel Room Blocks</div>
     <div class="travel-grid">
