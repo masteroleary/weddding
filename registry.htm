@@ -262,6 +262,30 @@
   }
 
   /* ── Registry ── */
+  .registry-tabs{
+    display:flex;gap:0;justify-content:center;
+    margin:1.5rem 0 0;
+    border-bottom:1px solid var(--border);
+  }
+  .registry-tabs button{
+    background:transparent;border:none;
+    font-size:13px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--text-muted);cursor:pointer;
+    padding:10px 22px 12px;
+    position:relative;
+    transition:color .18s;
+  }
+  .registry-tabs button::after{
+    content:'';position:absolute;bottom:-1px;left:50%;right:50%;
+    height:2px;background:var(--gold);
+    transition:left .2s,right .2s;
+  }
+  .registry-tabs button:hover{color:var(--espresso)}
+  .registry-tabs button.active{color:var(--espresso)}
+  .registry-tabs button.active::after{left:12px;right:12px}
+  .registry-tab-content{display:none;animation:fadeUp .4s ease both}
+  .registry-tab-content.visible{display:block}
   .registry-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.5rem 0}
   .registry-item{
     border:0.5px solid var(--border);border-radius:6px;
@@ -277,6 +301,10 @@
     transition:background .15s;
   }
   .registry-link:hover{background:rgba(196,169,122,0.18)}
+  .amazon-intro{
+    font-size:15px;color:var(--text-body);line-height:1.85;
+    font-style:italic;margin:1.5rem 0;text-align:center;
+  }
 
   /* ── Travel ── */
   .travel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1.5rem}
@@ -899,10 +927,57 @@
       <h1>Registry</h1>
       <p>Your presence is the greatest gift — but if you'd like to give, here are a few ideas</p>
     </div>
-    <div class="registry-grid">
-      <div class="registry-item"><h3>Honeymoon Fund</h3><p>Help us get to Italy! Contributions toward our Amalfi Coast honeymoon are deeply appreciated.</p><a href="#" class="registry-link">Contribute →</a></div>
-      <div class="registry-item"><h3>New Home Fund</h3><p>As we prepare to buy our first home, we're excited to create a space of our own filled with love and new beginnings.</p><a href="#" class="registry-link">Contribute →</a></div>
+
+    <div class="registry-tabs">
+      <button class="active" onclick="showRegistryTab('general', this)">General</button>
+      <button onclick="showRegistryTab('amazon', this)">Amazon</button>
     </div>
+
+    <!-- General Tab -->
+    <div class="registry-tab-content visible" id="reg-tab-general">
+      <div class="registry-grid">
+        <div class="registry-item"><h3>Honeymoon Fund</h3><p>Help us get to Italy! Contributions toward our Amalfi Coast honeymoon are deeply appreciated.</p><a href="#" class="registry-link">Contribute →</a></div>
+        <div class="registry-item"><h3>New Home Fund</h3><p>As we prepare to buy our first home, we're excited to create a space of our own filled with love and new beginnings.</p><a href="#" class="registry-link">Contribute →</a></div>
+      </div>
+    </div>
+
+    <!-- Amazon Tab -->
+    <div class="registry-tab-content" id="reg-tab-amazon">
+      <p class="amazon-intro">We're building our first home together and could use a little help filling it with the essentials (and a few fun extras). Here are some of our favorite picks from Amazon — every gift helps turn our new place into home.</p>
+      <div class="registry-grid">
+        <div class="registry-item">
+          <h3>Cozy Bedding Set</h3>
+          <p>Nothing says "fresh start" like sinking into brand-new sheets. Help us make our bedroom a cloud-level retreat.</p>
+          <a href="https://www.amazon.com/wedding" class="registry-link" target="_blank" rel="noopener">View on Amazon →</a>
+        </div>
+        <div class="registry-item">
+          <h3>Kitchen Essentials</h3>
+          <p>From our morning coffee ritual to Sunday-night dinners — a well-stocked kitchen is where the magic happens.</p>
+          <a href="https://www.amazon.com/wedding" class="registry-link" target="_blank" rel="noopener">View on Amazon →</a>
+        </div>
+        <div class="registry-item">
+          <h3>Cast Iron Skillet</h3>
+          <p>Every great home cook needs one. We're ready to make steaks, cornbread, and a whole lot of memories.</p>
+          <a href="https://www.amazon.com/wedding" class="registry-link" target="_blank" rel="noopener">View on Amazon →</a>
+        </div>
+        <div class="registry-item">
+          <h3>Smart Home Starter Kit</h3>
+          <p>We're embracing the future — smart lights, a voice assistant, and never having to get up to turn off the lamp again.</p>
+          <a href="https://www.amazon.com/wedding" class="registry-link" target="_blank" rel="noopener">View on Amazon →</a>
+        </div>
+        <div class="registry-item">
+          <h3>Plush Towel Set</h3>
+          <p>Hotel-quality towels for our very own bathroom? Yes, please. It's the little luxuries that make a house feel like home.</p>
+          <a href="https://www.amazon.com/wedding" class="registry-link" target="_blank" rel="noopener">View on Amazon →</a>
+        </div>
+        <div class="registry-item">
+          <h3>Coffee &amp; Espresso Maker</h3>
+          <p>Mornings together are our favorite — and they're even better with café-quality coffee at home.</p>
+          <a href="https://www.amazon.com/wedding" class="registry-link" target="_blank" rel="noopener">View on Amazon →</a>
+        </div>
+      </div>
+    </div>
+
     <div class="note-box">Please do not bring gifts to the venue — we'd love for you to ship them in advance or contribute online. Thank you so much for your generosity!</div>
   </div>
 
@@ -921,6 +996,12 @@ function showPage(id, btn) {
   document.getElementById('page-' + id).classList.add('visible');
   btn.classList.add('active');
   window.scrollTo({top: 0, behavior: 'smooth'});
+}
+function showRegistryTab(id, btn) {
+  document.querySelectorAll('.registry-tab-content').forEach(t => t.classList.remove('visible'));
+  document.querySelectorAll('.registry-tabs button').forEach(b => b.classList.remove('active'));
+  document.getElementById('reg-tab-' + id).classList.add('visible');
+  btn.classList.add('active');
 }
 function toggleFAQ(item) {
   const wasOpen = item.classList.contains('open');
