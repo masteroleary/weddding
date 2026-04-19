@@ -225,6 +225,8 @@
 
   /* ── RSVP ── */
   .rsvp-wrap{max-width:500px;margin:1.75rem auto}
+  .form-row{display:flex;gap:1rem}
+  .form-row .form-group{flex:1;min-width:0}
   .form-group{margin-bottom:1.25rem}
   .form-group label{
     display:block;font-size:10px;font-weight:500;
@@ -718,6 +720,7 @@
     .nav button{font-size:10px;padding:6px 8px;letter-spacing:.08em}
     .monogram{font-size:50px}
     .page{padding:2rem 1rem 3rem}
+    .form-row{flex-direction:column;gap:0}
   }
 </style>
 </head>
@@ -912,16 +915,18 @@
       <div class="form-group"><label>Number of Guests (including yourself)</label>
         <select><option>1</option><option>2</option><option>3</option><option>4</option></select>
       </div>
-      <div class="form-group"><label>Meal Preference</label>
-        <select>
-          <option value="">Select one...</option>
-          <option>Beef Tenderloin</option>
-          <option>Pan-Seared Salmon</option>
-          <option>Wild Mushroom Risotto (V, GF)</option>
-        </select>
-      </div>
-      <div class="form-group"><label>Dietary Restrictions / Allergies</label>
-        <textarea placeholder="Let us know of any allergies or dietary needs..."></textarea>
+      <div class="form-row">
+        <div class="form-group"><label>Meal Preference</label>
+          <select>
+            <option value="">Select one...</option>
+            <option>Beef Tenderloin</option>
+            <option>Pan-Seared Salmon</option>
+            <option>Wild Mushroom Risotto (V, GF)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Dietary Restrictions / Allergies</label>
+          <textarea placeholder="Let us know of any allergies or dietary needs..."></textarea>
+        </div>
       </div>
       <div class="form-group"><label>Song Request</label>
         <input type="text" placeholder="What song will get you on the dance floor?">
