@@ -238,6 +238,34 @@
   }
   .party-category-title:first-of-type{margin-top:0.5rem}
 
+  /* ── Bridesmaids left-aligned list ── */
+  .bridesmaids-list{
+    display:flex;
+    flex-direction:column;
+    gap:.35rem;
+    margin:0.5rem 0 1.5rem;
+  }
+  .bridesmaids-list .bm-category{
+    font-family:'Cinzel','Cormorant Garamond',Georgia,serif;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--gold-dark);
+    margin-top:1.25rem;
+    margin-bottom:0.15rem;
+  }
+  .bridesmaids-list .bm-category:first-child{margin-top:0}
+  .bridesmaids-list .bm-name{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:24px;
+    font-weight:300;
+    font-style:italic;
+    color:var(--espresso);
+    letter-spacing:.03em;
+    line-height:1.6;
+  }
+
   /* ── RSVP ── */
   .rsvp-wrap{max-width:500px;margin:1.75rem auto}
   .form-group{margin-bottom:1.25rem}
@@ -916,22 +944,18 @@
     </div>
     <div class="section-label">Bridesmaids</div>
 
-    <div class="party-category-title">Matron of Honor</div>
-    <div class="party-grid">
-      <div class="person-card"><div class="avatar" style="background:#F5EDD8;color:#6B4A22">KB</div><h4>Kiersten Begin</h4><div class="person-role">Matron of Honor</div></div>
-    </div>
+    <div class="bridesmaids-list">
+      <div class="bm-category">Matron of Honor</div>
+      <div class="bm-name">Kiersten Begin</div>
 
-    <div class="party-category-title">Maid of Honor</div>
-    <div class="party-grid">
-      <div class="person-card"><div class="avatar" style="background:#EDE5D5;color:#5C3A18">LB</div><h4>Lexus Bailey</h4><div class="person-role">Maid of Honor</div></div>
-    </div>
+      <div class="bm-category">Maid of Honor</div>
+      <div class="bm-name">Lexus Bailey</div>
 
-    <div class="party-category-title">Bridesmaids</div>
-    <div class="party-grid">
-      <div class="person-card"><div class="avatar" style="background:#F0E8D8;color:#6B4A22">HL</div><h4>Harley Lego</h4><div class="person-role">Bridesmaid</div></div>
-      <div class="person-card"><div class="avatar" style="background:#E8DFD0;color:#5C3A18">JO</div><h4>Jessica Odermatt</h4><div class="person-role">Bridesmaid</div></div>
-      <div class="person-card"><div class="avatar" style="background:#F5EDD8;color:#6B4A22">LO</div><h4>Lily O'Leary</h4><div class="person-role">Bridesmaid</div></div>
-      <div class="person-card"><div class="avatar" style="background:#EDE5D5;color:#5C3A18">EJ</div><h4>Emily James</h4><div class="person-role">Bridesmaid</div></div>
+      <div class="bm-category">Bridesmaids</div>
+      <div class="bm-name">Harley Lego</div>
+      <div class="bm-name">Jessica Odermatt</div>
+      <div class="bm-name">Lily O'Leary</div>
+      <div class="bm-name">Emily James</div>
     </div>
     <div class="section-label">Groomsmen</div>
     <div class="party-grid">
