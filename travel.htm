@@ -339,6 +339,45 @@
   }
   .directions-btns a:hover{background:var(--gold-deep);border-color:var(--gold-deep);transform:translateY(-1px);box-shadow:0 4px 10px rgba(139,105,20,0.3)}
 
+  /* ── Hotel highlight box ── */
+  .hotel-highlight{
+    text-align:center;
+    padding:1.75rem 2rem;
+    margin-top:1.5rem;
+    border:2.5px solid #B87333;
+    border-image:linear-gradient(135deg,#B87333,#CD9B5A,#8C5A2E,#CD9B5A,#B87333) 1;
+    box-shadow:0 0 0 4px rgba(184,115,51,0.08), 0 0 0 1px rgba(184,115,51,0.18);
+    background:var(--card-bg);
+    position:relative;
+  }
+  .hotel-highlight::before,
+  .hotel-highlight::after{
+    content:'✦';
+    position:absolute;
+    color:#B87333;
+    font-size:14px;
+    top:50%;
+    transform:translateY(-50%);
+    opacity:0.7;
+  }
+  .hotel-highlight::before{left:14px}
+  .hotel-highlight::after{right:14px}
+  .hotel-highlight .hotel-name{
+    font-family:'Cinzel',Georgia,serif;
+    font-size:22px;
+    font-weight:600;
+    color:#B87333;
+    letter-spacing:.08em;
+    margin-bottom:.3rem;
+  }
+  .hotel-highlight .hotel-address{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:18px;
+    font-weight:600;
+    color:#B87333;
+    line-height:1.6;
+  }
+
   /* ── Note box ── */
   .note-box{
     background:rgba(196,169,122,0.1);
@@ -911,6 +950,11 @@
       <h1>Travel &amp; Accommodations</h1>
       <p>We want your trip to be as smooth as possible</p>
     </div>
+    <div class="hotel-highlight">
+      <div class="hotel-name">Hotel Colonnade</div>
+      <div class="hotel-address">180 Aragon Avenue, Coral Gables, FL 33134</div>
+    </div>
+
     <div class="card" style="margin-top:1.5rem">
       <span class="card-icon">✈️</span>
       <span class="card-label">Getting There</span>
