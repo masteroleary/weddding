@@ -244,6 +244,19 @@
     box-shadow:0 0 0 3px rgba(154,123,79,0.1);
   }
   .form-group textarea{height:120px;resize:vertical}
+  .checkbox-group{display:flex;flex-direction:column;gap:0.65rem;margin-top:0.25rem}
+  .checkbox-group label{
+    display:flex;align-items:center;gap:0.6rem;
+    font-size:18px;font-family:'Cormorant Garamond',Georgia,serif;
+    color:var(--espresso);letter-spacing:0;text-transform:none;
+    font-weight:400;cursor:pointer;margin-bottom:0;
+  }
+  .checkbox-group input[type="checkbox"]{
+    width:20px;height:20px;flex-shrink:0;
+    accent-color:var(--gold-dark);cursor:pointer;
+    border:0.5px solid rgba(139,105,20,0.4);border-radius:3px;
+    -webkit-appearance:auto;appearance:auto;padding:0;
+  }
   .submit-btn{
     width:100%;padding:15px;
     font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
@@ -917,12 +930,11 @@
       <hr style="border:none;border-top:1px solid rgba(196,169,122,0.3);margin:2rem 0 1.5rem;">
 
       <div class="form-group"><label>Meal Preference (for each guest in your party)</label>
-        <select>
-          <option value="">Select one...</option>
-          <option>Beef Tenderloin</option>
-          <option>Pan-Seared Salmon</option>
-          <option>Wild Mushroom Risotto (V, GF)</option>
-        </select>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="meal" value="Beef Tenderloin"> Beef Tenderloin</label>
+          <label><input type="checkbox" name="meal" value="Pan-Seared Salmon"> Pan-Seared Salmon</label>
+          <label><input type="checkbox" name="meal" value="Wild Mushroom Risotto (V, GF)"> Wild Mushroom Risotto (V, GF)</label>
+        </div>
       </div>
       <div class="form-group"><label>Dietary Restrictions / Allergies</label>
         <textarea placeholder="Let us know of any allergies or dietary needs..."></textarea>
