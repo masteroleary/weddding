@@ -1483,7 +1483,7 @@ function submitRSVP() {
   if(!grid) return;
 
   var TOTAL_PHOTOS = 3;
-  var TOTAL_LEAVES = 2; // leaf1: front=photo1 back=photo2, leaf2: front=photo3 back=end
+  var TOTAL_LEAVES = TOTAL_PHOTOS; // one photo per front page; backs stay blank
 
   function buildPhotoPage(idx){
     var num = idx + 1;
@@ -1533,9 +1533,6 @@ function submitRSVP() {
 
       if(i === TOTAL_LEAVES - 1){
         back.innerHTML = '<div class="pb-back-end"><div class="pb-back-end-title">The End</div><div class="pb-back-end-rule"></div></div>';
-      } else if(photoIndex < TOTAL_PHOTOS){
-        back.innerHTML = buildPhotoPage(photoIndex);
-        photoIndex++;
       } else {
         back.innerHTML = emptyPageHTML;
       }
