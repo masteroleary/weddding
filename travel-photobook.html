@@ -431,7 +431,7 @@
   ];
 
   var totalPhotos = photos.length;
-  var totalLeaves = Math.ceil(totalPhotos / 2) + 1;
+  var totalLeaves = totalPhotos;
   var currentLeaf = 0;
   var bookOpen = false;
   var animating = false;
@@ -467,9 +467,6 @@
 
       if(i === totalLeaves - 1){
         back.innerHTML = '<div class="back-end"><div class="back-end-title">The End</div><div class="back-end-rule"></div><div class="back-end-sub">Safe Travels</div></div>';
-      } else if(photoIndex < totalPhotos){
-        back.innerHTML = buildPhotoPage(photoIndex);
-        photoIndex++;
       } else {
         back.innerHTML = emptyPageHTML;
       }
@@ -589,15 +586,7 @@
     } else if(currentLeaf >= totalLeaves){
       indicator.textContent = 'End';
     } else {
-      var leftPage = currentLeaf * 2;
-      var rightPage = currentLeaf * 2 + 1;
-      if(leftPage === 0){
-        indicator.textContent = 'Page 1';
-      } else if(rightPage > totalPhotos){
-        indicator.textContent = 'Page ' + leftPage;
-      } else {
-        indicator.textContent = 'Pages ' + leftPage + '–' + rightPage;
-      }
+      indicator.textContent = 'Photo ' + (currentLeaf + 1) + ' of ' + totalPhotos;
     }
   }
 
