@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C &amp; M — Travel Photo Book</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500&family=Special+Elite&display=swap');
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --cream:#F5F0E8;
+    --parchment:#EDE5D4;
+    --gold:#C4A97A;
+    --gold-dark:#9A7B4F;
+    --gold-deep:#8B6914;
+    --brown-light:#A4966B;
+    --brown:#6B4A22;
+    --brown-dark:#3D2B1A;
+    --espresso:#2B1A0F;
+    --text-body:#5C4A32;
+    --text-muted:#7A6040;
+    --border:rgba(139,105,20,0.28);
+    --card-bg:rgba(255,250,242,0.88);
+    --leather:#8B5E3C;
+    --leather-dark:#5C3D1E;
+    --leather-light:#C4956A;
+  }
+
+  html{scroll-behavior:smooth}
+
+  body{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    background-color:var(--cream);
+    color:var(--espresso);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* ── Nav ── */
+  .site{
+    position:relative;
+    z-index:1;
+    max-width:1100px;
+    margin:0 auto;
+    min-height:100vh;
+  }
+
+  .nav{
+    display:flex;flex-wrap:wrap;gap:2px;justify-content:center;
+    padding:1.25rem 1rem 0;
+    position:sticky;top:0;
+    background:rgba(245,240,232,0.95);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    z-index:100;
+    border-bottom:1px solid rgba(196,169,122,0.4);
+    width:95vw;
+    margin-left:50%;
+    transform:translateX(-50%);
+  }
+  .nav::before{
+    content:'';
+    display:block;
+    position:absolute;
+    top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    opacity:0.6;
+  }
+  .nav button{
+    background:transparent;border:none;
+    font-size:14px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:600;
+    color:var(--text-muted);cursor:pointer;
+    padding:9px 16px 11px;
+    border-radius:3px;
+    transition:all .18s;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    position:relative;
+  }
+  .nav button::after{
+    content:'';position:absolute;bottom:0;left:50%;right:50%;
+    height:2px;background:var(--gold);
+    transition:left .2s,right .2s;
+  }
+  .nav button:hover{color:var(--espresso)}
+  .nav button.active{color:var(--espresso)}
+  .nav button.active::after{left:12px;right:12px}
+
+  /* ── Page ── */
+  .page{padding:2rem 1.5rem 3rem;animation:fadeUp .4s ease both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+  .page-header{text-align:center;margin-bottom:1.75rem}
+  .page-header p{
+    font-size:36px;font-weight:300;font-style:italic;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    color:var(--espresso);letter-spacing:.08em;
+  }
+  .page-header .subtitle{
+    font-size:13px;color:var(--text-muted);letter-spacing:.15em;
+    text-transform:uppercase;margin-top:.35rem;
+  }
+
+  /* ── 3-row grid: 4 columns ── */
+  .photobook-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-template-rows:repeat(3, auto);
+    gap:1.25rem;
+  }
+
+  /* ── Person card ── */
+  .person-book{
+    background:var(--card-bg);
+    border:0.5px solid var(--border);
+    border-radius:8px;
+    padding:1rem 0.85rem 0.85rem;
+    text-align:center;
+    transition:box-shadow .2s;
+  }
+  .person-book:hover{
+    box-shadow:0 4px 18px rgba(139,105,20,0.12);
+  }
+  .person-name{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:17px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--espresso);
+    letter-spacing:.03em;
+    line-height:1.3;
+    margin-bottom:.15rem;
+  }
+  .person-title{
+    font-family:'Cinzel','Cormorant Garamond',Georgia,serif;
+    font-size:9px;
+    font-weight:500;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--gold-dark);
+    margin-bottom:.7rem;
+  }
+
+  /* ── Mini photobook ── */
+  .mini-book{
+    position:relative;
+    background:linear-gradient(135deg,var(--leather-dark) 0%,var(--leather) 50%,var(--leather-light) 100%);
+    border-radius:3px 6px 6px 3px;
+    padding:6px 7px 6px 10px;
+    box-shadow:
+      -3px 2px 8px rgba(0,0,0,0.25),
+      inset 1px 0 3px rgba(255,255,255,0.06),
+      inset -1px 0 4px rgba(0,0,0,0.15);
+    min-height:110px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .mini-book::before{
+    content:'';
+    position:absolute;
+    left:0;top:0;width:6px;height:100%;
+    background:linear-gradient(90deg,var(--leather-dark),#5a3010,var(--leather-dark));
+    border-radius:3px 0 0 3px;
+    box-shadow:inset -1px 0 3px rgba(0,0,0,0.3);
+  }
+  .mini-book::after{
+    content:'';
+    position:absolute;
+    inset:4px 4px 4px 8px;
+    border:0.5px solid rgba(201,168,76,0.25);
+    border-radius:1px 4px 4px 1px;
+    pointer-events:none;
+  }
+
+  /* ── Photo row inside mini book ── */
+  .photo-row{
+    flex:1;
+    display:flex;
+    background:rgba(245,237,216,0.85);
+    border-radius:2px;
+    overflow:hidden;
+    position:relative;
+    min-height:30px;
+    align-items:center;
+    justify-content:center;
+    border:0.5px dashed rgba(139,95,60,0.25);
+  }
+  .photo-row .placeholder-icon{
+    opacity:0.22;
+    display:flex;
+    align-items:center;
+    gap:3px;
+  }
+  .photo-row .placeholder-icon svg{
+    width:14px;height:14px;
+    stroke:var(--leather-dark);fill:none;stroke-width:1.2;
+  }
+  .photo-row .placeholder-icon span{
+    font-family:'Special Elite',cursive;
+    font-size:7px;
+    letter-spacing:0.5px;
+    color:var(--leather-dark);
+    text-transform:uppercase;
+  }
+
+  /* ── Book label ── */
+  .book-label{
+    font-family:'Special Elite',cursive;
+    font-size:6.5px;
+    letter-spacing:1.5px;
+    color:rgba(201,168,76,0.5);
+    text-align:center;
+    text-transform:uppercase;
+    margin-top:1px;
+  }
+
+  /* ── Responsive ── */
+  @media(max-width:900px){
+    .photobook-grid{grid-template-columns:repeat(3, 1fr)}
+  }
+  @media(max-width:640px){
+    .photobook-grid{grid-template-columns:repeat(2, 1fr)}
+    .page{padding:1.5rem 1rem 2rem}
+  }
+  @media(max-width:400px){
+    .photobook-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="site">
+
+  <nav class="nav">
+    <button onclick="window.location.href='index.htm'">Home</button>
+    <button onclick="window.location.href='details.htm'">Wedding Details</button>
+    <button onclick="window.location.href='party.htm'">Wedding Party</button>
+    <button onclick="window.location.href='rsvp.htm'">RSVP</button>
+    <button onclick="window.location.href='registry.htm'">Registry</button>
+    <button onclick="window.location.href='travel.htm'">Travel</button>
+    <button onclick="window.location.href='todo.htm'">Things to Do</button>
+    <button onclick="window.location.href='faq.htm'">FAQ</button>
+    <button class="active" onclick="window.location.href='travel-photobook.html'">Photo Book</button>
+  </nav>
+
+  <div class="page" style="display:block">
+    <div class="page-header">
+      <p>Travel Photo Book</p>
+      <div class="subtitle">Memories from the Wedding Party</div>
+    </div>
+
+    <div class="photobook-grid">
+
+      <!-- Row 1 -->
+      <div class="person-book">
+        <div class="person-name">Kiersten Begin</div>
+        <div class="person-title">Matron of Honor</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <div class="person-book">
+        <div class="person-name">Lexus Bailey</div>
+        <div class="person-title">Maid of Honor</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <div class="person-book">
+        <div class="person-name">Harley Lego</div>
+        <div class="person-title">Bridesmaid</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <div class="person-book">
+        <div class="person-name">Jessica Odermatt</div>
+        <div class="person-title">Bridesmaid</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="person-book">
+        <div class="person-name">Lily O'Leary</div>
+        <div class="person-title">Bridesmaid</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <div class="person-book">
+        <div class="person-name">Emily James</div>
+        <div class="person-title">Bridesmaid</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <div class="person-book">
+        <div class="person-name">Damien Steinrich</div>
+        <div class="person-title">Best Man</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <div class="person-book">
+        <div class="person-name">David Macarthur</div>
+        <div class="person-title">Groomsman</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="person-book">
+        <div class="person-name">Cody Long</div>
+        <div class="person-title">Groomsman</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <div class="person-book">
+        <div class="person-name">Kirk Dorsch</div>
+        <div class="person-title">Groomsman</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <div class="person-book">
+        <div class="person-name">Johnny Dorsch</div>
+        <div class="person-title">Groomsman</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+      <div class="person-book">
+        <div class="person-name">Steve Mendoza</div>
+        <div class="person-title">Groomsman</div>
+        <div class="mini-book">
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 1</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 2</span></div></div>
+          <div class="photo-row"><div class="placeholder-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Photo 3</span></div></div>
+          <div class="book-label">✈ Travels</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
