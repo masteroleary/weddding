@@ -784,6 +784,11 @@
   }
   .pb-item{
     display:flex;flex-direction:column;align-items:center;
+    position:relative;
+    z-index:1;
+  }
+  .pb-item.pb-active{
+    z-index:10;
   }
   .pb-name{
     font-family:'Cormorant Garamond',Georgia,serif;
@@ -1560,6 +1565,7 @@ function submitRSVP() {
       if(animating) return;
       cover.classList.add('open');
       container.style.display = 'block';
+      bookEl.classList.add('pb-active');
       bookOpen = true;
       currentLeaf = 0;
       updateControls();
@@ -1576,6 +1582,7 @@ function submitRSVP() {
         cover.classList.remove('open');
         setTimeout(function(){
           container.style.display = 'none';
+          bookEl.classList.remove('pb-active');
           bookOpen = false;
           currentLeaf = 0;
           animating = false;
