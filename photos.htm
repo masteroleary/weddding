@@ -156,12 +156,12 @@
   <button class="nav-btn" id="nextBtn" onclick="nextPage()" disabled>Next →</button>
 </div>
 <script>
-  let currentPage=0,totalPages=2,bookOpen=false;
+  let currentPage=0,totalPages=2,totalPhotos=2,bookOpen=false;
   function openBook(){document.getElementById('cover').classList.add('open');document.getElementById('pageContainer').style.display='block';bookOpen=true;currentPage=0;updateControls();}
   function flipPage(num){const page=document.getElementById('page'+num);if(!page)return;if(!page.classList.contains('flipped')){page.classList.add('flipped');currentPage=num;}else{page.classList.remove('flipped');currentPage=num-1;}updateControls();}
   function nextPage(){if(currentPage<totalPages){const p=document.getElementById('page'+(currentPage+1));if(p&&!p.classList.contains('flipped')){p.classList.add('flipped');currentPage++;}}updateControls();}
   function prevPage(){if(currentPage===0&&bookOpen){for(let i=1;i<=totalPages;i++){const p=document.getElementById('page'+i);if(p)p.classList.remove('flipped');}document.getElementById('cover').classList.remove('open');setTimeout(()=>{document.getElementById('pageContainer').style.display='none';},900);bookOpen=false;currentPage=-1;document.getElementById('prevBtn').disabled=true;document.getElementById('nextBtn').disabled=true;document.getElementById('pageIndicator').textContent='Cover';return;}if(currentPage>0){const p=document.getElementById('page'+currentPage);if(p&&p.classList.contains('flipped')){p.classList.remove('flipped');currentPage--;}}updateControls();}
-  function updateControls(){document.getElementById('prevBtn').disabled=!bookOpen;document.getElementById('nextBtn').disabled=currentPage>=totalPages;const ind=document.getElementById('pageIndicator');if(!bookOpen)ind.textContent='Cover';else if(currentPage>=totalPages)ind.textContent='Last Page';else ind.textContent='Photo '+(currentPage+1)+' of 2';}
+  function updateControls(){document.getElementById('prevBtn').disabled=!bookOpen;document.getElementById('nextBtn').disabled=currentPage>=totalPages;const ind=document.getElementById('pageIndicator');if(!bookOpen)ind.textContent='Cover';else if(currentPage>=totalPages)ind.textContent='Last Page';else ind.textContent='Photo '+(currentPage+1)+' of '+totalPhotos;}
 </script>
 </body>
 </html>
