@@ -251,7 +251,8 @@
     color:var(--espresso);letter-spacing:0;text-transform:none;
     font-weight:400;cursor:pointer;margin-bottom:0;
   }
-  .checkbox-group input[type="checkbox"]{
+  .checkbox-group input[type="checkbox"],
+  .checkbox-group input[type="radio"]{
     width:20px;height:20px;flex-shrink:0;
     accent-color:var(--gold-dark);cursor:pointer;
     border:0.5px solid rgba(139,105,20,0.4);border-radius:3px;
@@ -931,9 +932,9 @@
 
       <div class="form-group"><label>Meal Preference (for each guest in your party)</label>
         <div class="checkbox-group">
-          <label><input type="checkbox" name="meal" value="Beef Tenderloin"> Beef Tenderloin</label>
-          <label><input type="checkbox" name="meal" value="Pan-Seared Salmon"> Pan-Seared Salmon</label>
-          <label><input type="checkbox" name="meal" value="Wild Mushroom Risotto (V, GF)"> Wild Mushroom Risotto (V, GF)</label>
+          <label><input type="radio" name="meal" value="Beef Tenderloin"> Beef Tenderloin</label>
+          <label><input type="radio" name="meal" value="Pan-Seared Salmon"> Pan-Seared Salmon</label>
+          <label><input type="radio" name="meal" value="Wild Mushroom Risotto (V, GF)"> Wild Mushroom Risotto (V, GF)</label>
         </div>
       </div>
       <div class="form-group"><label>Dietary Restrictions / Allergies</label>
