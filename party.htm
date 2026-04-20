@@ -994,220 +994,6 @@
     .pb-nav-btn{padding:5px 10px;font-size:10px}
     .pb-grid{grid-template-columns:1fr}
   }
-
-  /* ── Women's Photo Books (travel-photobook style) ── */
-  .scene{
-    position:relative;
-    width:min(520px,90vw);
-    height:min(400px,68vw);
-    perspective:1800px;
-    margin:0 auto;
-  }
-  .book-shadow{
-    position:absolute;
-    bottom:-18px;left:6%;right:2%;height:22px;
-    background:radial-gradient(ellipse,rgba(0,0,0,0.35) 0%,transparent 70%);
-    filter:blur(8px);
-  }
-  .book{
-    position:relative;width:100%;height:100%;
-    transform-style:preserve-3d;
-  }
-  .book-cover-bg{
-    position:absolute;inset:0;
-    border-radius:4px 10px 10px 4px;
-    background:linear-gradient(135deg,var(--leather-dark) 0%,var(--leather) 45%,var(--leather-light) 65%,var(--leather) 100%);
-    box-shadow:-8px 4px 22px rgba(0,0,0,0.5),inset 2px 0 6px rgba(255,255,255,0.07),inset -2px 0 8px rgba(0,0,0,0.25);
-  }
-  .book-cover-bg::before{
-    content:'';position:absolute;inset:0;border-radius:inherit;
-    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 3px);
-  }
-  .book-cover-bg::after{
-    content:'';position:absolute;inset:10px;
-    border:0.5px solid rgba(201,168,76,0.3);
-    border-radius:2px 8px 8px 2px;pointer-events:none;
-  }
-  .book-spine{
-    position:absolute;left:0;top:0;width:28px;height:100%;
-    background:linear-gradient(90deg,var(--leather-dark) 0%,#5a3010 70%,var(--leather-dark) 100%);
-    border-radius:4px 0 0 4px;
-    box-shadow:inset -3px 0 8px rgba(0,0,0,0.4);
-    z-index:5;
-  }
-  .book-spine::after{
-    content:'PHOTOS';position:absolute;top:50%;left:50%;
-    transform:translate(-50%,-50%) rotate(-90deg);
-    font-family:'Special Elite',cursive;
-    font-size:10px;letter-spacing:3px;color:rgba(201,168,76,0.45);white-space:nowrap;
-  }
-  .pages-stack{
-    position:absolute;left:28px;top:3px;right:3px;bottom:3px;
-    background:linear-gradient(90deg,var(--parchment),var(--cream));
-    border-radius:0 8px 8px 0;
-  }
-  .cover-page{
-    position:absolute;left:28px;top:0;right:0;bottom:0;
-    background:linear-gradient(135deg,var(--leather-dark) 0%,var(--leather) 50%,var(--leather-light) 100%);
-    border-radius:0 10px 10px 0;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
-    cursor:pointer;z-index:50;
-    transition:transform 0.9s cubic-bezier(0.645,0.045,0.355,1.000);
-    transform-origin:left center;
-    transform-style:preserve-3d;
-    backface-visibility:hidden;
-  }
-  .cover-page::before{
-    content:'';position:absolute;inset:0;border-radius:inherit;
-    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.05) 2px,rgba(0,0,0,0.05) 3px);
-  }
-  .cover-page.open{transform:rotateY(-180deg)}
-  .cover-border{position:absolute;inset:12px;border:0.5px solid rgba(201,168,76,0.4);border-radius:4px;pointer-events:none}
-  .cover-icon{font-size:32px;position:relative;z-index:1;opacity:0.75;line-height:1}
-  .cover-rule{width:80px;height:0.5px;background:linear-gradient(90deg,transparent,var(--gold),transparent);position:relative;z-index:1}
-  .cover-title{
-    font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:22px;font-weight:500;color:var(--gold-light);
-    letter-spacing:2px;text-align:center;line-height:1.2;
-    position:relative;z-index:1;
-    text-shadow:0 2px 8px rgba(0,0,0,0.4);
-    padding:0 14px;
-  }
-  .cover-hint{
-    position:absolute;bottom:18px;
-    font-family:'Special Elite',cursive;
-    font-size:9px;letter-spacing:2px;color:rgba(201,168,76,0.35);
-    z-index:1;animation:blink 2.2s infinite;
-  }
-  .page-container{
-    position:absolute;left:28px;top:0;right:0;bottom:0;
-    transform-style:preserve-3d;
-  }
-  .leaf{
-    position:absolute;inset:0;
-    transform-style:preserve-3d;
-    transform-origin:left center;
-    transition:transform 0.9s cubic-bezier(0.645,0.045,0.355,1.000);
-    cursor:pointer;
-  }
-  .leaf.flipped{transform:rotateY(-180deg)}
-  .leaf-front,.leaf-back{
-    position:absolute;inset:0;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
-    overflow:hidden;
-  }
-  .leaf-front{
-    border-radius:0 10px 10px 0;
-    background:var(--cream);
-    box-shadow:inset -4px 0 14px rgba(0,0,0,0.08);
-  }
-  .leaf-back{
-    transform:rotateY(180deg);
-    border-radius:10px 0 0 10px;
-    background:var(--parchment);
-    box-shadow:inset 4px 0 14px rgba(0,0,0,0.06);
-  }
-  .page-inner{
-    padding:16px 18px 12px 22px;
-    height:100%;display:flex;flex-direction:column;
-    position:relative;
-  }
-  .leaf-back .page-inner{padding:16px 22px 12px 18px}
-  .page-inner::before{
-    content:'';position:absolute;inset:8px;
-    border:0.5px solid rgba(139,95,60,0.15);
-    border-radius:4px;pointer-events:none;
-  }
-  .page-num{
-    font-family:'Special Elite',cursive;
-    font-size:9px;color:var(--aged);letter-spacing:2px;
-    text-align:center;margin-bottom:6px;opacity:0.5;
-  }
-  .photo-slot{
-    flex:1;position:relative;
-    background:rgba(255,255,255,0.4);
-    border:1px dashed rgba(139,95,60,0.25);
-    border-radius:3px;
-    overflow:hidden;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .photo-slot img{width:100%;height:100%;object-fit:cover;display:block}
-  .photo-slot .placeholder{
-    font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:13px;color:rgba(139,95,60,0.3);
-    letter-spacing:1px;font-style:italic;
-  }
-  .tape{
-    position:absolute;z-index:2;pointer-events:none;
-    width:30px;height:10px;
-    background:rgba(201,168,76,0.25);
-    border-radius:1px;
-    box-shadow:0 1px 3px rgba(0,0,0,0.08);
-  }
-  .tape-tl{top:6px;left:6px;transform:rotate(-35deg)}
-  .tape-tr{top:6px;right:6px;transform:rotate(35deg)}
-  .tape-bl{bottom:6px;left:6px;transform:rotate(35deg)}
-  .tape-br{bottom:6px;right:6px;transform:rotate(-35deg)}
-  .photo-caption{
-    margin-top:6px;text-align:center;
-    font-family:'Special Elite',cursive;
-    font-size:9px;letter-spacing:1px;color:var(--aged);
-    opacity:0.6;
-  }
-  .back-end{
-    height:100%;
-    background:linear-gradient(135deg,#4a2a10,#6B4020);
-    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
-    border-radius:10px 0 0 10px;
-  }
-  .back-end-title{
-    font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:18px;color:rgba(201,168,76,0.4);letter-spacing:3px;font-style:italic;
-  }
-  .back-end-rule{width:50px;height:0.5px;background:rgba(201,168,76,0.25)}
-  .back-end-sub{
-    font-family:'Special Elite',cursive;
-    font-size:9px;letter-spacing:3px;color:rgba(201,168,76,0.25);
-  }
-  .dot-bg{
-    position:absolute;inset:0;
-    background-image:radial-gradient(circle,rgba(139,95,60,0.06) 1px,transparent 1px);
-    background-size:12px 12px;
-    pointer-events:none;border-radius:inherit;z-index:0;
-  }
-  .controls{
-    display:flex;align-items:center;gap:18px;margin-top:28px;
-    justify-content:center;
-  }
-  .nav-btn{
-    background:transparent;
-    border:1px solid rgba(196,169,122,0.5);
-    color:var(--text-muted);
-    font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:14px;font-weight:600;
-    letter-spacing:1.5px;text-transform:uppercase;
-    padding:10px 22px;border-radius:4px;cursor:pointer;
-    transition:all 0.2s;
-  }
-  .nav-btn:hover:not(:disabled){
-    background:rgba(196,169,122,0.12);
-    color:var(--espresso);
-    border-color:var(--gold);
-  }
-  .nav-btn:disabled{opacity:0.25;cursor:default}
-  .page-indicator{
-    font-family:'Special Elite',cursive;
-    font-size:12px;letter-spacing:2px;color:var(--text-muted);
-    min-width:100px;text-align:center;
-  }
-  @media(max-width:600px){
-    .scene{width:92vw;height:72vw}
-    .cover-title{font-size:16px;letter-spacing:1.5px}
-    .page-inner{padding:10px 12px 8px 16px}
-    .leaf-back .page-inner{padding:10px 16px 8px 12px}
-    .nav-btn{padding:8px 14px;font-size:12px}
-  }
 </style>
 </head>
 <body>
@@ -1696,159 +1482,14 @@ function submitRSVP() {
   var grid = document.getElementById('pbGrid');
   if(!grid) return;
 
-  // ── Women's books (travel-photobook style) ──
-  var WOMAN_TOTAL_PHOTOS = 3;
+  var TOTAL_PHOTOS = 3;
+  var TOTAL_LEAVES = 2; // leaf1: front=photo1 back=photo2, leaf2: front=photo3 back=end
 
-  function buildWomanPhotoPage(idx){
-    var num = idx + 1;
-    return '<div class="dot-bg"></div>' +
-      '<div class="page-inner">' +
-        '<div class="page-num">\u2014 ' + num + ' / ' + WOMAN_TOTAL_PHOTOS + ' \u2014</div>' +
-        '<div class="photo-slot">' +
-          '<div class="tape tape-tl"></div><div class="tape tape-tr"></div>' +
-          '<div class="tape tape-bl"></div><div class="tape tape-br"></div>' +
-          '<span class="placeholder">photo ' + num + '</span>' +
-        '</div>' +
-        '<div class="photo-caption">Photo ' + num + '</div>' +
-      '</div>';
-  }
-
-  var womanEmptyPageHTML = '<div class="dot-bg"></div><div class="page-inner"><div class="page-num"></div><div class="photo-slot" style="border:none;background:transparent"></div></div>';
-
-  function initWomanBook(bookEl){
-    var cover = bookEl.querySelector('.cover-page');
-    var container = bookEl.querySelector('.page-container');
-    var prevBtn = bookEl.querySelectorAll('.nav-btn')[0];
-    var nextBtn = bookEl.querySelectorAll('.nav-btn')[1];
-    var indicator = bookEl.querySelector('.page-indicator');
-    var totalLeaves = WOMAN_TOTAL_PHOTOS;
-    var currentLeaf = 0;
-    var bookOpen = false;
-    var animating = false;
-
-    for(var i = 0; i < totalLeaves; i++){
-      var leaf = document.createElement('div');
-      leaf.className = 'leaf';
-      leaf.style.zIndex = totalLeaves - i;
-      leaf.setAttribute('data-leaf', i + 1);
-
-      var front = document.createElement('div');
-      front.className = 'leaf-front';
-      var back = document.createElement('div');
-      back.className = 'leaf-back';
-
-      front.innerHTML = buildWomanPhotoPage(i);
-
-      if(i === totalLeaves - 1){
-        back.innerHTML = '<div class="back-end"><div class="back-end-title">The End</div><div class="back-end-rule"></div></div>';
-      } else {
-        back.innerHTML = womanEmptyPageHTML;
-      }
-
-      leaf.appendChild(front);
-      leaf.appendChild(back);
-      container.appendChild(leaf);
-
-      (function(leafEl, leafNum){
-        leafEl.addEventListener('click', function(){
-          if(animating) return;
-          if(leafEl.classList.contains('flipped')){
-            goToLeaf(leafNum - 1);
-          } else {
-            goToLeaf(leafNum);
-          }
-        });
-      })(leaf, i + 1);
-    }
-
-    function openBook(){
-      if(animating) return;
-      cover.classList.add('open');
-      container.style.display = 'block';
-      bookOpen = true;
-      currentLeaf = 0;
-      updateControls();
-    }
-
-    function closeBook(){
-      if(animating) return;
-      animating = true;
-      var leaves = container.querySelectorAll('.leaf');
-      for(var i = leaves.length - 1; i >= 0; i--){
-        leaves[i].classList.remove('flipped');
-      }
-      setTimeout(function(){
-        cover.classList.remove('open');
-        setTimeout(function(){
-          container.style.display = 'none';
-          bookOpen = false;
-          currentLeaf = 0;
-          animating = false;
-          updateControls();
-        }, 900);
-      }, 100);
-    }
-
-    function goToLeaf(target){
-      if(animating || !bookOpen) return;
-      if(target < 0) return closeBook();
-      if(target > totalLeaves) return;
-      animating = true;
-      var leaves = container.querySelectorAll('.leaf');
-      for(var i = 0; i < leaves.length; i++){
-        var leafNum = i + 1;
-        if(leafNum <= target){
-          leaves[i].classList.add('flipped');
-          leaves[i].style.zIndex = leafNum;
-        } else {
-          leaves[i].classList.remove('flipped');
-          leaves[i].style.zIndex = totalLeaves - i;
-        }
-      }
-      currentLeaf = target;
-      setTimeout(function(){ animating = false; updateControls(); }, 950);
-      updateControls();
-    }
-
-    function nextPage(){
-      if(!bookOpen){ openBook(); return; }
-      if(currentLeaf < totalLeaves) goToLeaf(currentLeaf + 1);
-    }
-    function prevPage(){
-      if(!bookOpen) return;
-      if(currentLeaf === 0){ closeBook(); return; }
-      goToLeaf(currentLeaf - 1);
-    }
-
-    function updateControls(){
-      prevBtn.disabled = !bookOpen;
-      nextBtn.disabled = bookOpen && currentLeaf >= totalLeaves;
-      if(!bookOpen){
-        indicator.textContent = 'Cover';
-        prevBtn.disabled = true;
-        nextBtn.disabled = false;
-      } else if(currentLeaf >= totalLeaves){
-        indicator.textContent = 'End';
-      } else {
-        indicator.textContent = 'Photo ' + currentLeaf + ' of ' + WOMAN_TOTAL_PHOTOS;
-      }
-    }
-
-    cover.addEventListener('click', function(){ if(!bookOpen) openBook(); });
-    prevBtn.addEventListener('click', prevPage);
-    nextBtn.addEventListener('click', nextPage);
-    updateControls();
-  }
-
-  // ── Men's books (original pb- style) ──
-  var MEN_TOTAL_PHOTOS = 3;
-  var MEN_TOTAL_LEAVES = 2;
-
-  function buildMenPhotoPage(idx){
+  function buildPhotoPage(idx){
     var num = idx + 1;
     return '<div class="pb-dot-bg"></div>' +
       '<div class="pb-page-inner">' +
-        '<div class="pb-page-num">\u2014 ' + num + ' / ' + MEN_TOTAL_PHOTOS + ' \u2014</div>' +
+        '<div class="pb-page-num">\u2014 ' + num + ' / ' + TOTAL_PHOTOS + ' \u2014</div>' +
         '<div class="pb-photo-slot">' +
           '<div class="pb-tape pb-tape-tl"></div><div class="pb-tape pb-tape-tr"></div>' +
           '<div class="pb-tape pb-tape-bl"></div><div class="pb-tape pb-tape-br"></div>' +
@@ -1858,9 +1499,9 @@ function submitRSVP() {
       '</div>';
   }
 
-  var menEmptyPageHTML = '<div class="pb-dot-bg"></div><div class="pb-page-inner"><div class="pb-page-num"></div><div class="pb-photo-slot" style="border:none;background:transparent"></div></div>';
+  var emptyPageHTML = '<div class="pb-dot-bg"></div><div class="pb-page-inner"><div class="pb-page-num"></div><div class="pb-photo-slot" style="border:none;background:transparent"></div></div>';
 
-  function initMenBook(bookEl){
+  function initBook(bookEl){
     var cover = bookEl.querySelector('.pb-cover');
     var container = bookEl.querySelector('.pb-page-container');
     var prevBtn = bookEl.querySelector('.pb-prev');
@@ -1870,11 +1511,12 @@ function submitRSVP() {
     var bookOpen = false;
     var animating = false;
 
+    // Build pages
     var photoIndex = 0;
-    for(var i = 0; i < MEN_TOTAL_LEAVES; i++){
+    for(var i = 0; i < TOTAL_LEAVES; i++){
       var leaf = document.createElement('div');
       leaf.className = 'pb-leaf';
-      leaf.style.zIndex = MEN_TOTAL_LEAVES - i;
+      leaf.style.zIndex = TOTAL_LEAVES - i;
       leaf.setAttribute('data-leaf', i + 1);
 
       var front = document.createElement('div');
@@ -1882,20 +1524,20 @@ function submitRSVP() {
       var back = document.createElement('div');
       back.className = 'pb-leaf-back';
 
-      if(photoIndex < MEN_TOTAL_PHOTOS){
-        front.innerHTML = buildMenPhotoPage(photoIndex);
+      if(photoIndex < TOTAL_PHOTOS){
+        front.innerHTML = buildPhotoPage(photoIndex);
         photoIndex++;
       } else {
-        front.innerHTML = menEmptyPageHTML;
+        front.innerHTML = emptyPageHTML;
       }
 
-      if(i === MEN_TOTAL_LEAVES - 1){
+      if(i === TOTAL_LEAVES - 1){
         back.innerHTML = '<div class="pb-back-end"><div class="pb-back-end-title">The End</div><div class="pb-back-end-rule"></div></div>';
-      } else if(photoIndex < MEN_TOTAL_PHOTOS){
-        back.innerHTML = buildMenPhotoPage(photoIndex);
+      } else if(photoIndex < TOTAL_PHOTOS){
+        back.innerHTML = buildPhotoPage(photoIndex);
         photoIndex++;
       } else {
-        back.innerHTML = menEmptyPageHTML;
+        back.innerHTML = emptyPageHTML;
       }
 
       leaf.appendChild(front);
@@ -1945,7 +1587,7 @@ function submitRSVP() {
     function goToLeaf(target){
       if(animating || !bookOpen) return;
       if(target < 0) return closeBook();
-      if(target > MEN_TOTAL_LEAVES) return;
+      if(target > TOTAL_LEAVES) return;
       animating = true;
       var leaves = container.querySelectorAll('.pb-leaf');
       for(var i = 0; i < leaves.length; i++){
@@ -1955,7 +1597,7 @@ function submitRSVP() {
           leaves[i].style.zIndex = leafNum;
         } else {
           leaves[i].classList.remove('flipped');
-          leaves[i].style.zIndex = MEN_TOTAL_LEAVES - i;
+          leaves[i].style.zIndex = TOTAL_LEAVES - i;
         }
       }
       currentLeaf = target;
@@ -1965,7 +1607,7 @@ function submitRSVP() {
 
     function nextPage(){
       if(!bookOpen){ openBook(); return; }
-      if(currentLeaf < MEN_TOTAL_LEAVES) goToLeaf(currentLeaf + 1);
+      if(currentLeaf < TOTAL_LEAVES) goToLeaf(currentLeaf + 1);
     }
     function prevPage(){
       if(!bookOpen) return;
@@ -1975,19 +1617,19 @@ function submitRSVP() {
 
     function updateControls(){
       prevBtn.disabled = !bookOpen;
-      nextBtn.disabled = bookOpen && currentLeaf >= MEN_TOTAL_LEAVES;
+      nextBtn.disabled = bookOpen && currentLeaf >= TOTAL_LEAVES;
       if(!bookOpen){
         indicator.textContent = 'Cover';
         prevBtn.disabled = true;
         nextBtn.disabled = false;
-      } else if(currentLeaf >= MEN_TOTAL_LEAVES){
+      } else if(currentLeaf >= TOTAL_LEAVES){
         indicator.textContent = 'End';
       } else {
         var leftPage = currentLeaf * 2;
         var rightPage = currentLeaf * 2 + 1;
         if(leftPage === 0){
           indicator.textContent = 'Page 1';
-        } else if(rightPage > MEN_TOTAL_PHOTOS){
+        } else if(rightPage > TOTAL_PHOTOS){
           indicator.textContent = 'Page ' + leftPage;
         } else {
           indicator.textContent = 'Pages ' + leftPage + '\u2013' + rightPage;
@@ -2003,73 +1645,40 @@ function submitRSVP() {
 
   // Build all books
   partyMembers.forEach(function(member, idx){
-    var isWoman = idx < 6; // Matron of Honor, Maid of Honor, 4 Bridesmaids
     var id = 'pb-' + idx;
-    var html;
-
-    if(isWoman){
-      html =
-        '<div class="pb-item">' +
-          '<div class="pb-name">' + member.name + '</div>' +
-          '<div class="pb-role">' + member.role + '</div>' +
-          '<div class="scene">' +
-            '<div class="book-shadow"></div>' +
-            '<div class="book" id="' + id + '">' +
-              '<div class="book-cover-bg"></div>' +
-              '<div class="book-spine"></div>' +
-              '<div class="pages-stack"></div>' +
-              '<div class="cover-page">' +
-                '<div class="cover-border"></div>' +
-                '<div class="cover-icon">\uD83D\uDCF7</div>' +
-                '<div class="cover-rule"></div>' +
-                '<div class="cover-title">' + member.name + '</div>' +
-                '<div class="cover-rule"></div>' +
-                '<div class="cover-hint">click to open</div>' +
-              '</div>' +
-              '<div class="page-container" style="display:none"></div>' +
+    var html =
+      '<div class="pb-item">' +
+        '<div class="pb-name">' + member.name + '</div>' +
+        '<div class="pb-role">' + member.role + '</div>' +
+        '<div class="pb-scene">' +
+          '<div class="pb-shadow"></div>' +
+          '<div class="pb-book" id="' + id + '">' +
+            '<div class="pb-cover-bg"></div>' +
+            '<div class="pb-spine"></div>' +
+            '<div class="pb-pages-stack"></div>' +
+            '<div class="pb-cover">' +
+              '<div class="pb-cover-border"></div>' +
+              '<div class="pb-cover-icon">\uD83D\uDCF7</div>' +
+              '<div class="pb-cover-rule"></div>' +
+              '<div class="pb-cover-title">' + member.name + '</div>' +
+              '<div class="pb-cover-rule"></div>' +
+              '<div class="pb-cover-hint">click to open</div>' +
             '</div>' +
+            '<div class="pb-page-container" style="display:none"></div>' +
           '</div>' +
-          '<div class="controls">' +
-            '<button class="nav-btn" disabled>\u2190 Back</button>' +
-            '<span class="page-indicator">Cover</span>' +
-            '<button class="nav-btn" disabled>Next \u2192</button>' +
-          '</div>' +
-        '</div>';
-    } else {
-      html =
-        '<div class="pb-item">' +
-          '<div class="pb-name">' + member.name + '</div>' +
-          '<div class="pb-role">' + member.role + '</div>' +
-          '<div class="pb-scene">' +
-            '<div class="pb-shadow"></div>' +
-            '<div class="pb-book" id="' + id + '">' +
-              '<div class="pb-cover-bg"></div>' +
-              '<div class="pb-spine"></div>' +
-              '<div class="pb-pages-stack"></div>' +
-              '<div class="pb-cover">' +
-                '<div class="pb-cover-border"></div>' +
-                '<div class="pb-cover-icon">\uD83D\uDCF7</div>' +
-                '<div class="pb-cover-rule"></div>' +
-                '<div class="pb-cover-title">' + member.name + '</div>' +
-                '<div class="pb-cover-rule"></div>' +
-                '<div class="pb-cover-hint">click to open</div>' +
-              '</div>' +
-              '<div class="pb-page-container" style="display:none"></div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="pb-controls">' +
-            '<button class="pb-nav-btn pb-prev" disabled>\u2190 Back</button>' +
-            '<span class="pb-indicator">Cover</span>' +
-            '<button class="pb-nav-btn pb-next" disabled>Next \u2192</button>' +
-          '</div>' +
-        '</div>';
-    }
+        '</div>' +
+        '<div class="pb-controls">' +
+          '<button class="pb-nav-btn pb-prev" disabled>\u2190 Back</button>' +
+          '<span class="pb-indicator">Cover</span>' +
+          '<button class="pb-nav-btn pb-next" disabled>Next \u2192</button>' +
+        '</div>' +
+      '</div>';
 
     var temp = document.createElement('div');
     temp.innerHTML = html;
     var item = temp.firstChild;
     grid.appendChild(item);
-    if(isWoman){ initWomanBook(item); } else { initMenBook(item); }
+    initBook(item);
   });
 })();
 </script>
