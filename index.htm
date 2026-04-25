@@ -914,8 +914,22 @@
   /* ── Responsive ── */
   @media(max-width:600px){
     .nav button{font-size:10px;padding:6px 8px;letter-spacing:.08em}
-    .hero-banner{margin:-2rem -1rem 0;min-height:300px}
+    .hero-banner{margin-top:-2rem;min-height:300px}
     .page{padding:2rem 1rem 3rem}
+    .story-body-section{margin:2rem -1rem 0;}
+
+    /* Envelope — full width on mobile */
+    .envelope-card{
+      margin-left:-1rem !important;
+      margin-right:-1rem !important;
+      max-width:none !important;
+      border-radius:0 !important;
+      border-left:none !important;
+      border-right:none !important;
+    }
+    .envelope-stamp svg{width:76px !important;height:76px !important}
+    .stamp-rsvp svg{width:76px !important;height:76px !important}
+    .date-line{font-size:13px;letter-spacing:.1em}
   }
 </style>
 </head>
@@ -960,7 +974,7 @@
       <div class="hero-rule"><div class="hero-diamond"></div></div>
       <div class="tagline" style="margin-bottom:1rem;font-size:52px;">We're getting married!</div>
       <!-- ── Envelope ── -->
-      <div style="position:relative;background:#FAF5ED;border:1px solid rgba(196,169,122,0.5);border-radius:3px;margin:1.5rem auto 1.75rem;max-width:560px;box-shadow:0 6px 30px rgba(43,26,15,0.13),0 1px 5px rgba(43,26,15,0.07);overflow:hidden;">
+      <div class="envelope-card" style="position:relative;background:#FAF5ED;border:1px solid rgba(196,169,122,0.5);border-radius:3px;margin:1.5rem auto 1.75rem;max-width:560px;box-shadow:0 6px 30px rgba(43,26,15,0.13),0 1px 5px rgba(43,26,15,0.07);overflow:hidden;">
         <!-- Top flap V-shape (sealed envelope) -->
         <svg style="position:absolute;top:0;left:0;width:100%;height:130px;pointer-events:none;display:block;" preserveAspectRatio="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <polygon points="0,0 100,0 50,100" fill="rgba(196,169,122,0.1)"/>
@@ -973,14 +987,33 @@
         </svg>
         <!-- Envelope content -->
         <div style="position:relative;z-index:1;padding:1.4rem 1.6rem 2rem;display:flex;flex-direction:column;min-height:240px;">
-          <!-- Top row: return address (left) + stamp (top-right) -->
+          <!-- Top row: details stamp (left) + rsvp stamp (right) -->
           <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-            <div style="font-family:'Cinzel',Georgia,serif;font-size:8.5px;letter-spacing:.12em;color:var(--text-muted);text-transform:uppercase;line-height:1.9;margin-top:.4rem;">
-              <div style="font-size:10px;letter-spacing:.07em;color:var(--brown);margin-bottom:.1rem;">Chelsea &amp; Matt</div>
-              <div>On the road somewhere</div>
-            </div>
+            <!-- Details stamp (left) -->
+            <a href="details.htm" class="stamp-rsvp" aria-label="Wedding Details">
+              <svg viewBox="0 0 160 160" width="110" height="110" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" fill="#FAF5ED" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
+                <rect x="14" y="14" width="132" height="132" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
+                <rect x="17" y="17" width="126" height="126" fill="none" stroke="#C4A97A" stroke-width="0.3" stroke-dasharray="2,5"/>
+                <!-- Postmark (upper-left for details stamp) -->
+                <g opacity="0.32" transform="translate(34,38)">
+                  <circle r="19" fill="none" stroke="#9A7B4F" stroke-width="1.4"/>
+                  <circle r="14" fill="none" stroke="#9A7B4F" stroke-width="0.5"/>
+                  <text font-family="Cinzel,serif" font-size="6" fill="#9A7B4F" text-anchor="middle" y="-1" letter-spacing="1">C · M</text>
+                  <text font-family="Cinzel,serif" font-size="5.5" fill="#9A7B4F" text-anchor="middle" y="8" letter-spacing="0.5">2027</text>
+                  <path d="M19,-5 C28,-7 34,-4 46,-5" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
+                  <path d="M19,1 C28,-1 34,3 46,1" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
+                  <path d="M19,7 C28,5 34,8 46,7" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
+                </g>
+                <rect x="78" y="60" width="4" height="4" transform="rotate(45,80,62)" fill="#C4A97A" opacity="0.65"/>
+                <line x1="36" y1="72" x2="124" y2="72" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
+                <text x="80" y="98" font-family="Cinzel,Georgia,serif" font-size="18" font-weight="500" fill="#2B1A0F" text-anchor="middle" letter-spacing="4">DETAILS</text>
+                <line x1="36" y1="112" x2="124" y2="112" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
+                <text x="80" y="130" font-family="Cinzel,Georgia,serif" font-size="7.5" fill="#9A7B4F" text-anchor="middle" letter-spacing="2">APRIL 18 · 2027</text>
+              </svg>
+            </a>
             <!-- Stamp — top-right corner where stamps go -->
-            <a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
+            <div class="envelope-stamp"><a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
               <svg viewBox="0 0 160 160" width="110" height="110" xmlns="http://www.w3.org/2000/svg">
             <!-- Perforated stamp body (evenodd) -->
             <path fill-rule="evenodd" fill="#FAF5ED" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
@@ -1008,7 +1041,7 @@
             <!-- Location -->
             <text x="80" y="130" font-family="Cinzel,Georgia,serif" font-size="7.5" fill="#9A7B4F" text-anchor="middle" letter-spacing="2">CORAL GABLES · FL</text>
           </svg>
-            </a>
+            </a></div>
           </div>
           <!-- Both lines centered in the middle of the envelope -->
           <div style="flex:1;display:flex;align-items:center;justify-content:center;padding-bottom:3.5rem;">
