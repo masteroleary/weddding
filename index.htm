@@ -11,7 +11,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
 
   :root{
-    --cream:#F5F0E8;
+    --cream:#EFE5D0;
     --parchment:#EDE5D4;
     --gold:#C4A97A;
     --gold-dark:#9A7B4F;
@@ -26,7 +26,7 @@
     --card-bg:rgba(255,250,242,0.88);
   }
 
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;background-color:#EFE5D0}
 
   body{
     font-family:'Cormorant Garamond',Georgia,serif;
@@ -36,6 +36,7 @@
     position:relative;
     overflow-x:hidden;
   }
+  html{ overflow-x:hidden; }
 
   /* ── Background ── */
   .bg-canvas{
@@ -134,7 +135,9 @@
   /* ── Hero Photo Banner ── */
   .hero-banner{
     position:relative;
-    margin:-2.5rem -2rem 0;
+    margin-top:-2.5rem;
+    margin-left:calc(50% - 50vw);
+    width:100vw;
     overflow:hidden;
     height:65vh;
     min-height:400px;
@@ -922,7 +925,7 @@
 <div class="bg-canvas">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
     <!-- new background goes here -->
-    <rect width="1200" height="900" fill="#F5F0E8"/>
+    <rect width="1200" height="900" fill="#EFE5D0"/>
   </svg>
 </div>
 
@@ -955,12 +958,30 @@
     <!-- ── Below-photo hero info ── -->
     <div class="hero">
       <div class="hero-rule"><div class="hero-diamond"></div></div>
-      <div class="date-line">Sunday, April 18, 2027 &nbsp;·&nbsp; Coral Gables, Florida</div>
-      <div class="tagline">We're getting married!</div>
-
-      <div style="text-align:center;margin:1.75rem auto 1.75rem;">
-        <a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
-          <svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+      <div class="tagline" style="margin-bottom:1rem;font-size:52px;">We're getting married!</div>
+      <!-- ── Envelope ── -->
+      <div style="position:relative;background:#FAF5ED;border:1px solid rgba(196,169,122,0.5);border-radius:3px;margin:1.5rem auto 1.75rem;max-width:560px;box-shadow:0 6px 30px rgba(43,26,15,0.13),0 1px 5px rgba(43,26,15,0.07);overflow:hidden;">
+        <!-- Top flap V-shape (sealed envelope) -->
+        <svg style="position:absolute;top:0;left:0;width:100%;height:130px;pointer-events:none;display:block;" preserveAspectRatio="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,0 100,0 50,100" fill="rgba(196,169,122,0.1)"/>
+          <polyline points="0,0 50,100 100,0" fill="none" stroke="rgba(196,169,122,0.38)" stroke-width="0.4"/>
+        </svg>
+        <!-- Bottom corner flap lines -->
+        <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;display:block;" preserveAspectRatio="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="100" x2="50" y2="50" stroke="rgba(196,169,122,0.18)" stroke-width="0.3"/>
+          <line x1="100" y1="100" x2="50" y2="50" stroke="rgba(196,169,122,0.18)" stroke-width="0.3"/>
+        </svg>
+        <!-- Envelope content -->
+        <div style="position:relative;z-index:1;padding:1.4rem 1.6rem 2rem;display:flex;flex-direction:column;min-height:240px;">
+          <!-- Top row: return address (left) + stamp (top-right) -->
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div style="font-family:'Cinzel',Georgia,serif;font-size:8.5px;letter-spacing:.12em;color:var(--text-muted);text-transform:uppercase;line-height:1.9;margin-top:.4rem;">
+              <div style="font-size:10px;letter-spacing:.07em;color:var(--brown);margin-bottom:.1rem;">Chelsea &amp; Matt</div>
+              <div>On the road somewhere</div>
+            </div>
+            <!-- Stamp — top-right corner where stamps go -->
+            <a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
+              <svg viewBox="0 0 160 160" width="110" height="110" xmlns="http://www.w3.org/2000/svg">
             <!-- Perforated stamp body (evenodd) -->
             <path fill-rule="evenodd" fill="#FAF5ED" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
             <!-- Inner double border -->
@@ -987,7 +1008,20 @@
             <!-- Location -->
             <text x="80" y="130" font-family="Cinzel,Georgia,serif" font-size="7.5" fill="#9A7B4F" text-anchor="middle" letter-spacing="2">CORAL GABLES · FL</text>
           </svg>
-        </a>
+            </a>
+          </div>
+          <!-- Both lines centered in the middle of the envelope -->
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;padding-bottom:3.5rem;">
+            <div style="text-align:center;">
+              <div style="font-size:9.5px;letter-spacing:.26em;color:var(--gold-dark);text-transform:uppercase;font-family:'Cinzel',Georgia,serif;margin-bottom:.65rem;">— You are cordially invited —</div>
+              <div class="date-line">Sunday, April 18, 2027</div>
+              <div class="date-line" style="margin-top:.25rem;">Hotel Colonnade</div>
+              <div class="date-line" style="margin-top:.25rem;">Coral Gables, Florida</div>
+            </div>
+          </div>
+          <!-- Envelope bottom rule -->
+          <div style="height:0.5px;background:linear-gradient(90deg,transparent,rgba(196,169,122,0.5),transparent);"></div>
+        </div>
       </div>
 
       <!-- Countdown Timer -->
