@@ -1,3 +1,4 @@
+<!-- Claude test edit — 2026-04-24 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +59,7 @@
   /* ── Nav ── */
   .nav{
     display:flex;flex-wrap:wrap;gap:2px;justify-content:center;
-    padding:1.25rem 1rem 0;
+    padding:1.25rem 1rem 0.75rem;
     position:sticky;top:0;
     background:rgba(245,240,232,0.95);
     backdrop-filter:blur(6px);
@@ -265,70 +266,74 @@
     color:var(--gold-dark);margin-top:.5rem;
   }
 
-  .story-section{max-width:560px;margin:2.5rem auto;text-align:center}
-  .story-section h2{
-    font-size:22px;font-weight:400;
-    color:var(--gold-dark);
-    margin-bottom:6px;
-    font-family:'Cormorant Garamond',Georgia,serif;
-    display:flex;align-items:center;justify-content:center;gap:0;
-  }
-  .story-heading-our{
-    font-family:'Great Vibes','Cormorant Garamond',cursive;
-    font-size:42px;font-weight:400;
-    color:#C9A96E;
-    margin-right:10px;
-    line-height:1;
-  }
-  .story-heading-story{
-    font-family:'Cinzel',serif;
-    font-size:24px;font-weight:500;
-    letter-spacing:.28em;
-    text-transform:uppercase;
-    color:#C9A96E;
-    line-height:1;
-  }
-  .story-heading-flourish{
-    display:flex;align-items:center;gap:12px;
-    margin-top:8px;justify-content:center;
-  }
-  .story-heading-flourish-line{
-    width:48px;height:0.5px;
-    background:linear-gradient(90deg,transparent,#C9A96E,transparent);
-  }
-  .story-heading-flourish-icon{
-    color:#C9A96E;font-size:13px;opacity:0.7;line-height:1;
-    animation:storyShimmer 3s ease-in-out infinite;
+  /* ── Our Story Heading ── */
+  .story-section{max-width:none;margin:3rem 0 0;text-align:center}
+  .story-heading-wrapper{
+    margin-bottom:0;padding:0 2rem;
+    animation:storyFadeIn 1.4s ease-out both;
   }
   @keyframes storyFadeIn{
-    0%{opacity:0;transform:translateY(10px)}
+    0%{opacity:0;transform:translateY(16px)}
     100%{opacity:1;transform:translateY(0)}
   }
-  @keyframes storyShimmer{
-    0%,100%{opacity:0.7}
-    50%{opacity:1}
+  .story-eyebrow{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(44px,8vw,62px);
+    font-weight:400;color:var(--gold-dark);
+    display:block;line-height:1;
+    margin-bottom:0.18em;
+    margin-left:-1.4em;
   }
-  .story-heading-wrapper{
-    margin-bottom:1.5rem;
-    animation:storyFadeIn 1.8s ease-out both;
+  .story-big-script{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(80px,16vw,130px);
+    font-weight:400;color:var(--espresso);
+    line-height:1;display:block;
   }
-  .story-section p{
-    font-size:17px;line-height:2;color:var(--text-body);
-    margin-bottom:1rem;font-weight:400;
+  .story-heading-rule{
+    width:90px;height:0.5px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    margin:1.1rem auto 0;
+  }
+  /* ── Story Body (warm tan section) ── */
+  .story-body-section{
+    background:#7A5438;
+    margin:2.25rem -2rem 0;
+    padding:0 0 3.5rem;
+    text-align:center;
+    position:relative;
+  }
+  .story-ornament{
+    width:100%;overflow:hidden;display:block;
+    line-height:0;
+  }
+  .story-ornament-top{
+    margin-bottom:2.75rem;
+  }
+  .story-ornament-bottom{
+    margin-top:2.5rem;
+  }
+  .story-body-section p{
+    font-size:19px;line-height:2.1;
+    color:#F2E8D8;margin-bottom:1rem;font-weight:400;
+    max-width:580px;margin-left:auto;margin-right:auto;
   }
   .story-divider{
     display:flex;align-items:center;gap:14px;
-    margin:1.75rem 0;
+    margin:1.75rem auto;max-width:580px;
   }
   .story-divider::before,.story-divider::after{
     content:'';flex:1;height:0.5px;
-    background:rgba(139,105,20,0.3);
+    background:rgba(242,225,195,0.22);
   }
-  .story-divider-glyph{font-size:16px;color:var(--gold);line-height:1}
+  .story-divider-glyph{font-size:16px;color:#D4B07A;line-height:1}
   .sign-off{
     margin-top:2rem;
-    font-size:22px;font-style:italic;font-weight:300;
-    color:var(--gold-dark);
+    font-size:24px;font-style:italic;font-weight:300;
+    color:#D4B07A;display:block;
+  }
+  @media(max-width:600px){
+    .story-body-section{margin:2rem -1rem 0;}
   }
 
   /* ── Page header ── */
@@ -932,10 +937,9 @@
       RSVP
     </button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
-    <button onclick="window.location.href='travel.htm'">Travel</button>
     <button onclick="window.location.href='todo.htm'">Things to Do</button>
-    <button onclick="window.location.href='faq.htm'">FAQ</button>
     <button onclick="window.location.href='travel-photobook.html'">Photo Gallery</button>
+    <button onclick="window.location.href='faq.htm'">FAQ</button>
   </nav>
 
   <!-- ══ HOME ══ -->
@@ -956,35 +960,32 @@
 
       <div style="text-align:center;margin:1.75rem auto 1.75rem;">
         <a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
-          <svg viewBox="0 0 240 140" width="240" height="140" xmlns="http://www.w3.org/2000/svg">
-            <!-- Stamp body with perforated edges (evenodd) -->
-            <path fill-rule="evenodd" fill="#FAF5ED" d="M 0,0 H 240 V 140 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 173,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 187,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 201,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 215,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 229,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 173,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 187,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 201,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 215,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 229,140 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 235,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
+          <svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+            <!-- Perforated stamp body (evenodd) -->
+            <path fill-rule="evenodd" fill="#FAF5ED" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
             <!-- Inner double border -->
-            <rect x="14" y="14" width="212" height="112" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
-            <rect x="17" y="17" width="206" height="106" fill="none" stroke="#C4A97A" stroke-width="0.3" stroke-dasharray="2,5"/>
+            <rect x="14" y="14" width="132" height="132" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
+            <rect x="17" y="17" width="126" height="126" fill="none" stroke="#C4A97A" stroke-width="0.3" stroke-dasharray="2,5"/>
             <!-- Postmark (upper-right) -->
-            <g opacity="0.32" transform="translate(194,44)">
-              <circle r="22" fill="none" stroke="#9A7B4F" stroke-width="1.4"/>
-              <circle r="17" fill="none" stroke="#9A7B4F" stroke-width="0.5"/>
-              <text font-family="Cinzel,serif" font-size="7" fill="#9A7B4F" text-anchor="middle" y="-2" letter-spacing="1">C · M</text>
-              <text font-family="Cinzel,serif" font-size="6.5" fill="#9A7B4F" text-anchor="middle" y="8" letter-spacing="0.5">2027</text>
-              <!-- wavy cancel lines -->
-              <path d="M-22,-8 C-32,-10 -40,-6 -52,-8" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
-              <path d="M-22,0 C-32,-2 -40,2 -52,0" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
-              <path d="M-22,8 C-32,6 -40,10 -52,8" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
+            <g opacity="0.32" transform="translate(126,38)">
+              <circle r="19" fill="none" stroke="#9A7B4F" stroke-width="1.4"/>
+              <circle r="14" fill="none" stroke="#9A7B4F" stroke-width="0.5"/>
+              <text font-family="Cinzel,serif" font-size="6" fill="#9A7B4F" text-anchor="middle" y="-1" letter-spacing="1">C · M</text>
+              <text font-family="Cinzel,serif" font-size="5.5" fill="#9A7B4F" text-anchor="middle" y="8" letter-spacing="0.5">2027</text>
+              <path d="M-19,-5 C-28,-7 -34,-4 -46,-5" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
+              <path d="M-19,1 C-28,-1 -34,3 -46,1" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
+              <path d="M-19,7 C-28,5 -34,8 -46,7" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
             </g>
             <!-- Diamond ornament -->
-            <rect x="118" y="47" width="4" height="4" transform="rotate(45,120,49)" fill="#C4A97A" opacity="0.65"/>
+            <rect x="78" y="60" width="4" height="4" transform="rotate(45,80,62)" fill="#C4A97A" opacity="0.65"/>
             <!-- Top rule -->
-            <line x1="52" y1="58" x2="174" y2="58" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
+            <line x1="36" y1="72" x2="124" y2="72" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
             <!-- RSVP -->
-            <text x="113" y="84" font-family="Cinzel,Georgia,serif" font-size="30" font-weight="500" fill="#2B1A0F" text-anchor="middle" letter-spacing="9">RSVP</text>
+            <text x="80" y="102" font-family="Cinzel,Georgia,serif" font-size="30" font-weight="500" fill="#2B1A0F" text-anchor="middle" letter-spacing="7">RSVP</text>
             <!-- Bottom rule -->
-            <line x1="52" y1="93" x2="174" y2="93" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
-            <!-- Date -->
-            <text x="113" y="107" font-family="Cormorant Garamond,Georgia,serif" font-size="10.5" font-style="italic" fill="#9A7B4F" text-anchor="middle" letter-spacing="2">April 18 · 2027</text>
+            <line x1="36" y1="112" x2="124" y2="112" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
             <!-- Location -->
-            <text x="113" y="120" font-family="Cinzel,Georgia,serif" font-size="8" fill="#9A7B4F" text-anchor="middle" letter-spacing="2">CORAL GABLES · FL</text>
+            <text x="80" y="130" font-family="Cinzel,Georgia,serif" font-size="7.5" fill="#9A7B4F" text-anchor="middle" letter-spacing="2">CORAL GABLES · FL</text>
           </svg>
         </a>
       </div>
@@ -1005,11 +1006,27 @@
 
     <div class="story-section">
       <div class="story-heading-wrapper">
-        <h2><span class="story-heading-our">Our</span><span class="story-heading-story">Story</span></h2>
-        <div class="story-heading-flourish">
-          <span class="story-heading-flourish-line"></span>
-          <span class="story-heading-flourish-icon">✦</span>
-          <span class="story-heading-flourish-line"></span>
+        <span class="story-eyebrow">Our</span>
+        <span class="story-big-script">Story</span>
+        <div class="story-heading-rule"></div>
+      </div>
+      <div class="story-body-section">
+      <div class="story-ornament story-ornament-top">
+        <!-- Scalloped top edge -->
+        <svg viewBox="0 0 880 38" width="100%" height="38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,38 L0,14 Q22,0 44,14 Q66,28 88,14 Q110,0 132,14 Q154,28 176,14 Q198,0 220,14 Q242,28 264,14 Q286,0 308,14 Q330,28 352,14 Q374,0 396,14 Q418,28 440,14 Q462,0 484,14 Q506,28 528,14 Q550,0 572,14 Q594,28 616,14 Q638,0 660,14 Q682,28 704,14 Q726,0 748,14 Q770,28 792,14 Q814,0 836,14 Q858,28 880,14 L880,38 Z" fill="#7A5438"/>
+        </svg>
+        <!-- Ornament line + diamond -->
+        <div style="background:#7A5438;padding:0 2rem .25rem;display:flex;align-items:center;justify-content:center;gap:16px;">
+          <svg viewBox="0 0 440 22" width="440" height="22" style="max-width:100%" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0" y1="11" x2="174" y2="11" stroke="#D4B07A" stroke-width="0.5" opacity="0.45"/>
+            <rect x="194" y="7" width="8" height="8" transform="rotate(45,198,11)" fill="#D4B07A" opacity="0.7"/>
+            <rect x="207" y="8" width="6" height="6" transform="rotate(45,210,11)" fill="none" stroke="#D4B07A" stroke-width="0.5" opacity="0.5"/>
+            <rect x="181" y="8" width="6" height="6" transform="rotate(45,184,11)" fill="none" stroke="#D4B07A" stroke-width="0.5" opacity="0.5"/>
+            <rect x="218" y="8.5" width="5" height="5" transform="rotate(45,220.5,11)" fill="none" stroke="#D4B07A" stroke-width="0.4" opacity="0.35"/>
+            <rect x="170" y="8.5" width="5" height="5" transform="rotate(45,172.5,11)" fill="none" stroke="#D4B07A" stroke-width="0.4" opacity="0.35"/>
+            <line x1="228" y1="11" x2="440" y2="11" stroke="#D4B07A" stroke-width="0.5" opacity="0.45"/>
+          </svg>
         </div>
       </div>
       <p>It all started the best way possible — at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. As the night went on, Matt's dog, Titan, made himself right at home by Chelsea's side — and that's when Matt knew she was special. What began as a simple invitation quickly turned into something neither of them expected. From wagging tails to a forever kind of love, their story is one they'll always be grateful for.</p>
@@ -1019,101 +1036,61 @@
       <p>Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment — thanks to two dogs who knew they belonged together long before they did — has grown into a love filled with laughter, adventure and an unbreakable bond. Through every mile traveled and every memory made, they have found home in one another. Now, surrounded by those they love most, they step into this next chapter — heart full, side by side and forever intertwined.</p>
       <p class="sign-off">With love, Chelsea &amp; Matt</p>
 
-      <div class="wedding-quote">
-        <div class="quote-rule"></div>
-        <p class="quote-text">"I love you not only for what you are, but for what I am when I am with you."</p>
-        <p class="quote-attr">— Roy Croft</p>
-        <div class="quote-rule"></div>
+      <div class="wedding-quote" style="margin:2.5rem auto 0;max-width:480px;">
+        <div class="quote-rule" style="height:0.5px;background:linear-gradient(90deg,transparent,rgba(196,169,122,0.4),transparent);margin:.75rem auto;width:60%;"></div>
+        <p class="quote-text" style="color:#DDD0BB !important;">"I love you not only for what you are, but for what I am when I am with you."</p>
+        <p class="quote-attr" style="color:#C4A97A !important;">— Roy Croft</p>
+        <div class="quote-rule" style="height:0.5px;background:linear-gradient(90deg,transparent,rgba(196,169,122,0.4),transparent);margin:.75rem auto;width:60%;"></div>
       </div>
+      <div class="story-ornament story-ornament-bottom">
+        <div style="background:#7A5438;padding:.25rem 2rem 0;display:flex;align-items:center;justify-content:center;gap:16px;">
+          <svg viewBox="0 0 440 22" width="440" height="22" style="max-width:100%" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0" y1="11" x2="174" y2="11" stroke="#D4B07A" stroke-width="0.5" opacity="0.45"/>
+            <rect x="194" y="7" width="8" height="8" transform="rotate(45,198,11)" fill="#D4B07A" opacity="0.7"/>
+            <rect x="207" y="8" width="6" height="6" transform="rotate(45,210,11)" fill="none" stroke="#D4B07A" stroke-width="0.5" opacity="0.5"/>
+            <rect x="181" y="8" width="6" height="6" transform="rotate(45,184,11)" fill="none" stroke="#D4B07A" stroke-width="0.5" opacity="0.5"/>
+            <rect x="218" y="8.5" width="5" height="5" transform="rotate(45,220.5,11)" fill="none" stroke="#D4B07A" stroke-width="0.4" opacity="0.35"/>
+            <rect x="170" y="8.5" width="5" height="5" transform="rotate(45,172.5,11)" fill="none" stroke="#D4B07A" stroke-width="0.4" opacity="0.35"/>
+            <line x1="228" y1="11" x2="440" y2="11" stroke="#D4B07A" stroke-width="0.5" opacity="0.45"/>
+          </svg>
+        </div>
+      </div>
+      </div><!-- /story-body-section -->
     </div>
 
     <div style="text-align:center;margin:2rem auto 1rem;">
       <a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 118" width="200" height="118" role="img" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" width="150" height="150" role="img" aria-hidden="true">
           <defs>
             <style>
               .stamp2-body{ fill:#FAF5ED; }
               .stamp2-border-solid{ fill:none; stroke:#C4A97A; stroke-width:1.1; }
               .stamp2-border-dash{ fill:none; stroke:#C4A97A; stroke-width:0.6; stroke-dasharray:3,2.5; }
               .stamp2-postmark{ fill:none; stroke:#8B6C42; stroke-width:0.85; opacity:0.32; }
-              .stamp2-rsvp{ font-family:'Cinzel',serif; font-size:26px; font-weight:400; letter-spacing:8px; fill:#4A3520; }
-              .stamp2-date{ font-family:'Cormorant Garamond',Georgia,serif; font-size:9px; font-style:italic; fill:#7A5C3A; letter-spacing:1.2px; }
+              .stamp2-rsvp{ font-family:'Cinzel',serif; font-size:26px; font-weight:400; letter-spacing:6px; fill:#4A3520; }
               .stamp2-loc{ font-family:'Cinzel',serif; font-size:6.5px; fill:#7A5C3A; letter-spacing:2px; }
               .stamp2-pm-text{ font-family:'Cinzel',serif; font-size:6px; fill:#8B6C42; opacity:0.38; }
             </style>
           </defs>
           <!-- Perforated stamp body (evenodd) -->
-          <path fill-rule="evenodd" class="stamp2-body" d="
-            M 5,5 H 195 V 113 H 5 Z
-            M 5,0   a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 17,0  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 29,0  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 41,0  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 53,0  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 65,0  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 77,0  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 89,0  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 101,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 113,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 125,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 137,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 149,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 161,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 173,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 185,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 5,108  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 17,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 29,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 41,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 53,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 65,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 77,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 89,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 101,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 113,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 125,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 137,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 149,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 161,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 173,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 185,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M -5,8  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M -5,20 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M -5,32 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M -5,44 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M -5,56 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M -5,68 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M -5,92 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M -5,104 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 195,8  a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 195,20 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 195,32 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 195,44 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 195,56 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 195,68 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 195,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 195,92 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-            M 195,104 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0
-          "/>
+          <path fill-rule="evenodd" class="stamp2-body" d="M 5,5 H 145 V 145 H 5 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,8 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,22 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,36 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,50 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,64 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,78 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,92 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,106 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,120 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,134 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,8 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,22 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,36 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,50 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,64 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,78 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,92 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,106 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,120 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,134 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
           <!-- Inner borders -->
-          <rect class="stamp2-border-solid" x="13" y="11" width="174" height="96" rx="1"/>
-          <rect class="stamp2-border-dash"  x="17" y="15" width="166" height="88" rx="1"/>
+          <rect class="stamp2-border-solid" x="13" y="13" width="124" height="124" rx="1"/>
+          <rect class="stamp2-border-dash"  x="17" y="17" width="116" height="116" rx="1"/>
           <!-- Postmark (upper right) -->
-          <g transform="translate(158,30)" class="stamp2-postmark">
-            <circle cx="0" cy="0" r="16"/>
-            <circle cx="0" cy="0" r="11"/>
-            <line x1="-20" y1="-4" x2="20" y2="-4"/>
-            <line x1="-20" y1="0"  x2="20" y2="0"/>
-            <line x1="-20" y1="4"  x2="20" y2="4"/>
+          <g transform="translate(118,32)" class="stamp2-postmark">
+            <circle cx="0" cy="0" r="15"/>
+            <circle cx="0" cy="0" r="10"/>
+            <line x1="-19" y1="-4" x2="19" y2="-4"/>
+            <line x1="-19" y1="0"  x2="19" y2="0"/>
+            <line x1="-19" y1="4"  x2="19" y2="4"/>
           </g>
-          <text class="stamp2-pm-text" x="158" y="26" text-anchor="middle">C · M</text>
-          <text class="stamp2-pm-text" x="158" y="38" text-anchor="middle">2027</text>
+          <text class="stamp2-pm-text" x="118" y="28" text-anchor="middle">C · M</text>
+          <text class="stamp2-pm-text" x="118" y="39" text-anchor="middle">2027</text>
           <!-- RSVP -->
-          <text class="stamp2-rsvp" x="96" y="72" text-anchor="middle">RSVP</text>
-          <!-- Date & location -->
-          <text class="stamp2-date" x="96" y="87" text-anchor="middle">April 18 · 2027</text>
-          <text class="stamp2-loc"  x="96" y="98" text-anchor="middle">CORAL GABLES · FL</text>
+          <text class="stamp2-rsvp" x="75" y="88" text-anchor="middle">RSVP</text>
+          <!-- Location -->
+          <text class="stamp2-loc" x="75" y="108" text-anchor="middle">CORAL GABLES · FL</text>
         </svg>
       </a>
     </div>

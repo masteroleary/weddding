@@ -58,7 +58,7 @@
   /* ── Nav ── */
   .nav{
     display:flex;flex-wrap:wrap;gap:2px;justify-content:center;
-    padding:1.25rem 1rem 0;
+    padding:1.25rem 1rem 0.75rem;
     position:sticky;top:0;
     background:rgba(245,240,232,0.95);
     backdrop-filter:blur(6px);
@@ -719,6 +719,22 @@
     .monogram{font-size:50px}
     .page{padding:2rem 1rem 3rem}
   }
+
+  /* ── RSVP Stamp ── */
+  .stamp-rsvp{
+    display:inline-block;
+    text-decoration:none;
+    cursor:pointer;
+    filter:drop-shadow(0 4px 14px rgba(43,26,15,0.18));
+    transition:transform .22s ease, filter .22s ease;
+    vertical-align:middle;
+  }
+  .stamp-rsvp:hover{
+    transform:scale(1.05) rotate(-1.2deg);
+    filter:drop-shadow(0 7px 22px rgba(43,26,15,0.26));
+  }
+  .stamp-rsvp:active{transform:scale(0.97) rotate(0deg)}
+  .stamp-rsvp svg{display:block}
 </style>
 </head>
 <body>
@@ -888,10 +904,9 @@
     <button onclick="window.location.href='party.htm'">Wedding Party</button>
     <button onclick="window.location.href='rsvp.htm'">RSVP</button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
-    <button onclick="window.location.href='travel.htm'">Travel</button>
     <button onclick="window.location.href='todo.htm'">Things to Do</button>
-    <button onclick="window.location.href='faq.htm'">FAQ</button>
     <button onclick="window.location.href='travel-photobook.html'">Photo Gallery</button>
+    <button onclick="window.location.href='faq.htm'">FAQ</button>
   </nav>
 
   <!-- ══ HOME ══ -->
@@ -986,6 +1001,32 @@
 
 
 </div>
+
+
+  <div style="text-align:center;padding:3rem 1rem 4rem;">
+    <p style="font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#9A7B4F;margin-bottom:1.5rem;opacity:0.8;">We hope to celebrate with you</p>
+    <a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
+      <svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" fill="#FAF5ED" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
+        <rect x="14" y="14" width="132" height="132" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
+        <rect x="17" y="17" width="126" height="126" fill="none" stroke="#C4A97A" stroke-width="0.3" stroke-dasharray="2,5"/>
+        <g opacity="0.32" transform="translate(126,38)">
+          <circle r="19" fill="none" stroke="#9A7B4F" stroke-width="1.4"/>
+          <circle r="14" fill="none" stroke="#9A7B4F" stroke-width="0.5"/>
+          <text font-family="Cinzel,serif" font-size="6" fill="#9A7B4F" text-anchor="middle" y="-1" letter-spacing="1">C · M</text>
+          <text font-family="Cinzel,serif" font-size="5.5" fill="#9A7B4F" text-anchor="middle" y="8" letter-spacing="0.5">2027</text>
+          <path d="M-19,-5 C-28,-7 -34,-4 -46,-5" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
+          <path d="M-19,1 C-28,-1 -34,3 -46,1" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
+          <path d="M-19,7 C-28,5 -34,8 -46,7" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
+        </g>
+        <rect x="78" y="60" width="4" height="4" transform="rotate(45,80,62)" fill="#C4A97A" opacity="0.65"/>
+        <line x1="36" y1="72" x2="124" y2="72" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
+        <text x="80" y="102" font-family="Cinzel,Georgia,serif" font-size="30" font-weight="500" fill="#2B1A0F" text-anchor="middle" letter-spacing="7">RSVP</text>
+        <line x1="36" y1="112" x2="124" y2="112" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
+        <text x="80" y="130" font-family="Cinzel,Georgia,serif" font-size="7.5" fill="#9A7B4F" text-anchor="middle" letter-spacing="2">CORAL GABLES · FL</text>
+      </svg>
+    </a>
+  </div>
 
 </div><!-- /site -->
 
