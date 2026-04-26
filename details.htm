@@ -43,13 +43,14 @@
     pointer-events:none;
     z-index:0;
     overflow:hidden;
+    display:none;
   }
   .bg-canvas svg{width:100%;height:100%;position:absolute;top:0;left:0}
 
   /* ── Layout ── */
   .site{
     position:relative;
-    z-index:1;
+    z-index:2;
     max-width:880px;
     margin:0 auto;
     min-height:100vh;
@@ -178,18 +179,18 @@
 
   /* ── Cards shared ── */
   .card{
-    background:var(--card-bg);
+    background:transparent;
     border:0.5px solid var(--border);
     border-radius:6px;
     padding:1.35rem 1.6rem;
   }
   .card-icon{font-size:19px;margin-bottom:.6rem;display:block}
   .card-label{
-    font-size:10px;font-weight:500;letter-spacing:.2em;
+    font-size:12px;font-weight:500;letter-spacing:.2em;
     color:var(--gold-dark);text-transform:uppercase;
     margin-bottom:.5rem;display:block;
   }
-  .card p{font-size:15px;line-height:1.85;color:var(--brown-dark)}
+  .card p{font-size:18px;line-height:1.85;color:var(--brown-dark)}
   .card a{
     color:var(--gold-deep);text-decoration:none;
     font-size:13px;letter-spacing:.04em;
@@ -280,7 +281,7 @@
 
   /* ── Travel ── */
   .travel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1.5rem}
-  .hotel-card{border:0.5px solid var(--border);border-radius:6px;padding:1.35rem;background:var(--card-bg)}
+  .hotel-card{border:0.5px solid var(--border);border-radius:6px;padding:1.35rem;background:transparent}
   .badge{
     display:inline-block;font-size:9.5px;font-weight:500;
     letter-spacing:.12em;text-transform:uppercase;
@@ -291,7 +292,7 @@
   .badge-near{background:rgba(100,80,40,0.1);color:var(--text-muted)}
   .badge-budget{background:rgba(180,140,60,0.12);color:var(--brown)}
   .hotel-card h3{font-size:17px;font-weight:400;color:var(--espresso);margin-bottom:.3rem}
-  .hotel-card p{font-size:13.5px;color:var(--text-muted);line-height:1.7;margin-bottom:.4rem;font-style:italic}
+  .hotel-card p{font-size:17px;color:var(--text-muted);line-height:1.7;margin-bottom:.4rem;font-style:italic}
   .hotel-card .price{font-size:14px;font-weight:500;color:var(--espresso);margin-top:.4rem;font-style:normal}
   .hotel-card a{font-size:13px;color:var(--gold-deep);text-decoration:none;letter-spacing:.03em}
   .hotel-card a:hover{text-decoration:underline}
@@ -300,11 +301,11 @@
   .todo-list{margin-top:1.5rem;display:grid;gap:.85rem}
   .todo-item{
     display:flex;gap:1.1rem;padding:1.1rem 1.35rem;
-    border-radius:6px;border:0.5px solid var(--border);background:var(--card-bg);
+    border-radius:6px;border:0.5px solid var(--border);background:transparent;
   }
   .todo-icon{font-size:20px;flex-shrink:0;margin-top:2px;line-height:1}
   .todo-item h4{font-size:17px;font-weight:400;color:var(--espresso);margin-bottom:.25rem}
-  .todo-item p{font-size:13.5px;color:var(--text-muted);line-height:1.75;font-style:italic}
+  .todo-item p{font-size:17px;color:var(--text-muted);line-height:1.75;font-style:italic}
 
   /* ── FAQ ── */
   .faq-list{margin-top:1.5rem}
@@ -329,13 +330,16 @@
 
   /* ── Note box ── */
   .note-box{
-    background:rgba(196,169,122,0.1);
-    border:0.5px solid rgba(196,169,122,0.45);
-    border-radius:5px;padding:1rem 1.35rem;
-    font-size:13.5px;color:var(--text-muted);
-    line-height:1.8;margin-top:1.5rem;font-style:italic;
+    background:rgba(196,169,122,0.15);
+    border:1px solid rgba(196,169,122,0.6);
+    border-radius:5px;padding:1.5rem 2rem;
+    font-family:'Cinzel',Georgia,serif;
+    font-size:17px;font-weight:500;color:var(--espresso);
+    line-height:1.9;margin-top:1.5rem;font-style:normal;
+    text-align:center;letter-spacing:.05em;
   }
   .note-box::before{content:'✦  ';color:var(--gold)}
+  .note-box::after{content:'  ✦';color:var(--gold)}
 
 
   /* ── Carousel ── */
@@ -464,33 +468,37 @@
   }
   .carousel-counter{ display:none; }
 
-  /* ── Venue Banner ── */
+  /* ── Venue Banner (full-width hero) ── */
   .venue-banner{
-    margin:2rem 0 0;
+    width:100vw;
+    margin-left:calc(-50vw + 50%);
     text-align:center;
-    padding:2.5rem 2rem;
-    background:rgba(255,250,242,0.7);
-    border:0.5px solid rgba(139,105,20,0.25);
-    border-radius:8px;
+    padding:4rem 2rem 3.5rem;
+    background:linear-gradient(180deg, rgba(196,169,122,0.18) 0%, rgba(239,229,208,0.0) 100%);
+    border-top:1px solid rgba(196,169,122,0.5);
+    border-bottom:1px solid rgba(196,169,122,0.5);
     position:relative;
+    overflow:hidden;
   }
+  /* top & bottom gold rule lines */
   .venue-banner::before,.venue-banner::after{
     content:'';display:block;
     height:0.5px;
     background:linear-gradient(90deg,transparent,var(--gold),transparent);
-    margin:0 auto;width:80%;
+    margin:0 auto;width:60%;
   }
-  .venue-banner::before{margin-bottom:1.5rem}
-  .venue-banner::after{margin-top:1.5rem}
-  .venue-banner-inner{padding:.5rem 0}
+  .venue-banner::before{margin-bottom:2rem}
+  .venue-banner::after{margin-top:2rem}
+  .venue-banner-inner{padding:.5rem 0;position:relative;z-index:1}
   .venue-eyebrow{
-    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--gold-dark);display:block;margin-bottom:.6rem;
+    font-size:12px;letter-spacing:.38em;text-transform:uppercase;
+    color:var(--gold-dark);display:block;margin-bottom:1rem;
+    font-family:'Cinzel',Georgia,serif;
   }
   .venue-names{
     font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:42px;font-weight:300;color:var(--espresso);
-    letter-spacing:2px;line-height:1.1;
+    font-size:clamp(48px,8vw,80px);font-weight:300;color:var(--espresso);
+    letter-spacing:3px;line-height:1.1;
   }
   .venue-amp{color:var(--gold-dark);font-style:italic}
   .venue-rule{
@@ -507,7 +515,8 @@
     font-family:'Cormorant Garamond',Georgia,serif;
   }
   .venue-address{
-    font-size:13px;letter-spacing:.08em;color:var(--text-muted);
+    font-family:'Cinzel',Georgia,serif;
+    font-size:14px;letter-spacing:.14em;color:var(--text-muted);
     margin-bottom:.75rem;
   }
   .venue-map-link{
@@ -574,13 +583,13 @@
     padding-bottom:1.5rem;
   }
   .timeline-title{
-    font-size:17px;font-weight:400;
+    font-size:20px;font-weight:400;
     color:var(--espresso);margin-bottom:.25rem;
     font-family:'Cormorant Garamond',Georgia,serif;
     letter-spacing:.04em;
   }
   .timeline-desc{
-    font-size:13px;color:var(--text-muted);
+    font-size:16px;color:var(--text-muted);
     line-height:1.75;font-style:italic;
   }
 
@@ -738,6 +747,161 @@
 </style>
 </head>
 <body>
+
+<!-- ── Falling Glitter Canvas ── -->
+<canvas id="sparkle-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<script>
+(function(){
+  var canvas = document.getElementById('sparkle-canvas');
+  var ctx = canvas.getContext('2d');
+  var W, H;
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function rand(min, max){ return Math.random()*(max-min)+min; }
+
+  // Glitter color palette — gold, champagne, cream, rose gold
+  var COLORS = [
+    [212, 175, 105],  // gold
+    [232, 210, 160],  // champagne
+    [255, 245, 220],  // cream white
+    [196, 155,  90],  // deep gold
+    [240, 220, 180],  // pale gold
+    [220, 195, 150],  // rose champagne
+  ];
+
+  var SIDE_WIDTH = 180; // px from each edge
+
+  function sideX(){
+    // randomly pick left side or right side
+    if(Math.random() < 0.5) return rand(0, SIDE_WIDTH);
+    else return rand(W - SIDE_WIDTH, W);
+  }
+
+  function createGlitter(fromTop){
+    var c = COLORS[Math.floor(Math.random()*COLORS.length)];
+    return {
+      x:      sideX(),
+      y:      fromTop ? rand(-40, -2) : rand(0, H),
+      size:   rand(1.2, 4),
+      speedY: rand(0.15, 0.55),
+      speedX: rand(-0.4, 0.4),
+      rot:    rand(0, Math.PI*2),
+      rotSpeed: rand(-0.06, 0.06),
+      // shimmer: flips between bright and dim rapidly
+      shimmerPhase: rand(0, Math.PI*2),
+      shimmerSpeed: rand(0.08, 0.22),
+      baseAlpha:    rand(0.5, 0.95),
+      r: c[0], g: c[1], b: c[2],
+      // shape: 0=diamond, 1=rect, 2=star-cross
+      shape: Math.floor(Math.random()*3),
+      wobblePhase: rand(0, Math.PI*2),
+      wobbleSpeed: rand(0.02, 0.05),
+    };
+  }
+
+  var pieces = [];
+  var COUNT = 280;
+  for(var i=0; i<COUNT; i++) pieces.push(createGlitter(false));
+
+  function drawDiamond(x, y, w, h){
+    ctx.beginPath();
+    ctx.moveTo(x, y-h);
+    ctx.lineTo(x+w, y);
+    ctx.lineTo(x, y+h);
+    ctx.lineTo(x-w, y);
+    ctx.closePath();
+  }
+
+  function drawRect(x, y, w, h){
+    ctx.beginPath();
+    ctx.rect(x-w, y-h, w*2, h*2);
+  }
+
+  function drawStarCross(x, y, s){
+    // 4-point star
+    ctx.beginPath();
+    ctx.moveTo(x, y - s*2);
+    ctx.lineTo(x + s*0.35, y - s*0.35);
+    ctx.lineTo(x + s*2, y);
+    ctx.lineTo(x + s*0.35, y + s*0.35);
+    ctx.lineTo(x, y + s*2);
+    ctx.lineTo(x - s*0.35, y + s*0.35);
+    ctx.lineTo(x - s*2, y);
+    ctx.lineTo(x - s*0.35, y - s*0.35);
+    ctx.closePath();
+  }
+
+  function animate(){
+    ctx.clearRect(0, 0, W, H);
+
+    for(var i=0; i<pieces.length; i++){
+      var p = pieces[i];
+
+      // update
+      p.y += p.speedY;
+      p.wobblePhase += p.wobbleSpeed;
+      p.x += p.speedX + Math.sin(p.wobblePhase) * 0.3;
+      p.rot += p.rotSpeed;
+      p.shimmerPhase += p.shimmerSpeed;
+
+      // shimmer: oscillates between baseAlpha and near-white flash
+      var shimmer = 0.5 + 0.5 * Math.sin(p.shimmerPhase);
+      var alpha = p.baseAlpha * (0.3 + 0.7 * shimmer);
+      // occasional bright flash
+      if(shimmer > 0.95) alpha = Math.min(1, alpha * 1.6);
+
+      // draw
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.globalAlpha = alpha;
+
+      var r = p.r, g = p.g, b = p.b;
+      // brighten on shimmer peak
+      var bright = Math.floor(shimmer * 40);
+      r = Math.min(255, r + bright);
+      g = Math.min(255, g + bright);
+      b = Math.min(255, b + bright);
+
+      ctx.fillStyle = 'rgb('+r+','+g+','+b+')';
+
+      var s = p.size;
+      if(p.shape === 0)      drawDiamond(0, 0, s, s*1.4);
+      else if(p.shape === 1) drawRect(0, 0, s*0.7, s*1.1);
+      else                   drawStarCross(0, 0, s*0.55);
+
+      ctx.fill();
+
+      // tiny glow halo on bright frames
+      if(shimmer > 0.7){
+        ctx.globalAlpha = alpha * 0.25;
+        var grd = ctx.createRadialGradient(0,0,0,0,0,s*3);
+        grd.addColorStop(0,'rgb('+r+','+g+','+b+')');
+        grd.addColorStop(1,'rgba(255,240,200,0)');
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(0,0,s*3,0,Math.PI*2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+
+      // reset when falls off bottom or drifts too far inward
+      var tooFarIn = (p.x > SIDE_WIDTH + 40 && p.x < W - SIDE_WIDTH - 40);
+      if(p.y > H + 10 || tooFarIn) pieces[i] = createGlitter(true);
+    }
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+})();
+</script>
+
 
 <!-- Background -->
 <div class="bg-canvas">
@@ -911,22 +1075,233 @@
 
   <!-- ══ HOME ══ -->
   <div class="page visible" id="page-details">
-    <div class="page-header">
-      <h1>Wedding Details</h1>
-      <p>Everything you need to know for the big day</p>
-    </div>
 
-    <!-- Elegant venue banner -->
+    <!-- ── Full-width Celebration Hero ── -->
     <div class="venue-banner">
+      <!-- decorative corner flourishes -->
+      <svg style="position:absolute;top:18px;left:24px;opacity:0.35" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 44 L4 4 L44 4" stroke="#9A7B4F" stroke-width="1" fill="none"/>
+        <path d="M4 34 L4 4 L34 4" stroke="#C4A97A" stroke-width="0.5" fill="none"/>
+        <circle cx="4" cy="4" r="3" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
+      </svg>
+      <svg style="position:absolute;top:18px;right:24px;opacity:0.35;transform:scaleX(-1)" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 44 L4 4 L44 4" stroke="#9A7B4F" stroke-width="1" fill="none"/>
+        <path d="M4 34 L4 4 L34 4" stroke="#C4A97A" stroke-width="0.5" fill="none"/>
+        <circle cx="4" cy="4" r="3" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
+      </svg>
+      <svg style="position:absolute;bottom:18px;left:24px;opacity:0.35;transform:scaleY(-1)" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 44 L4 4 L44 4" stroke="#9A7B4F" stroke-width="1" fill="none"/>
+        <path d="M4 34 L4 4 L34 4" stroke="#C4A97A" stroke-width="0.5" fill="none"/>
+        <circle cx="4" cy="4" r="3" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
+      </svg>
+      <svg style="position:absolute;bottom:18px;right:24px;opacity:0.35;transform:scale(-1,-1)" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 44 L4 4 L44 4" stroke="#9A7B4F" stroke-width="1" fill="none"/>
+        <path d="M4 34 L4 4 L34 4" stroke="#C4A97A" stroke-width="0.5" fill="none"/>
+        <circle cx="4" cy="4" r="3" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
+      </svg>
+
       <div class="venue-banner-inner">
         <span class="venue-eyebrow">The Celebration of</span>
         <div class="venue-names">Chelsea <span class="venue-amp">&amp;</span> Matt</div>
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:400;color:var(--brown);letter-spacing:.2em;margin:.6rem 0 .2rem;">April 18, 2027</div>
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:26px;font-weight:400;color:var(--text-muted);letter-spacing:.2em;margin-bottom:.5rem;">5:30 PM</div>
         <div class="venue-rule"><div class="venue-diamond"></div></div>
         <div class="venue-place">Hotel Colonnade</div>
         <div class="venue-address">180 Aragon Ave &nbsp;·&nbsp; Coral Gables, FL 33134</div>
-        <a href="https://maps.google.com/?q=180+Aragon+Ave+Coral+Gables+FL+33134" class="venue-map-link" target="_blank">View on Google Maps →</a>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:.75rem;">
+          <a href="https://maps.google.com/?q=180+Aragon+Ave+Coral+Gables+FL+33134" target="_blank" style="
+            display:inline-flex;align-items:center;gap:8px;
+            padding:10px 20px;
+            font-family:'Cinzel',Georgia,serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+            color:var(--espresso);text-decoration:none;
+            border:1px solid #9A7B4F;border-radius:4px;
+            background:rgba(255,250,242,0.7);
+            transition:background .18s,transform .15s;
+          " onmouseover="this.style.background='rgba(196,169,122,0.2)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='rgba(255,250,242,0.7)';this.style.transform='none'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#9A7B4F"/></svg>
+            Google Maps
+          </a>
+          <a href="https://maps.apple.com/?q=180+Aragon+Ave+Coral+Gables+FL+33134" target="_blank" style="
+            display:inline-flex;align-items:center;gap:8px;
+            padding:10px 20px;
+            font-family:'Cinzel',Georgia,serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+            color:var(--espresso);text-decoration:none;
+            border:1px solid #9A7B4F;border-radius:4px;
+            background:rgba(255,250,242,0.7);
+            transition:background .18s,transform .15s;
+          " onmouseover="this.style.background='rgba(196,169,122,0.2)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='rgba(255,250,242,0.7)';this.style.transform='none'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" fill="#9A7B4F"/></svg>
+            Apple Maps
+          </a>
+        </div>
       </div>
     </div>
+
+    <!-- Design element -->
+    <div style="text-align:center;margin:2.5rem 0 2rem;">
+      <div style="
+        display:inline-block;
+        padding:10px;
+        background:#F5EFE0;
+        border:2px solid #9A7B4F;
+        border-radius:6px;
+        box-shadow:0 0 0 4px #F5EFE0, 0 0 0 6px #C4A97A, 0 0 0 10px #F5EFE0, 0 0 0 11px #9A7B4F;
+        position:relative;
+      ">
+        <img src="bg-details.svg" alt="" style="max-width:100%;width:600px;display:block;border-radius:3px;">
+      </div>
+    </div>
+
+
+
+
+    <!-- RSVP Button -->
+    <div style="text-align:center;margin:2.5rem 0 0;">
+      <a href="rsvp.htm" style="
+        display:inline-block;
+        font-family:'Cinzel',Georgia,serif;
+        font-size:18px;font-weight:500;
+        letter-spacing:.28em;text-transform:uppercase;
+        text-decoration:none;
+        color:#F5EFE8;
+        background:#6B4A22;
+        border:1px solid #6B4A22;
+        border-radius:4px;
+        padding:20px 64px;
+        transition:background .2s, transform .15s;
+        box-shadow:0 4px 18px rgba(43,26,15,0.18);
+      " onmouseover="this.style.background='#7D5828';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#6B4A22';this.style.transform='none'">RSVP Now</a>
+    </div>
+
+    <!-- Wedding Details section with tan background -->
+    <div style="
+      width:100vw;
+      margin-left:calc(-50vw + 50%);
+      background:#F2EAD8;
+      padding:3rem 2rem;
+      margin-top:2.5rem;
+      border-top:1px solid rgba(154,123,79,0.35);
+      border-bottom:1px solid rgba(154,123,79,0.35);
+    ">
+      <div style="max-width:880px;margin:0 auto;">
+        <div class="page-header">
+          <h1>Wedding Details</h1>
+          <p>Everything you need to know for the big day</p>
+        </div>
+
+        <!-- Extra detail cards -->
+        <div class="detail-grid" style="margin-top:2rem">
+          <div class="card"><span class="card-icon"><svg width="30" height="40" viewBox="0 0 30 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- straps -->
+  <line x1="11" y1="0" x2="11" y2="6" stroke="#9A7B4F" stroke-width="1.2" stroke-linecap="round"/>
+  <line x1="19" y1="0" x2="19" y2="6" stroke="#9A7B4F" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- bodice: straight across top, tapers to waist -->
+  <path d="M8 6 Q15 8 22 6 L21 16 Q18 18 15 18 Q12 18 9 16 Z" fill="#9A7B4F"/>
+  <!-- bodice sheen -->
+  <path d="M8 6 L9 15 Q11 17 15 17 L15 7 Q12 7.5 8 6 Z" fill="white" opacity="0.14"/>
+  <!-- flowing skirt — graceful outward curves -->
+  <path d="M9 16 Q7 18 5 22 Q3 27 2 33 Q4 38 15 38 Q26 38 28 33 Q27 27 25 22 Q23 18 21 16 Q18 18 15 18 Q12 18 9 16 Z" fill="#6B4A22"/>
+  <!-- flow lines inside skirt -->
+  <path d="M11 18 Q9 23 8 30 Q9 35 12 37" stroke="#9A7B4F" stroke-width="0.6" fill="none" opacity="0.5" stroke-linecap="round"/>
+  <path d="M19 18 Q21 23 22 30 Q21 35 18 37" stroke="#9A7B4F" stroke-width="0.6" fill="none" opacity="0.5" stroke-linecap="round"/>
+  <!-- skirt sheen -->
+  <path d="M9 17 Q7 22 6 29 Q7 35 11 37 L15 37 L15 17 Z" fill="white" opacity="0.07"/>
+  <!-- sparkles -->
+  <line x1="0" y1="8" x2="0" y2="12" stroke="#C4A97A" stroke-width="0.9" stroke-linecap="round"/>
+  <line x1="-2" y1="10" x2="2" y2="10" stroke="#C4A97A" stroke-width="0.9" stroke-linecap="round"/>
+  <line x1="30" y1="5" x2="30" y2="8" stroke="#C4A97A" stroke-width="0.8" stroke-linecap="round"/>
+  <line x1="28.5" y1="6.5" x2="31.5" y2="6.5" stroke="#C4A97A" stroke-width="0.8" stroke-linecap="round"/>
+  <circle cx="28" cy="20" r="0.9" fill="#C4A97A" opacity="0.7"/>
+  <circle cx="1" cy="26" r="0.8" fill="#C4A97A" opacity="0.6"/>
+</svg></span><span class="card-label">Dress Code</span><p>Cocktail/Formal — we kindly ask guests to dress in elegant cocktail attire. Think classy and polished: suits, dresses, and elevated wear.</p></div>
+          <div class="card"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- roof -->
+  <path d="M2 14 L16 2 L30 14 Z" fill="#9A7B4F"/>
+  <path d="M2 14 L16 2 L30 14" stroke="#6B4A22" stroke-width="0.8" fill="none"/>
+  <!-- roof sheen -->
+  <path d="M4 14 L16 3.5 L22 9 L16 5 Z" fill="white" opacity="0.12"/>
+  <!-- chimney -->
+  <rect x="21" y="4" width="4" height="6" fill="#6B4A22"/>
+  <rect x="20.5" y="3.5" width="5" height="1.2" rx="0.3" fill="#9A7B4F"/>
+  <!-- house body -->
+  <rect x="4" y="13" width="24" height="18" rx="0.5" fill="#C4A97A"/>
+  <!-- house body sheen -->
+  <rect x="4" y="13" width="11" height="18" rx="0.5" fill="white" opacity="0.08"/>
+  <!-- door -->
+  <rect x="12" y="22" width="8" height="9" rx="1" fill="#6B4A22"/>
+  <rect x="12.5" y="22.5" width="3.5" height="8" rx="0.5" fill="#9A7B4F" opacity="0.4"/>
+  <!-- door knob -->
+  <circle cx="19" cy="27" r="0.8" fill="#C4A97A"/>
+  <!-- left window -->
+  <rect x="6" y="17" width="6" height="5" rx="0.5" fill="#6B4A22" opacity="0.5"/>
+  <line x1="9" y1="17" x2="9" y2="22" stroke="#9A7B4F" stroke-width="0.6"/>
+  <line x1="6" y1="19.5" x2="12" y2="19.5" stroke="#9A7B4F" stroke-width="0.6"/>
+  <!-- right window -->
+  <rect x="20" y="17" width="6" height="5" rx="0.5" fill="#6B4A22" opacity="0.5"/>
+  <line x1="23" y1="17" x2="23" y2="22" stroke="#9A7B4F" stroke-width="0.6"/>
+  <line x1="20" y1="19.5" x2="26" y2="19.5" stroke="#9A7B4F" stroke-width="0.6"/>
+  <!-- ground line -->
+  <line x1="1" y1="31" x2="31" y2="31" stroke="#6B4A22" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
+</svg></span><span class="card-label">Indoor Event</span><p>The ceremony and reception will both be held indoors.</p></div>
+          <div class="card"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- plate -->
+  <circle cx="16" cy="17" r="12" fill="#C4A97A" opacity="0.25"/>
+  <circle cx="16" cy="17" r="12" stroke="#9A7B4F" stroke-width="1"/>
+  <circle cx="16" cy="17" r="8.5" stroke="#9A7B4F" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <circle cx="16" cy="17" r="5" fill="#C4A97A" opacity="0.3"/>
+  <!-- fork (left) -->
+  <line x1="7" y1="3" x2="7" y2="13" stroke="#6B4A22" stroke-width="1.3" stroke-linecap="round"/>
+  <line x1="5.5" y1="3" x2="5.5" y2="8" stroke="#6B4A22" stroke-width="1" stroke-linecap="round"/>
+  <line x1="8.5" y1="3" x2="8.5" y2="8" stroke="#6B4A22" stroke-width="1" stroke-linecap="round"/>
+  <path d="M5.5 8 Q7 10 8.5 8" stroke="#6B4A22" stroke-width="1" fill="none"/>
+  <!-- fork handle -->
+  <line x1="7" y1="13" x2="7" y2="29" stroke="#6B4A22" stroke-width="1.3" stroke-linecap="round"/>
+  <!-- knife (right) -->
+  <line x1="25" y1="3" x2="25" y2="29" stroke="#6B4A22" stroke-width="1.3" stroke-linecap="round"/>
+  <path d="M25 3 Q28 6 25 12" stroke="#6B4A22" stroke-width="1" fill="#9A7B4F" opacity="0.4"/>
+</svg></span><span class="card-label">Dinner</span><p>Seated plated dinner with choice of entrée. Vegan and gluten-free options available. Indicate preference in your RSVP.</p></div>
+          <div class="card"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- music note stem -->
+  <line x1="20" y1="4" x2="20" y2="22" stroke="#6B4A22" stroke-width="2" stroke-linecap="round"/>
+  <line x1="28" y1="2" x2="28" y2="18" stroke="#6B4A22" stroke-width="2" stroke-linecap="round"/>
+  <!-- beam connecting notes -->
+  <path d="M20 4 L28 2" stroke="#6B4A22" stroke-width="2" stroke-linecap="round"/>
+  <path d="M20 9 L28 7" stroke="#6B4A22" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+  <!-- note heads -->
+  <ellipse cx="17" cy="23" rx="4" ry="3" transform="rotate(-10 17 23)" fill="#9A7B4F"/>
+  <ellipse cx="25" cy="19" rx="4" ry="3" transform="rotate(-10 25 19)" fill="#9A7B4F"/>
+  <!-- small sparkles -->
+  <line x1="5" y1="8" x2="5" y2="12" stroke="#C4A97A" stroke-width="0.9" stroke-linecap="round"/>
+  <line x1="3" y1="10" x2="7" y2="10" stroke="#C4A97A" stroke-width="0.9" stroke-linecap="round"/>
+  <line x1="9" y1="2" x2="9" y2="5" stroke="#C4A97A" stroke-width="0.8" stroke-linecap="round"/>
+  <line x1="7.5" y1="3.5" x2="10.5" y2="3.5" stroke="#C4A97A" stroke-width="0.8" stroke-linecap="round"/>
+  <circle cx="4" cy="22" r="1" fill="#C4A97A" opacity="0.6"/>
+  <circle cx="11" cy="16" r="0.7" fill="#C4A97A" opacity="0.5"/>
+</svg></span><span class="card-label">Entertainment</span><p>Live music during cocktail hour. DJ &amp; dancing to follow. Club style party after <span style="font-family:'Cinzel',Georgia,serif;font-weight:500;color:var(--espresso);">11pm</span>. Song requests welcome!</p></div>
+          <div class="card"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- cocktail glass bowl -->
+  <path d="M4 4 L16 20 L28 4 Z" fill="#C4A97A" opacity="0.35"/>
+  <path d="M4 4 L16 20 L28 4 Z" stroke="#9A7B4F" stroke-width="1.2" stroke-linejoin="round" fill="none"/>
+  <!-- liquid fill inside glass -->
+  <path d="M9 4 L16 14 L23 4 Z" fill="#9A7B4F" opacity="0.35"/>
+  <!-- stem -->
+  <line x1="16" y1="20" x2="16" y2="28" stroke="#6B4A22" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- base -->
+  <line x1="10" y1="28" x2="22" y2="28" stroke="#6B4A22" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- olive on pick -->
+  <line x1="20" y1="4" x2="24" y2="1" stroke="#6B4A22" stroke-width="0.9" stroke-linecap="round"/>
+  <circle cx="24" cy="1" r="2" fill="#9A7B4F"/>
+  <circle cx="24" cy="1" r="0.8" fill="#C4A97A"/>
+  <!-- bubbles -->
+  <circle cx="12" cy="9" r="0.7" fill="#C4A97A" opacity="0.6"/>
+  <circle cx="15" cy="7" r="0.5" fill="#C4A97A" opacity="0.5"/>
+  <circle cx="18" cy="10" r="0.6" fill="#C4A97A" opacity="0.5"/>
+</svg></span><span class="card-label">Open Bar</span><p>Full open bar during cocktail hour and reception all evening long. Cheers! 🥂</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-box">Please be seated by 5:15 PM — the ceremony begins promptly at 5:30 PM. We cannot wait to celebrate with you!</div>
 
     <!-- Timeline column -->
     <div class="timeline-wrap">
@@ -984,16 +1359,6 @@
       </div>
     </div>
 
-    <!-- Extra detail cards -->
-    <div class="detail-grid" style="margin-top:2rem">
-      <div class="card"><span class="card-icon">👗</span><span class="card-label">Dress Code</span><p>Cocktail/Formal — we kindly ask guests to dress in elegant cocktail attire. Think classy and polished: suits, dresses, and elevated wear.</p></div>
-      <div class="card"><span class="card-icon">🏠</span><span class="card-label">Indoor Event</span><p>The ceremony and reception will both be held indoors.</p></div>
-      <div class="card"><span class="card-icon">🍽️</span><span class="card-label">Dinner</span><p>Seated plated dinner with choice of entrée. Vegan and gluten-free options available. Indicate preference in your RSVP.</p></div>
-      <div class="card"><span class="card-icon">🎵</span><span class="card-label">Entertainment</span><p>Live music during cocktail hour. DJ &amp; dancing to follow. Song requests welcome!</p></div>
-      <div class="card"><span class="card-icon">🍸</span><span class="card-label">Open Bar</span><p>Full open bar during cocktail hour and reception all evening long. Cheers! 🥂</p></div>
-    </div>
-
-    <div class="note-box">Please be seated by 5:15 PM — the ceremony begins promptly at 5:30 PM. We cannot wait to celebrate with you!</div>
   </div>
 
   <!-- ══ WEDDING PARTY ══ -->

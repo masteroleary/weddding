@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>C &amp; M — April 18, 2027</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500&family=Great+Vibes&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500&family=Great+Vibes&family=Dancing+Script:wght@400;500;600;700&display=swap');
 
   *{box-sizing:border-box;margin:0;padding:0}
 
@@ -785,39 +785,55 @@
 
   /* ── Countdown ── */
   .countdown-wrap{
-    margin:1.75rem auto 0;
-    max-width:520px;
+    margin:2.25rem auto 0;
+    max-width:560px;
     text-align:center;
   }
   .countdown-label{
-    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--gold-dark);margin-bottom:1rem;
     font-family:'Cinzel',Georgia,serif;
+    font-size:10px;letter-spacing:.36em;text-transform:uppercase;
+    color:var(--gold-dark);margin-bottom:1.4rem;display:block;
   }
+  .countdown-rule{ display:none; }
+  .countdown-rule-glyph{ display:none; }
   .countdown-boxes{
-    display:flex;align-items:center;justify-content:center;gap:8px;
+    display:flex;align-items:stretch;justify-content:center;gap:10px;
     flex-wrap:wrap;
   }
   .countdown-box{
-    display:flex;flex-direction:column;align-items:center;
-    background:rgba(255,250,242,0.7);
-    border:0.5px solid rgba(196,169,122,0.4);
-    border-radius:6px;
-    padding:.75rem 1.1rem;
-    min-width:70px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:#F8F2E6;
+    border:1px solid var(--gold);
+    border-radius:3px;
+    padding:1.1rem 0 .9rem;
+    min-width:108px;
+    position:relative;
+  }
+  /* gold top accent bar */
+  .countdown-box::before{
+    content:'';
+    position:absolute;top:0;left:18px;right:18px;height:2px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
   }
   .countdown-num{
-    font-family:'Cinzel',Georgia,serif;
-    font-size:28px;font-weight:400;
-    color:var(--espresso);line-height:1;
-    letter-spacing:.04em;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:clamp(42px,7vw,58px);
+    font-weight:300;
+    color:var(--espresso);
+    line-height:1;
+    letter-spacing:.02em;
   }
   .countdown-unit{
-    font-size:9px;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--gold-dark);margin-top:.35rem;
+    font-family:'Cinzel',Georgia,serif;
+    font-size:8px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold-dark);margin-top:.6rem;
   }
   .countdown-sep{
-    font-size:20px;color:var(--gold);margin-top:-8px;opacity:0.6;
+    display:flex;align-items:center;
+    font-size:20px;color:var(--gold);opacity:0.5;
+    align-self:center;margin-bottom:18px;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:300;
   }
 
   /* ── Quote ── */
@@ -911,6 +927,154 @@
     transform: scale(2.5) translateY(-20px);
   }
 
+  /* ── Envelope Letter Animation ── */
+  .envelope-wrapper{position:relative;margin:3.5rem auto 1.75rem;max-width:640px;}
+  .env-flap-anim{
+    position:absolute;top:0;left:0;width:100%;height:160px;
+    z-index:6;pointer-events:none;
+    transform-origin:top center;
+    transition:transform 1.1s cubic-bezier(.3,0,.2,1);
+    /* Clip to triangle so only flap shape is visible (both closed and open) */
+    clip-path:polygon(0% 0%, 100% 0%, 50% 100%);
+    /* Back-face visible when flap flips open */
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(60,44,20,0.14) 0%, transparent 55%),
+      linear-gradient(175deg,#C6BA94 0%,#BEB288 40%,#C8BC96 100%);
+    backface-visibility:visible;
+  }
+  .env-flap-anim.flap-open{transform:perspective(700px) rotateX(180deg)}
+  .wax-seal-btn{
+    position:absolute;top:142px;left:50%;transform:translateX(-50%);
+    z-index:10;background:none;border:none;padding:0;cursor:pointer;
+    transition:filter .2s;
+  }
+  .wax-seal-btn:hover{filter:brightness(1.12) drop-shadow(0 2px 8px rgba(80,30,5,0.35))}
+  .wax-seal-btn.seal-broken{
+    transition:transform .4s cubic-bezier(.4,0,.2,1),opacity .4s;
+    transform:translateX(-50%) rotate(22deg) scale(0.5) !important;
+    opacity:0 !important;pointer-events:none;
+  }
+  .env-letter{
+    position:absolute;
+    top:60px; left:3%; width:94%;
+    z-index:3;
+    background:
+      linear-gradient(162deg, #F7F1E4 0%, #F3EDD8 40%, #F5EFE0 100%);
+    border:none;
+    border-radius:2px;
+    padding:2.5rem 2.5rem;
+    box-shadow:
+      0 14px 40px rgba(43,26,15,0.28),
+      inset 0 0 60px rgba(120,80,10,0.06),
+      inset 0 0 14px rgba(160,70,5,0.18);
+    opacity:0;
+    pointer-events:none;
+    /* Irregular burnt/torn edges */
+    clip-path: polygon(
+      1% 0.8%,  4% 0%,    9% 0.6%,  15% 0%,   21% 0.9%,  28% 0.2%,
+      35% 0.7%, 42% 0%,   49% 0.5%, 57% 0%,   64% 0.8%,  71% 0.1%,
+      78% 0.6%, 85% 0%,   91% 0.7%, 96% 0.2%, 99% 0.9%,
+      100% 4%,  99.2% 12%, 100% 22%, 99.4% 34%, 100% 46%,
+      99.3% 58%, 100% 70%, 99.5% 82%, 100% 92%, 99% 100%,
+      93% 99.2%, 85% 100%, 77% 99.4%, 69% 100%, 61% 99.3%,
+      53% 100%,  45% 99.5%, 37% 100%, 29% 99.2%, 21% 100%,
+      13% 99.5%, 6% 100%,  1% 99%,
+      0% 93%,   0.6% 82%, 0% 70%,   0.5% 58%, 0% 46%,
+      0.7% 34%, 0% 22%,   0.4% 12%, 0% 4%
+    );
+  }
+  /* Burnt edge dark overlay */
+  .env-letter::before{
+    content:'';
+    position:absolute;inset:0;pointer-events:none;z-index:3;
+    background:
+      radial-gradient(ellipse at 0% 0%,   rgba(8,3,0,0.32) 0%, rgba(25,8,1,0.14) 10%, transparent 24%),
+      radial-gradient(ellipse at 100% 0%,  rgba(8,3,0,0.32) 0%, rgba(25,8,1,0.14) 10%, transparent 24%),
+      radial-gradient(ellipse at 0% 100%,  rgba(8,3,0,0.32) 0%, rgba(25,8,1,0.14) 10%, transparent 24%),
+      radial-gradient(ellipse at 100% 100%,rgba(8,3,0,0.32) 0%, rgba(25,8,1,0.14) 10%, transparent 24%),
+      linear-gradient(to bottom, rgba(12,4,0,0.22) 0%, rgba(20,7,1,0.10) 5%, rgba(140,60,5,0.03) 11%, transparent 20%),
+      linear-gradient(to top,    rgba(12,4,0,0.22) 0%, rgba(20,7,1,0.10) 5%, rgba(140,60,5,0.03) 11%, transparent 20%),
+      linear-gradient(to right,  rgba(12,4,0,0.18) 0%, rgba(20,7,1,0.08) 4%, transparent 12%),
+      linear-gradient(to left,   rgba(12,4,0,0.18) 0%, rgba(20,7,1,0.08) 4%, transparent 12%);
+    border-radius:inherit;
+  }
+  /* Ruled lines */
+  .env-letter::after{
+    content:'';
+    position:absolute;inset:0;pointer-events:none;z-index:2;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,transparent 28px,
+        rgba(139,100,20,0.045) 28px,
+        rgba(139,100,20,0.045) 29px
+      );
+    border-radius:inherit;
+  }
+  .env-letter p{
+    font-family:'Dancing Script',cursive;
+    font-size:22px;font-weight:700;line-height:2.2;color:#2E1A08;
+    margin-bottom:1rem;max-width:520px;margin-left:auto;margin-right:auto;
+    position:relative;z-index:1;
+  }
+  .env-letter .env-letter-signoff{
+    font-family:'Dancing Script',cursive;
+    font-size:32px;font-style:normal;font-weight:700;color:#7A5018;
+    display:block;text-align:center;margin-top:1rem;
+    position:relative;z-index:1;
+  }
+  /* Handwriting animation */
+  .letter-wc{ visibility:hidden; display:inline; }
+  .letter-wc.written{ visibility:visible; }
+  /* Outer wrapper — tracks left/top position of current character */
+  #letter-pen{
+    position:absolute;
+    pointer-events:none;
+    z-index:20;
+    opacity:1;
+    transition:left 0.38s linear,top 0.30s linear,opacity 0.8s ease;
+  }
+  /* Inner wrapper — runs the slow writing animation */
+  #letter-pen-inner{
+    transform-origin:bottom center;
+    animation:penWrite 1.6s ease-in-out infinite;
+    filter:drop-shadow(0 3px 10px rgba(0,0,0,0.45));
+  }
+  @keyframes penWrite{
+    0%   { transform:translateX(0px)   rotate(-48deg) translate(-8px,-72px); }
+    20%  { transform:translateX(6px)   rotate(-44deg) translate(-8px,-72px); }
+    45%  { transform:translateX(-3px)  rotate(-49deg) translate(-8px,-72px); }
+    65%  { transform:translateX(5px)   rotate(-43deg) translate(-8px,-72px); }
+    85%  { transform:translateX(-2px)  rotate(-47deg) translate(-8px,-72px); }
+    100% { transform:translateX(0px)   rotate(-48deg) translate(-8px,-72px); }
+  }
+  .env-letter-eyebrow,.env-letter-heading,.env-letter-rule,.story-divider-letter{
+    position:relative;z-index:1;
+  }
+  .env-letter-rule{
+    display:flex;align-items:center;gap:14px;max-width:320px;margin:.9rem auto;
+  }
+  .env-letter-rule::before,.env-letter-rule::after{
+    content:'';flex:1;height:0.5px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  }
+  .env-letter-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+  .env-letter-heading{
+    text-align:center;font-family:'Great Vibes',cursive;
+    font-size:clamp(60px,10vw,90px);font-weight:400;
+    color:var(--espresso);line-height:1;margin-bottom:.25rem;
+  }
+  .env-letter-eyebrow{
+    display:block;text-align:center;font-family:'Great Vibes',cursive;
+    font-size:clamp(36px,6vw,50px);color:var(--gold-dark);font-weight:400;line-height:1;
+  }
+  .story-divider-letter{
+    display:flex;align-items:center;gap:14px;max-width:520px;margin:1.75rem auto;
+  }
+  .story-divider-letter::before,.story-divider-letter::after{
+    content:'';flex:1;height:0.5px;background:rgba(139,105,20,0.2);
+  }
+
   /* ── Responsive ── */
   @media(max-width:600px){
     .nav button{font-size:10px;padding:6px 8px;letter-spacing:.08em}
@@ -927,13 +1091,115 @@
       border-left:none !important;
       border-right:none !important;
     }
-    .envelope-stamp svg{width:76px !important;height:76px !important}
-    .stamp-rsvp svg{width:76px !important;height:76px !important}
+    .envelope-card .stamp-rsvp svg{width:76px !important;height:76px !important}
     .date-line{font-size:13px;letter-spacing:.1em}
   }
 </style>
 </head>
 <body>
+
+<!-- ── Falling Glitter Canvas ── -->
+<canvas id="sparkle-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+<script>
+(function(){
+  var canvas = document.getElementById('sparkle-canvas');
+  var ctx = canvas.getContext('2d');
+  var W, H;
+
+  function resize(){
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function rand(min, max){ return Math.random()*(max-min)+min; }
+
+  var COLORS = [
+    [212, 175, 105],
+    [232, 210, 160],
+    [255, 245, 220],
+    [196, 155,  90],
+    [240, 220, 180],
+    [220, 195, 150],
+  ];
+
+  var SIDE_WIDTH = 180;
+
+  function sideX(){
+    if(Math.random() < 0.5) return rand(0, SIDE_WIDTH);
+    else return rand(W - SIDE_WIDTH, W);
+  }
+
+  function createGlitter(fromTop){
+    var c = COLORS[Math.floor(Math.random()*COLORS.length)];
+    return {
+      x:      sideX(),
+      y:      fromTop ? rand(-40, -2) : rand(0, H),
+      size:   rand(1.2, 4),
+      speedY: rand(0.15, 0.55),
+      speedX: rand(-0.4, 0.4),
+      rot:    rand(0, Math.PI*2),
+      rotSpeed: rand(-0.06, 0.06),
+      shimmerPhase: rand(0, Math.PI*2),
+      shimmerSpeed: rand(0.08, 0.22),
+      baseAlpha:    rand(0.5, 0.95),
+      r: c[0], g: c[1], b: c[2],
+      shape: Math.floor(Math.random()*3),
+      wobblePhase: rand(0, Math.PI*2),
+      wobbleSpeed: rand(0.02, 0.05),
+    };
+  }
+
+  var pieces = [];
+  for(var i=0; i<280; i++) pieces.push(createGlitter(false));
+
+  function drawDiamond(x,y,w,h){ctx.beginPath();ctx.moveTo(x,y-h);ctx.lineTo(x+w,y);ctx.lineTo(x,y+h);ctx.lineTo(x-w,y);ctx.closePath();}
+  function drawRect(x,y,w,h){ctx.beginPath();ctx.rect(x-w,y-h,w*2,h*2);}
+  function drawStarCross(x,y,s){ctx.beginPath();ctx.moveTo(x,y-s*2);ctx.lineTo(x+s*0.35,y-s*0.35);ctx.lineTo(x+s*2,y);ctx.lineTo(x+s*0.35,y+s*0.35);ctx.lineTo(x,y+s*2);ctx.lineTo(x-s*0.35,y+s*0.35);ctx.lineTo(x-s*2,y);ctx.lineTo(x-s*0.35,y-s*0.35);ctx.closePath();}
+
+  function animate(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<pieces.length;i++){
+      var p=pieces[i];
+      p.y+=p.speedY;
+      p.wobblePhase+=p.wobbleSpeed;
+      p.x+=p.speedX+Math.sin(p.wobblePhase)*0.3;
+      p.rot+=p.rotSpeed;
+      p.shimmerPhase+=p.shimmerSpeed;
+      var shimmer=0.5+0.5*Math.sin(p.shimmerPhase);
+      var alpha=p.baseAlpha*(0.3+0.7*shimmer);
+      if(shimmer>0.95) alpha=Math.min(1,alpha*1.6);
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      ctx.globalAlpha=alpha;
+      var r=Math.min(255,p.r+Math.floor(shimmer*40));
+      var g=Math.min(255,p.g+Math.floor(shimmer*40));
+      var b=Math.min(255,p.b+Math.floor(shimmer*40));
+      ctx.fillStyle='rgb('+r+','+g+','+b+')';
+      var s=p.size;
+      if(p.shape===0) drawDiamond(0,0,s,s*1.4);
+      else if(p.shape===1) drawRect(0,0,s*0.7,s*1.1);
+      else drawStarCross(0,0,s*0.55);
+      ctx.fill();
+      if(shimmer>0.7){
+        ctx.globalAlpha=alpha*0.25;
+        var grd=ctx.createRadialGradient(0,0,0,0,0,s*3);
+        grd.addColorStop(0,'rgb('+r+','+g+','+b+')');
+        grd.addColorStop(1,'rgba(255,240,200,0)');
+        ctx.fillStyle=grd;
+        ctx.beginPath();ctx.arc(0,0,s*3,0,Math.PI*2);ctx.fill();
+      }
+      ctx.restore();
+      var tooFarIn=(p.x>SIDE_WIDTH+40&&p.x<W-SIDE_WIDTH-40);
+      if(p.y>H+10||tooFarIn) pieces[i]=createGlitter(true);
+    }
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+})();
+</script>
 
 <!-- Background -->
 <div class="bg-canvas">
@@ -973,26 +1239,77 @@
     <div class="hero">
       <div class="hero-rule"><div class="hero-diamond"></div></div>
       <div class="tagline" style="margin-bottom:1rem;font-size:52px;">We're getting married!</div>
+      <!-- Countdown Timer -->
+      <div class="countdown-wrap">
+        <div class="countdown-label">Days Until We Say I Do</div>
+        <div class="countdown-boxes">
+          <div class="countdown-box"><span class="countdown-num" id="cd-days">000</span><span class="countdown-unit">Days</span></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-box"><span class="countdown-num" id="cd-hours">00</span><span class="countdown-unit">Hours</span></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-box"><span class="countdown-num" id="cd-mins">00</span><span class="countdown-unit">Minutes</span></div>
+          <div class="countdown-sep">:</div>
+          <div class="countdown-box"><span class="countdown-num" id="cd-secs">00</span><span class="countdown-unit">Seconds</span></div>
+        </div>
+      </div>
+    </div><!-- /hero -->
+
       <!-- ── Envelope ── -->
-      <div class="envelope-card" style="position:relative;background:#FAF5ED;border:1px solid rgba(196,169,122,0.5);border-radius:3px;margin:1.5rem auto 1.75rem;max-width:560px;box-shadow:0 6px 30px rgba(43,26,15,0.13),0 1px 5px rgba(43,26,15,0.07);overflow:hidden;">
-        <!-- Top flap V-shape (sealed envelope) -->
-        <svg style="position:absolute;top:0;left:0;width:100%;height:130px;pointer-events:none;display:block;" preserveAspectRatio="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="0,0 100,0 50,100" fill="rgba(196,169,122,0.1)"/>
-          <polyline points="0,0 50,100 100,0" fill="none" stroke="rgba(196,169,122,0.38)" stroke-width="0.4"/>
-        </svg>
+      <div class="envelope-wrapper" id="envelope-wrapper">
+      <div class="envelope-card" id="env-card" style="position:relative;z-index:1;background:radial-gradient(ellipse at 12% 16%, rgba(60,44,20,0.18) 0%, transparent 34%),radial-gradient(ellipse at 84% 74%, rgba(50,36,16,0.16) 0%, transparent 30%),radial-gradient(ellipse at 50% 6%, rgba(65,48,20,0.13) 0%, transparent 24%),radial-gradient(ellipse at 22% 90%, rgba(55,40,18,0.15) 0%, transparent 28%),radial-gradient(ellipse at 70% 42%, rgba(40,28,10,0.09) 0%, transparent 22%),radial-gradient(ellipse at 40% 60%, rgba(30,22,8,0.07) 0%, transparent 30%),linear-gradient(158deg,#C8BC96 0%,#C0B48C 18%,#CCBE98 38%,#C4B890 55%,#BEB288 72%,#C6BA94 100%);border:1px solid rgba(120,96,52,0.65);border-radius:4px;box-shadow:0 16px 55px rgba(15,7,1,0.45),0 4px 16px rgba(15,7,1,0.28),inset 0 0 100px rgba(60,28,2,0.12),inset 0 0 30px rgba(80,38,4,0.08);overflow:visible;filter:sepia(0.12) contrast(1.02);">
+        <!-- Top flap V-shape (animates open on seal click) -->
+        <div class="env-flap-anim" id="env-flap-anim">
+          <svg style="width:100%;height:100%;display:block;" preserveAspectRatio="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="0,0 100,0 50,100" fill="rgba(60,30,4,0.18)"/>
+            <!-- Main fold crease -->
+            <polyline points="0,0 50,100 100,0" fill="none" stroke="rgba(40,18,2,0.55)" stroke-width="0.6"/>
+            <!-- Shadow crease beside it for worn depth -->
+            <polyline points="1,0 51,100 99,0" fill="none" stroke="rgba(180,130,50,0.18)" stroke-width="0.3"/>
+          </svg>
+        </div>
         <!-- Bottom corner flap lines -->
-        <svg style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;display:block;" preserveAspectRatio="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <line x1="0" y1="100" x2="50" y2="50" stroke="rgba(196,169,122,0.18)" stroke-width="0.3"/>
-          <line x1="100" y1="100" x2="50" y2="50" stroke="rgba(196,169,122,0.18)" stroke-width="0.3"/>
-        </svg>
+        <!-- Wax seal — click to open letter -->
+        <button class="wax-seal-btn" id="wax-seal-btn" onclick="openEnvelopeLetter()" title="Open our story">
+          <svg viewBox="0 0 100 100" width="68" height="68" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="waxGrad" cx="36%" cy="30%" r="66%">
+                <stop offset="0%"   stop-color="#A0643A"/>
+                <stop offset="40%"  stop-color="#7A4220"/>
+                <stop offset="100%" stop-color="#3A1C08"/>
+              </radialGradient>
+              <radialGradient id="waxSheen" cx="34%" cy="26%" r="40%">
+                <stop offset="0%"   stop-color="rgba(240,195,150,0.5)"/>
+                <stop offset="100%" stop-color="rgba(220,170,110,0)"/>
+              </radialGradient>
+              <filter id="waxDrop" x="-25%" y="-25%" width="150%" height="150%">
+                <feDropShadow dx="0" dy="3" stdDeviation="4.5" flood-color="rgba(30,12,3,0.6)"/>
+              </filter>
+            </defs>
+            <!-- Organic wax blob -->
+            <path d="M50,4 C59,2 70,7 77,16 C84,25 87,37 84,49 C81,61 73,71 62,77 C51,83 37,83 27,76 C17,69 10,57 10,45 C10,32 17,19 28,12 C36,6 43,6 50,4 Z"
+                  fill="url(#waxGrad)" filter="url(#waxDrop)"/>
+            <!-- Sheen highlight -->
+            <path d="M50,4 C59,2 70,7 77,16 C84,25 87,37 84,49 C81,61 73,71 62,77 C51,83 37,83 27,76 C17,69 10,57 10,45 C10,32 17,19 28,12 C36,6 43,6 50,4 Z"
+                  fill="url(#waxSheen)"/>
+            <!-- Embossed ring -->
+            <circle cx="47" cy="44" r="27" fill="none" stroke="rgba(240,200,155,0.35)" stroke-width="1.6"/>
+            <!-- Ring accent dots -->
+            <circle cx="47" cy="17" r="1.5" fill="rgba(240,200,155,0.55)"/>
+            <circle cx="47" cy="71" r="1.5" fill="rgba(240,200,155,0.55)"/>
+            <circle cx="20" cy="44" r="1.5" fill="rgba(240,200,155,0.55)"/>
+            <circle cx="74" cy="44" r="1.5" fill="rgba(240,200,155,0.55)"/>
+            <!-- Embossed C & M -->
+            <text x="47" y="50" font-family="Cinzel,serif" font-size="16" fill="rgba(245,215,175,0.9)" text-anchor="middle" letter-spacing="2" font-weight="600">C &amp; M</text>
+          </svg>
+        </button>
         <!-- Envelope content -->
-        <div style="position:relative;z-index:1;padding:1.4rem 1.6rem 2rem;display:flex;flex-direction:column;min-height:240px;">
+        <div style="position:relative;z-index:1;padding:1.6rem 2rem 1.6rem;min-height:260px;">
           <!-- Top row: details stamp (left) + rsvp stamp (right) -->
           <div style="display:flex;justify-content:space-between;align-items:flex-start;">
             <!-- Details stamp (left) -->
             <a href="details.htm" class="stamp-rsvp" aria-label="Wedding Details">
               <svg viewBox="0 0 160 160" width="110" height="110" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" fill="#FAF5ED" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
+                <path fill-rule="evenodd" fill="#EDE5C8" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
                 <rect x="14" y="14" width="132" height="132" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
                 <rect x="17" y="17" width="126" height="126" fill="none" stroke="#C4A97A" stroke-width="0.3" stroke-dasharray="2,5"/>
                 <!-- Postmark (upper-left for details stamp) -->
@@ -1016,7 +1333,7 @@
             <div class="envelope-stamp"><a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
               <svg viewBox="0 0 160 160" width="110" height="110" xmlns="http://www.w3.org/2000/svg">
             <!-- Perforated stamp body (evenodd) -->
-            <path fill-rule="evenodd" fill="#FAF5ED" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
+            <path fill-rule="evenodd" fill="#EDE5C8" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
             <!-- Inner double border -->
             <rect x="14" y="14" width="132" height="132" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
             <rect x="17" y="17" width="126" height="126" fill="none" stroke="#C4A97A" stroke-width="0.3" stroke-dasharray="2,5"/>
@@ -1043,89 +1360,27 @@
           </svg>
             </a></div>
           </div>
-          <!-- Both lines centered in the middle of the envelope -->
-          <div style="flex:1;display:flex;align-items:center;justify-content:center;padding-bottom:3.5rem;">
-            <div style="text-align:center;">
-              <div style="font-size:9.5px;letter-spacing:.26em;color:var(--gold-dark);text-transform:uppercase;font-family:'Cinzel',Georgia,serif;margin-bottom:.65rem;">— You are cordially invited —</div>
-              <div class="date-line">Sunday, April 18, 2027</div>
-              <div class="date-line" style="margin-top:.25rem;">Hotel Colonnade</div>
-              <div class="date-line" style="margin-top:.25rem;">Coral Gables, Florida</div>
-            </div>
-          </div>
-          <!-- Envelope bottom rule -->
-          <div style="height:0.5px;background:linear-gradient(90deg,transparent,rgba(196,169,122,0.5),transparent);"></div>
         </div>
+      </div><!-- /envelope-card -->
+
+      <!-- Letter slides out when envelope opens -->
+      <div class="env-letter" id="env-letter">
+        <span class="env-letter-eyebrow">Our</span>
+        <div class="env-letter-heading">Story</div>
+        <div class="env-letter-rule"><div class="env-letter-diamond"></div></div>
+        <p>It all started the best way possible — at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. As the night went on, Matt's dog, Titan, made himself right at home by Chelsea's side — and that's when Matt knew she was special. What began as a simple invitation quickly turned into something neither of them expected. From wagging tails to a forever kind of love, their story is one they'll always be grateful for.</p>
+        <div class="story-divider-letter"><span style="font-size:16px;color:var(--gold-dark)">❧</span></div>
+        <p>After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt continued working remotely. Together, they set off to travel across the country and began a new chapter on the road. From glowing desert sunsets to peaceful mountain views, they discovered new dog parks, created lasting memories and grew even closer along the way. Life on the road brought them a deep sense of freedom, adventure and connection that they will always carry with them.</p>
+        <div class="story-divider-letter"><span style="font-size:16px;color:var(--gold-dark)">❧</span></div>
+        <p>Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment — thanks to two dogs who knew they belonged together long before they did — has grown into a love filled with laughter, adventure and an unbreakable bond. Through every mile traveled and every memory made, they have found home in one another. Now, surrounded by those they love most, they step into this next chapter — heart full, side by side and forever intertwined.</p>
+        <span class="env-letter-signoff">With love, Chelsea &amp; Matt</span>
+        <div class="env-letter-rule" style="margin-top:1.5rem;"><div class="env-letter-diamond"></div></div>
       </div>
 
-      <!-- Countdown Timer -->
-      <div class="countdown-wrap">
-        <div class="countdown-label">Days Until We Say I Do</div>
-        <div class="countdown-boxes">
-          <div class="countdown-box"><span class="countdown-num" id="cd-days">000</span><span class="countdown-unit">Days</span></div>
-          <div class="countdown-sep">·</div>
-          <div class="countdown-box"><span class="countdown-num" id="cd-hours">00</span><span class="countdown-unit">Hours</span></div>
-          <div class="countdown-sep">·</div>
-          <div class="countdown-box"><span class="countdown-num" id="cd-mins">00</span><span class="countdown-unit">Minutes</span></div>
-          <div class="countdown-sep">·</div>
-          <div class="countdown-box"><span class="countdown-num" id="cd-secs">00</span><span class="countdown-unit">Seconds</span></div>
-        </div>
-      </div>
+      </div><!-- /envelope-wrapper -->
 
-    <div class="story-section">
-      <div class="story-heading-wrapper">
-        <span class="story-eyebrow">Our</span>
-        <span class="story-big-script">Story</span>
-        <div class="story-heading-rule"></div>
-      </div>
-      <div class="story-body-section">
-      <div class="story-ornament story-ornament-top">
-        <!-- Scalloped top edge -->
-        <svg viewBox="0 0 880 38" width="100%" height="38" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,38 L0,14 Q22,0 44,14 Q66,28 88,14 Q110,0 132,14 Q154,28 176,14 Q198,0 220,14 Q242,28 264,14 Q286,0 308,14 Q330,28 352,14 Q374,0 396,14 Q418,28 440,14 Q462,0 484,14 Q506,28 528,14 Q550,0 572,14 Q594,28 616,14 Q638,0 660,14 Q682,28 704,14 Q726,0 748,14 Q770,28 792,14 Q814,0 836,14 Q858,28 880,14 L880,38 Z" fill="#7A5438"/>
-        </svg>
-        <!-- Ornament line + diamond -->
-        <div style="background:#7A5438;padding:0 2rem .25rem;display:flex;align-items:center;justify-content:center;gap:16px;">
-          <svg viewBox="0 0 440 22" width="440" height="22" style="max-width:100%" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="11" x2="174" y2="11" stroke="#D4B07A" stroke-width="0.5" opacity="0.45"/>
-            <rect x="194" y="7" width="8" height="8" transform="rotate(45,198,11)" fill="#D4B07A" opacity="0.7"/>
-            <rect x="207" y="8" width="6" height="6" transform="rotate(45,210,11)" fill="none" stroke="#D4B07A" stroke-width="0.5" opacity="0.5"/>
-            <rect x="181" y="8" width="6" height="6" transform="rotate(45,184,11)" fill="none" stroke="#D4B07A" stroke-width="0.5" opacity="0.5"/>
-            <rect x="218" y="8.5" width="5" height="5" transform="rotate(45,220.5,11)" fill="none" stroke="#D4B07A" stroke-width="0.4" opacity="0.35"/>
-            <rect x="170" y="8.5" width="5" height="5" transform="rotate(45,172.5,11)" fill="none" stroke="#D4B07A" stroke-width="0.4" opacity="0.35"/>
-            <line x1="228" y1="11" x2="440" y2="11" stroke="#D4B07A" stroke-width="0.5" opacity="0.45"/>
-          </svg>
-        </div>
-      </div>
-      <p>It all started the best way possible — at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. As the night went on, Matt's dog, Titan, made himself right at home by Chelsea's side — and that's when Matt knew she was special. What began as a simple invitation quickly turned into something neither of them expected. From wagging tails to a forever kind of love, their story is one they'll always be grateful for.</p>
-      <div class="story-divider"><span class="story-divider-glyph">❧</span></div>
-      <p>After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt continued working remotely. Together, they set off to travel across the country and began a new chapter on the road. From glowing desert sunsets to peaceful mountain views, they discovered new dog parks, created lasting memories and grew even closer along the way. Life on the road brought them a deep sense of freedom, adventure and connection that they will always carry with them.</p>
-      <div class="story-divider"><span class="story-divider-glyph">❧</span></div>
-      <p>Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment — thanks to two dogs who knew they belonged together long before they did — has grown into a love filled with laughter, adventure and an unbreakable bond. Through every mile traveled and every memory made, they have found home in one another. Now, surrounded by those they love most, they step into this next chapter — heart full, side by side and forever intertwined.</p>
-      <p class="sign-off">With love, Chelsea &amp; Matt</p>
 
-      <div class="wedding-quote" style="margin:2.5rem auto 0;max-width:480px;">
-        <div class="quote-rule" style="height:0.5px;background:linear-gradient(90deg,transparent,rgba(196,169,122,0.4),transparent);margin:.75rem auto;width:60%;"></div>
-        <p class="quote-text" style="color:#DDD0BB !important;">"I love you not only for what you are, but for what I am when I am with you."</p>
-        <p class="quote-attr" style="color:#C4A97A !important;">— Roy Croft</p>
-        <div class="quote-rule" style="height:0.5px;background:linear-gradient(90deg,transparent,rgba(196,169,122,0.4),transparent);margin:.75rem auto;width:60%;"></div>
-      </div>
-      <div class="story-ornament story-ornament-bottom">
-        <div style="background:#7A5438;padding:.25rem 2rem 0;display:flex;align-items:center;justify-content:center;gap:16px;">
-          <svg viewBox="0 0 440 22" width="440" height="22" style="max-width:100%" xmlns="http://www.w3.org/2000/svg">
-            <line x1="0" y1="11" x2="174" y2="11" stroke="#D4B07A" stroke-width="0.5" opacity="0.45"/>
-            <rect x="194" y="7" width="8" height="8" transform="rotate(45,198,11)" fill="#D4B07A" opacity="0.7"/>
-            <rect x="207" y="8" width="6" height="6" transform="rotate(45,210,11)" fill="none" stroke="#D4B07A" stroke-width="0.5" opacity="0.5"/>
-            <rect x="181" y="8" width="6" height="6" transform="rotate(45,184,11)" fill="none" stroke="#D4B07A" stroke-width="0.5" opacity="0.5"/>
-            <rect x="218" y="8.5" width="5" height="5" transform="rotate(45,220.5,11)" fill="none" stroke="#D4B07A" stroke-width="0.4" opacity="0.35"/>
-            <rect x="170" y="8.5" width="5" height="5" transform="rotate(45,172.5,11)" fill="none" stroke="#D4B07A" stroke-width="0.4" opacity="0.35"/>
-            <line x1="228" y1="11" x2="440" y2="11" stroke="#D4B07A" stroke-width="0.5" opacity="0.45"/>
-          </svg>
-        </div>
-      </div>
-      </div><!-- /story-body-section -->
-    </div>
-
-    <div style="text-align:center;margin:2rem auto 1rem;">
+    <div style="display:none">
       <a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" width="150" height="150" role="img" aria-hidden="true">
           <defs>
@@ -1161,7 +1416,6 @@
         </svg>
       </a>
     </div>
-  </div>
 
   <!-- ══ WEDDING DETAILS ══ -->
 
@@ -1401,6 +1655,187 @@ function playEndScene() {
       if (rv) rv.style.left = '110%';
     }, 200);
   }, 3300);
+}
+
+// Auto-open envelope when it crosses the middle of the screen
+document.addEventListener('DOMContentLoaded', function() {
+  const envObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !envelopeOpened) {
+        openEnvelopeLetter();
+      }
+    });
+  }, {
+    rootMargin: '-50% 0px -50% 0px',
+    threshold: 0
+  });
+  const wrapper = document.getElementById('envelope-wrapper');
+  if (wrapper) envObserver.observe(wrapper);
+});
+
+// Envelope opening — realistic multi-phase animation
+let envelopeOpened = false;
+function openEnvelopeLetter() {
+  if (envelopeOpened) return;
+  envelopeOpened = true;
+
+  var sealBtn = document.getElementById('wax-seal-btn');
+  var flap    = document.getElementById('env-flap-anim');
+  var card    = document.getElementById('env-card');
+  var letter  = document.getElementById('env-letter');
+  var wrapper = document.getElementById('envelope-wrapper');
+
+  // Step 0 — wrap every letter character in hidden spans RIGHT NOW,
+  // before the letter becomes visible, so text is never shown unwrapped
+  prepLetterText(letter);
+
+  // Phase 1 — wax seal cracks (0ms)
+  sealBtn.classList.add('seal-broken');
+
+  // Phase 2 — flap slowly folds back + card slides down to reveal opening (350ms)
+  setTimeout(function() {
+    flap.classList.add('flap-open');
+    card.style.transition = 'transform 1.1s cubic-bezier(.3,0,.2,1)';
+    card.style.transform = 'translateY(72px)';
+  }, 350);
+
+  // Phase 3 — letter rises from inside (1200ms)
+  setTimeout(function() {
+    letter.style.opacity = '1';
+    letter.style.transition = 'transform 0.7s cubic-bezier(0.2, 0, 0.3, 1)';
+    letter.style.transform = 'translateY(-180px)';
+  }, 1200);
+
+  // Phase 4 — letter settles below envelope (2000ms)
+  // Card has shifted down 72px, so add that to the final letter position
+  setTimeout(function() {
+    var cardH   = card.offsetHeight;
+    var letterH = letter.offsetHeight;
+    wrapper.style.transition = 'padding-bottom 0.7s cubic-bezier(0.3, 0, 0.2, 1)';
+    wrapper.style.paddingBottom = (letterH + 20 + 72) + 'px';
+    letter.style.transition = 'transform 0.7s cubic-bezier(0.3, 0, 0.2, 1)';
+    letter.style.transform = 'translateY(' + (cardH - 60 + 72) + 'px)';
+    letter.style.pointerEvents = 'auto';
+  }, 2000);
+
+  // Phase 5 — pen begins writing after letter fully settles
+  setTimeout(function() {
+    animateLetterWriting(letter);
+  }, 3200);
+}
+
+// Pre-wrap all letter text in hidden spans so nothing is visible until written
+function prepLetterText(letter) {
+  if (!letter || letter.dataset.prepped) return;
+  letter.dataset.prepped = '1';
+
+  var targets = [
+    letter.querySelector('.env-letter-eyebrow'),
+    letter.querySelector('.env-letter-heading')
+  ].concat(Array.from(letter.querySelectorAll('p')))
+   .concat([letter.querySelector('.env-letter-signoff')])
+   .filter(function(el){ return el && el.textContent.trim(); });
+
+  targets.forEach(function(el){
+    var text = el.textContent;
+    el.innerHTML = '';
+    Array.from(text).forEach(function(ch){
+      var s = document.createElement('span');
+      s.className = 'letter-wc';
+      s.textContent = ch;
+      el.appendChild(s);
+    });
+  });
+}
+
+// Animate the pen writing all the pre-hidden spans
+function animateLetterWriting(letter) {
+  if (!letter || letter.dataset.written) return;
+  letter.dataset.written = '1';
+
+  var allSpans = Array.from(letter.querySelectorAll('.letter-wc'));
+
+  // Outer div — position tracking only
+  var pen = document.createElement('div');
+  pen.id = 'letter-pen';
+  // Inner div — CSS writing animation
+  var penInner = document.createElement('div');
+  penInner.id = 'letter-pen-inner';
+  penInner.innerHTML =
+    '<svg viewBox="0 0 20 90" xmlns="http://www.w3.org/2000/svg" width="20" height="90">' +
+      '<defs>' +
+        '<linearGradient id="penBarrel" x1="0%" y1="0%" x2="100%" y2="0%">' +
+          '<stop offset="0%"   stop-color="#1A0E08"/>' +
+          '<stop offset="35%"  stop-color="#2E1C10"/>' +
+          '<stop offset="60%"  stop-color="#3A2416"/>' +
+          '<stop offset="100%" stop-color="#1C1008"/>' +
+        '</linearGradient>' +
+        '<linearGradient id="penNib" x1="0%" y1="0%" x2="100%" y2="0%">' +
+          '<stop offset="0%"   stop-color="#8A6C28"/>' +
+          '<stop offset="40%"  stop-color="#C8A438"/>' +
+          '<stop offset="65%"  stop-color="#E0C060"/>' +
+          '<stop offset="100%" stop-color="#A07C30"/>' +
+        '</linearGradient>' +
+      '</defs>' +
+      // Barrel — rounded top, slight taper toward nib end
+      '<path d="M5 3 C5 1 15 1 15 3 L16 58 L4 58 Z" fill="url(#penBarrel)"/>' +
+      // Rounded cap at very top
+      '<ellipse cx="10" cy="3" rx="5" ry="2.5" fill="#2A1A0E"/>' +
+      // Barrel sheen (left highlight)
+      '<rect x="5.5" y="4" width="1.8" height="50" rx="0.9" fill="rgba(255,220,170,0.08)"/>' +
+      // Gold clip running down the side
+      '<rect x="14" y="2" width="2.2" height="54" rx="1.1" fill="#C4A030"/>' +
+      '<ellipse cx="15.1" cy="54.5" rx="1.6" ry="1.6" fill="#B89028"/>' +
+      '<rect x="14.2" y="4" width="1.8" height="14" rx="0.9" fill="rgba(255,245,160,0.35)"/>' +
+      // Gold trim band at grip
+      '<rect x="3.5" y="56" width="13" height="3.5" rx="1.2" fill="#C8A832"/>' +
+      '<rect x="4" y="56.8" width="12" height="1" rx="0.5" fill="rgba(255,245,160,0.4)"/>' +
+      // Grip section (slightly narrower, darker)
+      '<path d="M4 59 L16 59 L15 65 L5 65 Z" fill="#160C06"/>' +
+      // Nib — classic tapered triangle with shoulder
+      '<path d="M5 65 L15 65 L10.5 88 Z" fill="url(#penNib)"/>' +
+      // Nib left shadow
+      '<path d="M5 65 L10.5 88 Z" fill="rgba(0,0,0,0.25)"/>' +
+      // Nib sheen
+      '<path d="M7 66 Q8 74 10 85" stroke="rgba(255,245,190,0.4)" stroke-width="0.9" fill="none" stroke-linecap="round"/>' +
+      // Center slit
+      '<line x1="10.5" y1="68" x2="10.5" y2="88" stroke="#100804" stroke-width="0.55" opacity="0.85"/>' +
+      // Ink bead at tip
+      '<ellipse cx="10.5" cy="87.5" rx="1.1" ry="0.55" fill="#060302" opacity="0.95"/>' +
+    '</svg>';
+  pen.appendChild(penInner);
+  letter.appendChild(pen);
+
+  // Place pen at the start position
+  var firstSpan = allSpans[0];
+  if (firstSpan) {
+    var r0 = firstSpan.getBoundingClientRect();
+    var lr = letter.getBoundingClientRect();
+    pen.style.left = (r0.left - lr.left) + 'px';
+    pen.style.top  = (r0.top  - lr.top)  + 'px';
+  }
+
+  var delay = 0;
+  var charMs = 22; // slower reveal — you can see the pen travel across each line
+
+  allSpans.forEach(function(span){
+    (function(s, d){
+      setTimeout(function(){
+        s.classList.add('written');
+        var rect  = s.getBoundingClientRect();
+        var lRect = letter.getBoundingClientRect();
+        // Move the outer wrapper to track the current character
+        pen.style.left = (rect.left - lRect.left + rect.width) + 'px';
+        pen.style.top  = (rect.top  - lRect.top) + 'px';
+      }, d);
+    })(span, delay);
+    delay += (span.textContent === ' ') ? 2 : charMs;
+  });
+
+  // Pen lifts off the page
+  setTimeout(function(){
+    pen.style.opacity = '0';
+  }, delay + 800);
 }
 
 function submitRSVP() {
