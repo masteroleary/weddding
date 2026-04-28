@@ -1449,7 +1449,6 @@ function showPage(id, btn) {
   document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('visible');
   btn.classList.add('active');
-  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 function toggleFAQ(item) {
   const wasOpen = item.classList.contains('open');
