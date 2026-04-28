@@ -11,7 +11,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
 
   :root{
-    --cream:#EFE5D0;
+    --cream:#F7F2E8;
     --parchment:#EDE5D4;
     --gold:#C4A97A;
     --gold-dark:#9A7B4F;
@@ -26,7 +26,7 @@
     --card-bg:rgba(255,250,242,0.88);
   }
 
-  html{scroll-behavior:smooth;background-color:#EFE5D0}
+  html{scroll-behavior:smooth;background-color:#F5EFE3}
 
   body{
     font-family:'Cormorant Garamond',Georgia,serif;
@@ -928,7 +928,7 @@
   }
 
   /* ── Envelope Letter Animation ── */
-  .envelope-wrapper{position:relative;margin:3.5rem auto 1.75rem;max-width:640px;}
+  .envelope-wrapper{position:relative;margin:3.5rem auto 1.75rem;max-width:760px;}
   .env-flap-anim{
     position:absolute;top:0;left:0;width:100%;height:160px;
     z-index:6;pointer-events:none;
@@ -939,7 +939,7 @@
     /* Back-face visible when flap flips open */
     background:
       radial-gradient(ellipse at 50% 20%, rgba(60,44,20,0.14) 0%, transparent 55%),
-      linear-gradient(175deg,#C6BA94 0%,#BEB288 40%,#C8BC96 100%);
+      linear-gradient(175deg,#DDD4B8 0%,#D4CAA8 40%,#DDD4B8 100%);
     backface-visibility:visible;
   }
   .env-flap-anim.flap-open{transform:perspective(700px) rotateX(180deg)}
@@ -1079,8 +1079,21 @@
   @media(max-width:600px){
     .nav button{font-size:10px;padding:6px 8px;letter-spacing:.08em}
     .hero-banner{margin-top:-2rem;min-height:300px}
-    .page{padding:2rem 1rem 3rem}
+    .page{padding:1.5rem 1rem 3rem}
     .story-body-section{margin:2rem -1rem 0;}
+
+    /* Hero */
+    .monogram{font-size:52px;letter-spacing:2px}
+    .date-line{font-size:13px;letter-spacing:.1em}
+    .tagline{font-size:28px}
+
+    /* Countdown */
+    .countdown-wrap{max-width:100%;padding:0 .5rem}
+    .countdown-boxes{gap:6px}
+    .countdown-box{min-width:72px;padding:.8rem 0 .6rem}
+    .countdown-num{font-size:clamp(32px,8vw,46px)}
+    .countdown-unit{font-size:7px;letter-spacing:.16em}
+    .countdown-sep{font-size:16px;margin-bottom:12px}
 
     /* Envelope — full width on mobile */
     .envelope-card{
@@ -1092,7 +1105,10 @@
       border-right:none !important;
     }
     .envelope-card .stamp-rsvp svg{width:76px !important;height:76px !important}
-    .date-line{font-size:13px;letter-spacing:.1em}
+
+    /* Story section */
+    .story-section h2{font-size:18px;letter-spacing:.18em}
+    .story-body-section p{font-size:16px;line-height:1.9}
   }
 </style>
 </head>
@@ -1124,9 +1140,10 @@
     [220, 195, 150],
   ];
 
-  var SIDE_WIDTH = 180;
+  function getSideWidth(){ return W < 600 ? 70 : 180; }
 
   function sideX(){
+    var SIDE_WIDTH = getSideWidth();
     if(Math.random() < 0.5) return rand(0, SIDE_WIDTH);
     else return rand(W - SIDE_WIDTH, W);
   }
@@ -1192,7 +1209,8 @@
         ctx.beginPath();ctx.arc(0,0,s*3,0,Math.PI*2);ctx.fill();
       }
       ctx.restore();
-      var tooFarIn=(p.x>SIDE_WIDTH+40&&p.x<W-SIDE_WIDTH-40);
+      var sw=getSideWidth();
+      var tooFarIn=(p.x>sw+40&&p.x<W-sw-40);
       if(p.y>H+10||tooFarIn) pieces[i]=createGlitter(true);
     }
     requestAnimationFrame(animate);
@@ -1256,7 +1274,7 @@
 
       <!-- ── Envelope ── -->
       <div class="envelope-wrapper" id="envelope-wrapper">
-      <div class="envelope-card" id="env-card" style="position:relative;z-index:1;background:radial-gradient(ellipse at 12% 16%, rgba(60,44,20,0.18) 0%, transparent 34%),radial-gradient(ellipse at 84% 74%, rgba(50,36,16,0.16) 0%, transparent 30%),radial-gradient(ellipse at 50% 6%, rgba(65,48,20,0.13) 0%, transparent 24%),radial-gradient(ellipse at 22% 90%, rgba(55,40,18,0.15) 0%, transparent 28%),radial-gradient(ellipse at 70% 42%, rgba(40,28,10,0.09) 0%, transparent 22%),radial-gradient(ellipse at 40% 60%, rgba(30,22,8,0.07) 0%, transparent 30%),linear-gradient(158deg,#C8BC96 0%,#C0B48C 18%,#CCBE98 38%,#C4B890 55%,#BEB288 72%,#C6BA94 100%);border:1px solid rgba(120,96,52,0.65);border-radius:4px;box-shadow:0 16px 55px rgba(15,7,1,0.45),0 4px 16px rgba(15,7,1,0.28),inset 0 0 100px rgba(60,28,2,0.12),inset 0 0 30px rgba(80,38,4,0.08);overflow:visible;filter:sepia(0.12) contrast(1.02);">
+      <div class="envelope-card" id="env-card" style="position:relative;z-index:1;background:radial-gradient(ellipse at 12% 16%, rgba(60,44,20,0.08) 0%, transparent 34%),radial-gradient(ellipse at 84% 74%, rgba(50,36,16,0.07) 0%, transparent 30%),radial-gradient(ellipse at 50% 6%, rgba(65,48,20,0.06) 0%, transparent 24%),radial-gradient(ellipse at 22% 90%, rgba(55,40,18,0.07) 0%, transparent 28%),radial-gradient(ellipse at 70% 42%, rgba(40,28,10,0.09) 0%, transparent 22%),radial-gradient(ellipse at 40% 60%, rgba(30,22,8,0.07) 0%, transparent 30%),linear-gradient(158deg,#DDD4B8 0%,#D5C9A7 18%,#E0D8BF 38%,#D9D0B4 55%,#D4CAA8 72%,#DDD4B8 100%);border:1px solid rgba(120,96,52,0.65);border-radius:4px;box-shadow:0 16px 55px rgba(15,7,1,0.45),0 4px 16px rgba(15,7,1,0.28),inset 0 0 100px rgba(60,28,2,0.12),inset 0 0 30px rgba(80,38,4,0.08);overflow:visible;filter:sepia(0.12) contrast(1.02);">
         <!-- Top flap V-shape (animates open on seal click) -->
         <div class="env-flap-anim" id="env-flap-anim">
           <svg style="width:100%;height:100%;display:block;" preserveAspectRatio="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">

@@ -726,7 +726,44 @@
   @media(max-width:600px){
     .nav button{font-size:10px;padding:6px 8px;letter-spacing:.08em}
     .monogram{font-size:50px}
-    .page{padding:2rem 1rem 3rem}
+    .page{padding:1.5rem 1rem 3rem}
+
+    /* Celebration hero */
+    .venue-banner{padding:2.5rem 1.25rem 2rem}
+    .venue-names{font-size:clamp(36px,10vw,52px);letter-spacing:1px}
+    .venue-eyebrow{font-size:10px;letter-spacing:.22em}
+    .venue-place{font-size:17px}
+    .venue-address{font-size:13px}
+
+    /* Map buttons — stack on mobile */
+    .venue-banner .map-btns{flex-direction:column;align-items:center}
+
+    /* RSVP button */
+    .rsvp-btn-wrap a{padding:16px 32px;font-size:15px}
+
+    /* Detail grid — single column */
+    .detail-grid{grid-template-columns:1fr}
+
+    /* Timeline */
+    .timeline-wrap{padding:0 .25rem}
+    .timeline-item{grid-template-columns:70px 24px 1fr;gap:0 8px}
+    .timeline-time{font-size:10px}
+    .timeline-title{font-size:17px}
+    .timeline-desc{font-size:14px}
+
+    /* Note box */
+    .note-box{font-size:14px;padding:1.1rem 1.25rem}
+
+    /* Card text */
+    .card p{font-size:16px}
+    .card-label{font-size:11px}
+
+    /* Image frame */
+    .img-frame-wrap img{width:100% !important}
+    .img-frame-wrap > div{box-shadow:0 0 0 3px #F5EFE0, 0 0 0 5px #C4A97A, 0 0 0 8px #F5EFE0, 0 0 0 9px #9A7B4F !important}
+
+    /* Full-width tan section */
+    .details-tan-section{padding:2rem 1rem}
   }
 
   /* ── RSVP Stamp ── */
@@ -775,9 +812,10 @@
     [220, 195, 150],  // rose champagne
   ];
 
-  var SIDE_WIDTH = 180; // px from each edge
+  function getSideWidth(){ return W < 600 ? 70 : 180; }
 
   function sideX(){
+    var SIDE_WIDTH = getSideWidth();
     // randomly pick left side or right side
     if(Math.random() < 0.5) return rand(0, SIDE_WIDTH);
     else return rand(W - SIDE_WIDTH, W);
@@ -893,7 +931,8 @@
       ctx.restore();
 
       // reset when falls off bottom or drifts too far inward
-      var tooFarIn = (p.x > SIDE_WIDTH + 40 && p.x < W - SIDE_WIDTH - 40);
+      var sw = getSideWidth();
+      var tooFarIn = (p.x > sw + 40 && p.x < W - sw - 40);
       if(p.y > H + 10 || tooFarIn) pieces[i] = createGlitter(true);
     }
     requestAnimationFrame(animate);
@@ -1108,7 +1147,7 @@
         <div class="venue-rule"><div class="venue-diamond"></div></div>
         <div class="venue-place">Hotel Colonnade</div>
         <div class="venue-address">180 Aragon Ave &nbsp;·&nbsp; Coral Gables, FL 33134</div>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:.75rem;">
+        <div class="map-btns" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:.75rem;">
           <a href="https://maps.google.com/?q=180+Aragon+Ave+Coral+Gables+FL+33134" target="_blank" style="
             display:inline-flex;align-items:center;gap:8px;
             padding:10px 20px;
@@ -1156,7 +1195,7 @@
 
 
     <!-- RSVP Button -->
-    <div style="text-align:center;margin:2.5rem 0 0;">
+    <div class="rsvp-btn-wrap" style="text-align:center;margin:2.5rem 0 0;">
       <a href="rsvp.htm" style="
         display:inline-block;
         font-family:'Cinzel',Georgia,serif;

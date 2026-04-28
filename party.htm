@@ -29,7 +29,7 @@
 
   body{
     font-family:'Cormorant Garamond',Georgia,serif;
-    background-color:var(--cream);
+    background-color:transparent;
     color:var(--espresso);
     min-height:100vh;
     position:relative;
@@ -43,6 +43,7 @@
     pointer-events:none;
     z-index:0;
     overflow:hidden;
+    display:none;
   }
   .bg-canvas svg{width:100%;height:100%;position:absolute;top:0;left:0}
 
@@ -768,11 +769,188 @@
     transform: scale(2.5) translateY(-20px);
   }
 
+  /* ── Photo Stamps ── */
+  .photo-stamps-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:1.5rem;
+    justify-content:center;
+    margin:1.25rem 0 2rem;
+  }
+  .photo-stamp{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:180px;
+  }
+  .photo-stamp-inner{
+    position:relative;
+    width:180px;
+    background:#FAF5ED;
+    border:1.5px solid rgba(154,123,79,0.7);
+    border-radius:2px;
+    padding:8px 8px 28px;
+    box-shadow:
+      0 3px 14px rgba(43,26,15,0.18),
+      inset 0 0 0 1px rgba(196,169,122,0.25);
+  }
+  /* perforated edge — top & bottom */
+  .photo-stamp-inner::before,.photo-stamp-inner::after{
+    content:'';
+    position:absolute;
+    left:0;right:0;
+    height:0;
+    border-top: 5px dotted rgba(154,123,79,0.55);
+    background:transparent;
+  }
+  .photo-stamp-inner::before{top:-4px;}
+  .photo-stamp-inner::after{bottom:24px;}
+  /* photo box */
+  .photo-stamp-photo{
+    width:100%;
+    aspect-ratio:1;
+    background:linear-gradient(145deg,#E8DFCA,#D5C9A8);
+    border:1px solid rgba(154,123,79,0.4);
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .photo-stamp-photo img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .photo-stamp-photo .stamp-initials{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:32px;font-weight:300;
+    color:rgba(107,74,34,0.55);
+    letter-spacing:.05em;
+  }
+  /* postmark overlay */
+  .photo-stamp-postmark{
+    position:absolute;
+    top:6px;right:6px;
+    opacity:0.22;
+    pointer-events:none;
+  }
+  /* denomination text at bottom of stamp */
+  .photo-stamp-denom{
+    position:absolute;
+    bottom:6px;left:0;right:0;
+    text-align:center;
+    font-family:'Cinzel',Georgia,serif;
+    font-size:8.5px;font-weight:500;letter-spacing:.16em;
+    color:var(--brown);
+    text-transform:uppercase;
+  }
+  /* name + role below stamp */
+  .photo-stamp-name{
+    margin-top:.65rem;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:18px;font-weight:400;
+    color:var(--espresso);
+    text-align:center;
+    letter-spacing:.02em;
+    line-height:1.25;
+  }
+  .photo-stamp-role{
+    font-family:'Cinzel',Georgia,serif;
+    font-size:8px;letter-spacing:.2em;
+    color:var(--gold-dark);
+    text-transform:uppercase;
+    margin-top:.3rem;
+    text-align:center;
+  }
+
+  /* ── Elegant Portrait Cards ── */
+  .portrait-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2rem 1.25rem;
+    margin:1.25rem 0 2rem;
+    justify-items:center;
+  }
+  .portrait-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:190px;
+  }
+  .portrait-photos{
+    width:190px;
+    background:#FDFAF5;
+    border:1px solid rgba(196,169,122,0.55);
+    border-radius:12px;
+    padding:8px;
+    box-shadow:0 6px 20px rgba(107,74,34,0.10), 0 1px 4px rgba(107,74,34,0.07);
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .portrait-frame{
+    width:100%;
+    height:162px;
+    border-radius:6px;
+    overflow:hidden;
+    background:#F5F0E8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .portrait-frame img{
+    width:100%;height:100%;
+    object-fit:cover;
+    object-position:center 15%;
+    display:block;
+  }
+  .portrait-frame-placeholder{
+    display:flex;flex-direction:column;
+    align-items:center;gap:5px;
+    opacity:0.35;
+  }
+  .portrait-frame-placeholder svg{
+    width:22px;height:22px;
+    color:var(--gold-dark);
+  }
+  .portrait-frame-placeholder span{
+    font-family:'Cinzel',Georgia,serif;
+    font-size:7px;letter-spacing:.15em;
+    color:var(--gold-dark);text-transform:uppercase;
+  }
+  .portrait-single{
+    height:310px !important;
+  }
+  .portrait-caption{
+    margin-top:10px;
+    text-align:center;
+  }
+  .portrait-name{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:16px;font-weight:400;font-style:italic;
+    color:var(--espresso);letter-spacing:.02em;line-height:1.3;
+  }
+  .portrait-role{
+    font-family:'Cinzel',Georgia,serif;
+    font-size:8px;font-weight:500;letter-spacing:.2em;
+    color:var(--gold-dark);text-transform:uppercase;
+    margin-top:3px;
+  }
+
   /* ── Responsive ── */
   @media(max-width:600px){
     .nav button{font-size:10px;padding:6px 8px;letter-spacing:.08em}
+    .photo-stamps-grid{gap:1rem}
+    .photo-stamp,.photo-stamp-inner{width:150px}
+    .photo-stamps-grid[style]{grid-template-columns:repeat(3,150px) !important}
+    .photo-stamp-photo .stamp-initials{font-size:26px}
     .monogram{font-size:50px}
     .page{padding:2rem 1rem 3rem}
+    .portrait-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem .75rem}
+    .portrait-card{width:155px}
+    .portrait-photos{width:155px}
+    .portrait-frame{height:130px}
+    .portrait-single{height:240px !important}
+    .portrait-name{font-size:14px}
   }
 
   /* ── Party Photo Books ── */
@@ -1185,33 +1363,205 @@
     <div class="page-header">
       <p style="font-size:36px;font-weight:300;font-style:italic;font-family:'Cormorant Garamond',Georgia,serif;color:var(--espresso);letter-spacing:.08em">Wedding Party</p>
     </div>
-    <div class="bridesmaids-list">
-      <div class="bm-category">Matron of Honor</div>
-      <div class="bm-name">Kiersten Begin</div>
+    <div class="section-label">Bridesmaids</div>
+    <div class="portrait-grid">
 
-      <div class="bm-category">Maid of Honor</div>
-      <div class="bm-name">Lexus Bailey</div>
+      <div class="portrait-card">
+        <div class="portrait-photos">
+            <div class="portrait-frame">
+              <img src="images/kiersten2.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/kiersten1.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/kiersten3.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center top;transform:scale(1.3);display:block;">
+            </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Kiersten Begin</div>
+          <div class="portrait-role">Matron of Honor</div>
+        </div>
+      </div>
 
-      <div class="bm-category">Bridesmaids</div>
-      <div class="bm-name">Harley Lego</div>
-      <div class="bm-name">Jessica Odermatt</div>
-      <div class="bm-name">Lily O'Leary</div>
-      <div class="bm-name">Emily James</div>
+      <div class="portrait-card">
+        <div class="portrait-photos">
+            <div class="portrait-frame">
+              <img src="images/lexus1.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center 10%;transform:scale(2.3);display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/lexus2.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/lexus3.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center center;transform:scale(1.6);display:block;">
+            </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Lexus Bailey</div>
+          <div class="portrait-role">Maid of Honor</div>
+        </div>
+      </div>
+
+      <div class="portrait-card">
+        <div class="portrait-photos">
+            <div class="portrait-frame">
+              <img src="images/harley1.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/harley3.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/harley2.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center 35%;transform:scale(1.5);display:block;">
+            </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Harley Lego</div>
+          <div class="portrait-role">Bridesmaid</div>
+        </div>
+      </div>
+
+      <div class="portrait-card">
+        <div class="portrait-photos">
+            <div class="portrait-frame">
+              <img src="images/jessica2.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center center;transform:scale(1.3);display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/jessica1.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/jessica3.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center 65%;transform:scale(1.3);display:block;">
+            </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Jessica Odermatt</div>
+          <div class="portrait-role">Bridesmaid</div>
+        </div>
+      </div>
+
+      <div class="portrait-card">
+        <div class="portrait-photos">
+            <div class="portrait-frame">
+              <div class="portrait-frame-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+                <span>photo</span>
+              </div>
+            </div>
+            <div class="portrait-frame">
+              <div class="portrait-frame-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+                <span>photo</span>
+              </div>
+            </div>
+            <div class="portrait-frame">
+              <div class="portrait-frame-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+                <span>photo</span>
+              </div>
+            </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Lily O&#39;Leary</div>
+          <div class="portrait-role">Bridesmaid</div>
+        </div>
+      </div>
+
+      <div class="portrait-card">
+        <div class="portrait-photos">
+            <div class="portrait-frame">
+              <img src="images/emily1.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/emily2.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center center;transform:scale(1.8);display:block;">
+            </div>
+            <div class="portrait-frame">
+              <img src="images/emily3.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;">
+            </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Emily James</div>
+          <div class="portrait-role">Bridesmaid</div>
+        </div>
+      </div>
+
     </div>
-    <div class="bridesmaids-list">
-      <div class="bm-category">Best Man</div>
-      <div class="bm-name">Damien Steinrich</div>
-      <div class="bm-stamp"><a href="travel-photobook.html">Photo Gallery</a></div>
+        <!-- Groomsmen & Best Man -->
+    <div class="section-label" style="margin-top:1.75rem;">Groomsmen</div>
+    <div class="portrait-grid">
 
-      <div class="bm-category">Groomsmen</div>
-      <div class="bm-name">David Macarthur</div>
-      <div class="bm-name">Cody Long</div>
-      <div class="bm-name">Kirk Dorsch</div>
-      <div class="bm-name">Johnny Dorsch</div>
-      <div class="bm-name">Steve Mendoza</div>
-      <div class="bm-stamp"><a href="travel-photobook.html">Photo Gallery</a></div>
+      <div class="portrait-card">
+        <div class="portrait-photos">
+          <div class="portrait-frame portrait-single">
+            <div class="portrait-frame-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg><span>photo</span></div>
+          </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Damien Steinrich</div>
+          <div class="portrait-role">Best Man</div>
+        </div>
+      </div>
+
+      <div class="portrait-card">
+        <div class="portrait-photos">
+          <div class="portrait-frame portrait-single">
+            <img src="images/david.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+          </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">David Macarthur</div>
+          <div class="portrait-role">Groomsman</div>
+        </div>
+      </div>
+
+      <div class="portrait-card">
+        <div class="portrait-photos">
+          <div class="portrait-frame portrait-single">
+            <img src="images/cody.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center center;display:block;">
+          </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Cody Long</div>
+          <div class="portrait-role">Groomsman</div>
+        </div>
+      </div>
+
+      <div class="portrait-card">
+        <div class="portrait-photos">
+          <div class="portrait-frame portrait-single">
+            <div class="portrait-frame-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg><span>photo</span></div>
+          </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Kirk Dorsch</div>
+          <div class="portrait-role">Groomsman</div>
+        </div>
+      </div>
+
+      <div class="portrait-card">
+        <div class="portrait-photos">
+          <div class="portrait-frame portrait-single">
+            <div class="portrait-frame-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg><span>photo</span></div>
+          </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Johnny Dorsch</div>
+          <div class="portrait-role">Groomsman</div>
+        </div>
+      </div>
+
+      <div class="portrait-card">
+        <div class="portrait-photos">
+          <div class="portrait-frame portrait-single">
+            <div class="portrait-frame-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg><span>photo</span></div>
+          </div>
+        </div>
+        <div class="portrait-caption">
+          <div class="portrait-name">Steve Mendoza</div>
+          <div class="portrait-role">Groomsman</div>
+        </div>
+      </div>
+
     </div>
-    <div class="section-label">Other Roles</div>
+        <div class="section-label">Other Roles</div>
     <div class="party-grid">
       <div class="person-card"><h4>Gerald and Janet Finnegan</h4><div class="person-role">Officiants</div></div>
     </div>
