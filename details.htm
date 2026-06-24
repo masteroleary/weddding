@@ -29,12 +29,13 @@
 
   body{
     font-family:'Cormorant Garamond',Georgia,serif;
-    background-color:var(--cream);
+    background-color:#FAF4E8;
     color:var(--espresso);
     min-height:100vh;
     position:relative;
     overflow-x:hidden;
   }
+  html, body { background-color: #FAF4E8; }
 
   /* ── Background SVG canvas ── */
   .bg-canvas{
@@ -57,8 +58,8 @@
   }
 
   /* ── Nav ── */
-  .nav{
-    display:flex;flex-wrap:wrap;gap:2px;justify-content:center;
+    .nav{
+    display:flex;flex-wrap:nowrap;gap:0;justify-content:space-evenly;overflow-x:auto;
     padding:1.25rem 1rem 0.75rem;
     position:sticky;top:0;
     background:rgba(245,240,232,0.95);
@@ -66,6 +67,9 @@
     -webkit-backdrop-filter:blur(6px);
     z-index:100;
     border-bottom:1px solid rgba(196,169,122,0.4);
+    width:100vw;
+    margin-left:50%;
+    transform:translateX(-50%);
   }
   .nav::before{
     content:'';
@@ -77,13 +81,13 @@
   }
   .nav button{
     background:transparent;border:none;
-    font-size:11.5px;font-family:'Cormorant Garamond',Georgia,serif;
-    font-weight:500;
+    font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:600;
     color:var(--text-muted);cursor:pointer;
-    padding:7px 12px 9px;
+    padding:8px 14px 10px;
     border-radius:3px;
     transition:all .18s;
-    letter-spacing:.12em;
+    letter-spacing:.06em;
     text-transform:uppercase;
     position:relative;
   }
@@ -92,9 +96,39 @@
     height:2px;background:var(--gold);
     transition:left .2s,right .2s;
   }
-  .nav button:hover{color:var(--espresso)}
+  .nav button:hover{color:var(--espresso);transform:scale(1.15);}
   .nav button.active{color:var(--espresso)}
   .nav button.active::after{left:12px;right:12px}
+  .nav-rsvp{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 14px 8px !important;
+    color:#FAF4E8 !important;
+    font-weight:700 !important;
+    font-family:'Cinzel',Georgia,serif !important;
+    font-size:16px !important;
+    letter-spacing:.18em !important;
+    border:none !important;
+    border-radius:0 !important;
+  }
+  .rsvp-swirl{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:100%;height:100%;
+    pointer-events:none;
+    opacity:1;
+    transition:opacity .2s;
+    overflow:visible;
+    z-index:0;
+  }
+  .nav-rsvp{ overflow:visible !important; z-index:1; }
+  .nav-rsvp span, .nav-rsvp:not(svg){ position:relative; z-index:2; }
+
+
+
 
   /* ── Pages ── */
   .page{display:none;padding:2.5rem 2rem 4rem;animation:fadeUp .4s ease both}
@@ -271,7 +305,7 @@
   .registry-item h3{font-size:18px;font-weight:400;color:var(--espresso);margin-bottom:.4rem}
   .registry-item p{font-size:14px;color:var(--text-muted);margin-bottom:1.1rem;line-height:1.75;font-style:italic}
   .registry-link{
-    display:inline-block;font-size:11px;font-family:'Cormorant Garamond',Georgia,serif;
+    display:inline-block;font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
     font-weight:500;letter-spacing:.14em;text-transform:uppercase;
     color:var(--espresso);border:0.5px solid rgba(139,105,20,0.45);
     border-radius:3px;padding:6px 14px;text-decoration:none;
@@ -516,7 +550,7 @@
   }
   .venue-address{
     font-family:'Cinzel',Georgia,serif;
-    font-size:14px;letter-spacing:.14em;color:var(--text-muted);
+    font-size:18px;letter-spacing:.14em;color:var(--text-muted);
     margin-bottom:.75rem;
   }
   .venue-map-link{
@@ -733,7 +767,7 @@
     .venue-names{font-size:clamp(36px,10vw,52px);letter-spacing:1px}
     .venue-eyebrow{font-size:10px;letter-spacing:.22em}
     .venue-place{font-size:17px}
-    .venue-address{font-size:13px}
+    .venue-address{font-size:16px}
 
     /* Map buttons — stack on mobile */
     .venue-banner .map-btns{flex-direction:column;align-items:center}
@@ -784,162 +818,6 @@
 </style>
 </head>
 <body>
-
-<!-- ── Falling Glitter Canvas ── -->
-<canvas id="sparkle-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
-<script>
-(function(){
-  var canvas = document.getElementById('sparkle-canvas');
-  var ctx = canvas.getContext('2d');
-  var W, H;
-
-  function resize(){
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  function rand(min, max){ return Math.random()*(max-min)+min; }
-
-  // Glitter color palette — gold, champagne, cream, rose gold
-  var COLORS = [
-    [212, 175, 105],  // gold
-    [232, 210, 160],  // champagne
-    [255, 245, 220],  // cream white
-    [196, 155,  90],  // deep gold
-    [240, 220, 180],  // pale gold
-    [220, 195, 150],  // rose champagne
-  ];
-
-  function getSideWidth(){ return W < 600 ? 70 : 180; }
-
-  function sideX(){
-    var SIDE_WIDTH = getSideWidth();
-    // randomly pick left side or right side
-    if(Math.random() < 0.5) return rand(0, SIDE_WIDTH);
-    else return rand(W - SIDE_WIDTH, W);
-  }
-
-  function createGlitter(fromTop){
-    var c = COLORS[Math.floor(Math.random()*COLORS.length)];
-    return {
-      x:      sideX(),
-      y:      fromTop ? rand(-40, -2) : rand(0, H),
-      size:   rand(1.2, 4),
-      speedY: rand(0.15, 0.55),
-      speedX: rand(-0.4, 0.4),
-      rot:    rand(0, Math.PI*2),
-      rotSpeed: rand(-0.06, 0.06),
-      // shimmer: flips between bright and dim rapidly
-      shimmerPhase: rand(0, Math.PI*2),
-      shimmerSpeed: rand(0.08, 0.22),
-      baseAlpha:    rand(0.5, 0.95),
-      r: c[0], g: c[1], b: c[2],
-      // shape: 0=diamond, 1=rect, 2=star-cross
-      shape: Math.floor(Math.random()*3),
-      wobblePhase: rand(0, Math.PI*2),
-      wobbleSpeed: rand(0.02, 0.05),
-    };
-  }
-
-  var pieces = [];
-  var COUNT = 280;
-  for(var i=0; i<COUNT; i++) pieces.push(createGlitter(false));
-
-  function drawDiamond(x, y, w, h){
-    ctx.beginPath();
-    ctx.moveTo(x, y-h);
-    ctx.lineTo(x+w, y);
-    ctx.lineTo(x, y+h);
-    ctx.lineTo(x-w, y);
-    ctx.closePath();
-  }
-
-  function drawRect(x, y, w, h){
-    ctx.beginPath();
-    ctx.rect(x-w, y-h, w*2, h*2);
-  }
-
-  function drawStarCross(x, y, s){
-    // 4-point star
-    ctx.beginPath();
-    ctx.moveTo(x, y - s*2);
-    ctx.lineTo(x + s*0.35, y - s*0.35);
-    ctx.lineTo(x + s*2, y);
-    ctx.lineTo(x + s*0.35, y + s*0.35);
-    ctx.lineTo(x, y + s*2);
-    ctx.lineTo(x - s*0.35, y + s*0.35);
-    ctx.lineTo(x - s*2, y);
-    ctx.lineTo(x - s*0.35, y - s*0.35);
-    ctx.closePath();
-  }
-
-  function animate(){
-    ctx.clearRect(0, 0, W, H);
-
-    for(var i=0; i<pieces.length; i++){
-      var p = pieces[i];
-
-      // update
-      p.y += p.speedY;
-      p.wobblePhase += p.wobbleSpeed;
-      p.x += p.speedX + Math.sin(p.wobblePhase) * 0.3;
-      p.rot += p.rotSpeed;
-      p.shimmerPhase += p.shimmerSpeed;
-
-      // shimmer: oscillates between baseAlpha and near-white flash
-      var shimmer = 0.5 + 0.5 * Math.sin(p.shimmerPhase);
-      var alpha = p.baseAlpha * (0.3 + 0.7 * shimmer);
-      // occasional bright flash
-      if(shimmer > 0.95) alpha = Math.min(1, alpha * 1.6);
-
-      // draw
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot);
-      ctx.globalAlpha = alpha;
-
-      var r = p.r, g = p.g, b = p.b;
-      // brighten on shimmer peak
-      var bright = Math.floor(shimmer * 40);
-      r = Math.min(255, r + bright);
-      g = Math.min(255, g + bright);
-      b = Math.min(255, b + bright);
-
-      ctx.fillStyle = 'rgb('+r+','+g+','+b+')';
-
-      var s = p.size;
-      if(p.shape === 0)      drawDiamond(0, 0, s, s*1.4);
-      else if(p.shape === 1) drawRect(0, 0, s*0.7, s*1.1);
-      else                   drawStarCross(0, 0, s*0.55);
-
-      ctx.fill();
-
-      // tiny glow halo on bright frames
-      if(shimmer > 0.7){
-        ctx.globalAlpha = alpha * 0.25;
-        var grd = ctx.createRadialGradient(0,0,0,0,0,s*3);
-        grd.addColorStop(0,'rgb('+r+','+g+','+b+')');
-        grd.addColorStop(1,'rgba(255,240,200,0)');
-        ctx.fillStyle = grd;
-        ctx.beginPath();
-        ctx.arc(0,0,s*3,0,Math.PI*2);
-        ctx.fill();
-      }
-
-      ctx.restore();
-
-      // reset when falls off bottom or drifts too far inward
-      var sw = getSideWidth();
-      var tooFarIn = (p.x > sw + 40 && p.x < W - sw - 40);
-      if(p.y > H + 10 || tooFarIn) pieces[i] = createGlitter(true);
-    }
-    requestAnimationFrame(animate);
-  }
-  requestAnimationFrame(animate);
-})();
-</script>
 
 
 <!-- Background -->
@@ -1105,7 +983,10 @@
     <button onclick="window.location.href='index.htm'">Home</button>
     <button class="active" onclick="window.location.href='details.htm'">Wedding Details</button>
     <button onclick="window.location.href='party.htm'">Wedding Party</button>
-    <button onclick="window.location.href='rsvp.htm'">RSVP</button>
+    <button class="nav-rsvp" onclick="window.location.href='rsvp.htm'">
+      <span style="position:relative;z-index:2;">RSVP</span>
+      <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
+    </button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
     <button onclick="window.location.href='todo.htm'">Things to Do</button>
     <button onclick="window.location.href='travel-photobook.html'">Photo Gallery</button>
@@ -1173,6 +1054,98 @@
             Apple Maps
           </a>
         </div>
+        <!-- Airport info -->
+        <div style="margin-top:2rem;padding-top:2rem;border-top:0.5px solid rgba(196,169,122,0.35);text-align:center;">
+          <div style="font-family:'Cinzel',Georgia,serif;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:#9A7B4F;margin-bottom:1.5rem;">Flying In</div>
+          <div style="display:flex;justify-content:center;align-items:flex-start;gap:2.5rem;flex-wrap:wrap;margin:0 auto;">
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:110px;">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- fuselage body -->
+  <path d="M2 20 Q4 14 10 13 L28 12 Q34 12 34 16 Q34 20 28 21 L10 22 Q4 22 2 20 Z" fill="#C4A97A" opacity="0.3"/>
+  <path d="M2 20 Q4 14 10 13 L28 12 Q34 12 34 16 Q34 20 28 21 L10 22 Q4 22 2 20 Z" stroke="#9A7B4F" stroke-width="1.2" fill="none"/>
+  <!-- fuselage sheen -->
+  <path d="M10 13 L28 12 Q33 12 34 15 L28 14 L10 15 Q5 15 3 17 Q3 14 10 13 Z" fill="white" opacity="0.12"/>
+  <!-- main wing -->
+  <path d="M13 17 L7 29 L25 22 Z" fill="#9A7B4F" opacity="0.85"/>
+  <path d="M13 17 L7 29 L25 22 Z" stroke="#6B4A22" stroke-width="0.6" fill="none" stroke-linejoin="round"/>
+  <!-- tail fin vertical -->
+  <path d="M5 19 L2 13 L8 17 Z" fill="#9A7B4F"/>
+  <path d="M5 19 L2 13 L8 17 Z" stroke="#6B4A22" stroke-width="0.5" fill="none"/>
+  <!-- tail wing horizontal -->
+  <path d="M6 20 L3 24 L11 22 Z" fill="#6B4A22" opacity="0.7"/>
+  <!-- windows -->
+  <circle cx="18" cy="16.5" r="1.4" fill="#C4A97A" opacity="0.5" stroke="#9A7B4F" stroke-width="0.7"/>
+  <circle cx="22" cy="16.5" r="1.4" fill="#C4A97A" opacity="0.5" stroke="#9A7B4F" stroke-width="0.7"/>
+  <circle cx="26" cy="16.5" r="1.4" fill="#C4A97A" opacity="0.5" stroke="#9A7B4F" stroke-width="0.7"/>
+</svg>
+              <div style="font-family:'Cinzel',Georgia,serif;font-size:18px;font-weight:400;color:#2B1A0F;margin-top:.25rem;">3 miles</div>
+              <div style="font-size:12px;color:#7A6040;letter-spacing:.06em;">from MIA Airport</div>
+            </div>
+
+            <div style="width:0.5px;background:rgba(196,169,122,0.4);align-self:stretch;min-height:80px;"></div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:110px;">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- body lower -->
+  <path d="M2 22 L2 18 L34 18 L34 22 Q34 24 32 24 L4 24 Q2 24 2 22 Z" fill="#C4A97A" opacity="0.25"/>
+  <path d="M2 22 L2 18 L34 18 L34 22 Q34 24 32 24 L4 24 Q2 24 2 22 Z" stroke="#9A7B4F" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+  <!-- cabin/roof -->
+  <path d="M8 18 L11 11 L26 11 L29 18 Z" fill="#C4A97A" opacity="0.2"/>
+  <path d="M8 18 L11 11 L26 11 L29 18" stroke="#9A7B4F" stroke-width="1.2" stroke-linejoin="round" fill="none"/>
+  <!-- window left -->
+  <path d="M11 17 L13 12 L19 12 L19.5 17 Z" fill="#6B4A22" opacity="0.28"/>
+  <path d="M11 17 L13 12 L19 12 L19.5 17 Z" stroke="#6B4A22" stroke-width="0.7" fill="none" stroke-linejoin="round"/>
+  <!-- window right -->
+  <path d="M20.5 17 L20 12 L25.5 12 L28 17 Z" fill="#6B4A22" opacity="0.28"/>
+  <path d="M20.5 17 L20 12 L25.5 12 L28 17" stroke="#6B4A22" stroke-width="0.7" fill="none" stroke-linejoin="round"/>
+  <!-- body sheen -->
+  <path d="M2 18 L34 18 L34 19 L2 19 Z" fill="white" opacity="0.1"/>
+  <!-- door seam -->
+  <line x1="19.5" y1="18" x2="20" y2="24" stroke="#9A7B4F" stroke-width="0.6" opacity="0.5"/>
+  <!-- wheels -->
+  <circle cx="9.5" cy="24.5" r="4" fill="#C4A97A" opacity="0.2"/>
+  <circle cx="9.5" cy="24.5" r="4" stroke="#9A7B4F" stroke-width="1.3"/>
+  <circle cx="9.5" cy="24.5" r="2" fill="#6B4A22" opacity="0.45"/>
+  <circle cx="9.5" cy="24.5" r="0.9" fill="#9A7B4F"/>
+  <circle cx="27.5" cy="24.5" r="4" fill="#C4A97A" opacity="0.2"/>
+  <circle cx="27.5" cy="24.5" r="4" stroke="#9A7B4F" stroke-width="1.3"/>
+  <circle cx="27.5" cy="24.5" r="2" fill="#6B4A22" opacity="0.45"/>
+  <circle cx="27.5" cy="24.5" r="0.9" fill="#9A7B4F"/>
+  <!-- headlight -->
+  <rect x="32.5" y="19" width="2" height="2" rx="0.5" fill="#9A7B4F" opacity="0.75"/>
+</svg>
+              <div style="font-family:'Cinzel',Georgia,serif;font-size:18px;font-weight:400;color:#2B1A0F;margin-top:.25rem;">10–20 min</div>
+              <div style="font-size:12px;color:#7A6040;letter-spacing:.06em;">drive</div>
+            </div>
+
+            <div style="width:0.5px;background:rgba(196,169,122,0.4);align-self:stretch;min-height:80px;"></div>
+
+            <div style="display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:110px;">
+              <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- phone body -->
+  <rect x="10" y="3" width="16" height="30" rx="3" fill="#C4A97A" opacity="0.25"/>
+  <rect x="10" y="3" width="16" height="30" rx="3" stroke="#9A7B4F" stroke-width="1.2"/>
+  <!-- phone sheen -->
+  <rect x="10" y="3" width="7" height="30" rx="3" fill="white" opacity="0.09"/>
+  <!-- screen area -->
+  <rect x="12" y="6.5" width="12" height="19" rx="1.5" fill="#C4A97A" opacity="0.2"/>
+  <rect x="12" y="6.5" width="12" height="19" rx="1.5" stroke="#9A7B4F" stroke-width="0.7"/>
+  <!-- map pin -->
+  <path d="M18 9 Q22 9 22 13.5 Q22 17.5 18 21.5 Q14 17.5 14 13.5 Q14 9 18 9 Z" fill="#9A7B4F" opacity="0.6"/>
+  <circle cx="18" cy="13.5" r="2.5" fill="#FAF4E8" opacity="0.85"/>
+  <!-- home bar -->
+  <rect x="15" y="27.5" width="6" height="1.5" rx="0.75" fill="#9A7B4F" opacity="0.55"/>
+  <!-- speaker -->
+  <rect x="15.5" y="4.5" width="5" height="1" rx="0.5" fill="#6B4A22" opacity="0.4"/>
+</svg>
+              <div style="font-family:'Cinzel',Georgia,serif;font-size:18px;font-weight:400;color:#2B1A0F;margin-top:.25rem;">Uber · Lyft · Taxi</div>
+              <div style="font-size:12px;color:#7A6040;letter-spacing:.06em;">recommended</div>
+            </div>
+
+          </div>
+          <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-style:italic;color:#9A7B4F;margin-top:1.5rem;line-height:1.8;">No airport shuttle is available — rideshare or taxi from MIA is quick and easy.</p>
+        </div>
       </div>
     </div>
 
@@ -1187,7 +1160,7 @@
         box-shadow:0 0 0 4px #F5EFE0, 0 0 0 6px #C4A97A, 0 0 0 10px #F5EFE0, 0 0 0 11px #9A7B4F;
         position:relative;
       ">
-        <img src="bg-details.svg" alt="" style="max-width:100%;width:600px;display:block;border-radius:3px;">
+        <img src="images/wedding-timeline.png" alt="" style="max-width:100%;width:600px;display:block;border-radius:3px;">
       </div>
     </div>
 
@@ -1195,21 +1168,8 @@
 
 
     <!-- RSVP Button -->
-    <div class="rsvp-btn-wrap" style="text-align:center;margin:2.5rem 0 0;">
-      <a href="rsvp.htm" style="
-        display:inline-block;
-        font-family:'Cinzel',Georgia,serif;
-        font-size:18px;font-weight:500;
-        letter-spacing:.28em;text-transform:uppercase;
-        text-decoration:none;
-        color:#F5EFE8;
-        background:#6B4A22;
-        border:1px solid #6B4A22;
-        border-radius:4px;
-        padding:20px 64px;
-        transition:background .2s, transform .15s;
-        box-shadow:0 4px 18px rgba(43,26,15,0.18);
-      " onmouseover="this.style.background='#7D5828';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#6B4A22';this.style.transform='none'">RSVP Now</a>
+    <div style="text-align:center;margin:2.5rem 0 1.5rem;">
+      <a href="rsvp.htm" style="display:inline-block;font-family:'Cinzel',Georgia,serif;font-size:15px;font-weight:400;letter-spacing:.45em;text-transform:uppercase;text-decoration:none;color:#3E2208;background:#C9A87C;border:1px solid #B8935F;border-radius:2px;padding:18px 64px;transition:all .25s ease;box-shadow:0 4px 18px rgba(139,105,20,0.18);position:relative;" onmouseover="this.style.background='#BC9A6A';this.style.boxShadow='0 8px 28px rgba(139,105,20,0.3)';this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#C9A87C';this.style.boxShadow='0 4px 18px rgba(139,105,20,0.18)';this.style.transform='translateY(0)';">R&thinsp;S&thinsp;V&thinsp;P</a>
     </div>
 
     <!-- Wedding Details section with tan background -->
@@ -1227,6 +1187,8 @@
           <h1>Wedding Details</h1>
           <p>Everything you need to know for the big day</p>
         </div>
+
+    <div class="note-box">Please be seated by 5:15 PM — the ceremony begins promptly at 5:30 PM. We cannot wait to celebrate with you!</div>
 
         <!-- Extra detail cards -->
         <div class="detail-grid" style="margin-top:2rem">
@@ -1316,7 +1278,7 @@
   <line x1="7.5" y1="3.5" x2="10.5" y2="3.5" stroke="#C4A97A" stroke-width="0.8" stroke-linecap="round"/>
   <circle cx="4" cy="22" r="1" fill="#C4A97A" opacity="0.6"/>
   <circle cx="11" cy="16" r="0.7" fill="#C4A97A" opacity="0.5"/>
-</svg></span><span class="card-label">Entertainment</span><p>Live music during cocktail hour. DJ &amp; dancing to follow. Club style party after <span style="font-family:'Cinzel',Georgia,serif;font-weight:500;color:var(--espresso);">11pm</span>. Song requests welcome!</p></div>
+</svg></span><span class="card-label">Entertainment</span><p>Live music during cocktail hour. DJ &amp; dancing to follow. Club style party after <span style="font-family:'Cinzel',Georgia,serif;font-weight:500;color:var(--espresso);">10:30pm</span>. Song requests welcome!</p></div>
           <div class="card"><span class="card-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- cocktail glass bowl -->
   <path d="M4 4 L16 20 L28 4 Z" fill="#C4A97A" opacity="0.35"/>
@@ -1340,63 +1302,6 @@
       </div>
     </div>
 
-    <div class="note-box">Please be seated by 5:15 PM — the ceremony begins promptly at 5:30 PM. We cannot wait to celebrate with you!</div>
-
-    <!-- Timeline column -->
-    <div class="timeline-wrap">
-      <div class="timeline-heading">Day of Events</div>
-      <div class="timeline">
-
-        <div class="timeline-item">
-          <div class="timeline-time">Sunday, April 18, 2027</div>
-          <div class="timeline-dot-col">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-title">The Wedding Day</div>
-            <div class="timeline-desc">Coral Gables, Florida</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-time">5:30 PM</div>
-          <div class="timeline-dot-col">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-title">Ceremony</div>
-            <div class="timeline-desc">Please be seated by 5:15 PM.<br>The ceremony will begin promptly.</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-time">6:00 PM</div>
-          <div class="timeline-dot-col">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-title">Cocktail Hour</div>
-            <div class="timeline-desc">Join us for drinks and light bites.<br>Open bar all evening.</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-time">7:00 PM</div>
-          <div class="timeline-dot-col">
-            <div class="timeline-dot timeline-dot-last"></div>
-            <div class="timeline-line timeline-line-hidden"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-title">Reception</div>
-            <div class="timeline-desc">Dinner, dancing and celebrating into the night.<br>Open bar continues throughout the evening.</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
 
   </div>
 
@@ -1407,30 +1312,27 @@
 </div>
 
 
-  <div style="text-align:center;padding:3rem 1rem 4rem;">
-    <p style="font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#9A7B4F;margin-bottom:1.5rem;opacity:0.8;">We hope to celebrate with you</p>
-    <a href="rsvp.htm" class="stamp-rsvp" aria-label="RSVP">
-      <svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" fill="#FAF5ED" d="M 0,0 H 160 V 160 H 0 Z M 5,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,0 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 5,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 19,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 33,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 47,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 61,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 75,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 89,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 103,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 117,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 131,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 145,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 159,160 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M -5,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,10 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,24 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,38 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,52 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,66 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,80 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,94 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,108 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,122 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,136 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0 M 155,150 a 5,5,0,1,0 10,0 a 5,5,0,1,0 -10,0"/>
-        <rect x="14" y="14" width="132" height="132" fill="none" stroke="#C4A97A" stroke-width="0.8"/>
-        <rect x="17" y="17" width="126" height="126" fill="none" stroke="#C4A97A" stroke-width="0.3" stroke-dasharray="2,5"/>
-        <g opacity="0.32" transform="translate(126,38)">
-          <circle r="19" fill="none" stroke="#9A7B4F" stroke-width="1.4"/>
-          <circle r="14" fill="none" stroke="#9A7B4F" stroke-width="0.5"/>
-          <text font-family="Cinzel,serif" font-size="6" fill="#9A7B4F" text-anchor="middle" y="-1" letter-spacing="1">C · M</text>
-          <text font-family="Cinzel,serif" font-size="5.5" fill="#9A7B4F" text-anchor="middle" y="8" letter-spacing="0.5">2027</text>
-          <path d="M-19,-5 C-28,-7 -34,-4 -46,-5" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
-          <path d="M-19,1 C-28,-1 -34,3 -46,1" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
-          <path d="M-19,7 C-28,5 -34,8 -46,7" fill="none" stroke="#9A7B4F" stroke-width="1.1"/>
-        </g>
-        <rect x="78" y="60" width="4" height="4" transform="rotate(45,80,62)" fill="#C4A97A" opacity="0.65"/>
-        <line x1="36" y1="72" x2="124" y2="72" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
-        <text x="80" y="102" font-family="Cinzel,Georgia,serif" font-size="30" font-weight="500" fill="#2B1A0F" text-anchor="middle" letter-spacing="7">RSVP</text>
-        <line x1="36" y1="112" x2="124" y2="112" stroke="#C4A97A" stroke-width="0.5" opacity="0.55"/>
-        <text x="80" y="130" font-family="Cinzel,Georgia,serif" font-size="7.5" fill="#9A7B4F" text-anchor="middle" letter-spacing="2">CORAL GABLES · FL</text>
-      </svg>
-    </a>
+  <!-- ── Song Request ── -->
+  <div style="text-align:center;padding:3rem 2rem 2.5rem;max-width:560px;margin:0 auto;">
+    <div style="font-family:'Cinzel',Georgia,serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#9A7B4F;margin-bottom:.75rem;">&#9834; &ensp; Music &ensp; &#9834;</div>
+    <h2 style="font-family:'Great Vibes',cursive;font-size:52px;font-weight:400;color:#2B1A0F;line-height:1.1;margin-bottom:.4rem;">Request a Song</h2>
+    <p style="font-size:15px;color:#7A6040;font-style:italic;font-family:'Cormorant Garamond',Georgia,serif;margin-bottom:1.75rem;">Is there a song you'd love to hear on the dance floor? Let us know!</p>
+
+    <div id="song-form">
+      <div class="form-group" style="text-align:left;">
+        <label for="song-title">Artist &amp; Song</label>
+        <input type="text" id="song-title" placeholder="e.g. Justin Timberlake — Can't Stop the Feeling" />
+      </div>
+      <button class="submit-btn" onclick="submitSong()" style="background:#C9A87C;border-color:#B8935F;color:#3E2208;">Submit Request</button>
+    </div>
+
+    <div id="song-thanks" style="display:none;padding:2rem 1rem;">
+      <div style="font-size:36px;margin-bottom:.5rem;">🎶</div>
+      <p style="font-family:'Great Vibes',cursive;font-size:38px;color:#2B1A0F;margin-bottom:.4rem;">Thank you!</p>
+      <p style="font-size:15px;color:#7A6040;font-style:italic;font-family:'Cormorant Garamond',Georgia,serif;">We'll do our best to get the dance floor moving!</p>
+    </div>
   </div>
+
 
 </div><!-- /site -->
 
@@ -1442,6 +1344,28 @@ function showPage(id, btn) {
   btn.classList.add('active');
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
+var WEDDING_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHjqHq7hBQAveEA0hOCx6xAY1IJQ3uA4J6OxAHhVAfvPUMGhxBcA_7_HYVQ8P5piZBmw/exec'; // Set this to your Google Apps Script URL
+
+function submitSong() {
+  const title = document.getElementById('song-title').value.trim();
+  if (!title) {
+    document.getElementById('song-title').style.borderColor = '#C4A97A';
+    document.getElementById('song-title').focus();
+    return;
+  }
+  const entry = { type: 'song', song: title, timestamp: new Date().toISOString() };
+  // Save to localStorage
+  const saved = JSON.parse(localStorage.getItem('wdg_songs') || '[]');
+  saved.push(entry);
+  localStorage.setItem('wdg_songs', JSON.stringify(saved));
+  // Send to Google Apps Script if configured
+  if (WEDDING_SCRIPT_URL) {
+    fetch(WEDDING_SCRIPT_URL, {method:'POST', mode:'no-cors', body:JSON.stringify(entry)}).catch(()=>{});
+  }
+  document.getElementById('song-form').style.display = 'none';
+  document.getElementById('song-thanks').style.display = 'block';
+}
+
 function toggleFAQ(item) {
   const wasOpen = item.classList.contains('open');
   document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));

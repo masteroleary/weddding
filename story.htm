@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story — C &amp; M</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500&family=Great+Vibes&display=swap');
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --cream:#F7F2E8;
+    --gold:#C4A97A;
+    --gold-dark:#9A7B4F;
+    --brown:#6B4A22;
+    --brown-dark:#3D2B1A;
+    --espresso:#2B1A0F;
+    --text-body:#5C4A32;
+    --text-muted:#7A6040;
+  }
+
+  html{ scroll-behavior:smooth; background-color:#FAF4E8; overflow-x:hidden; }
+  body{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    background-color:#FAF4E8;
+    color:var(--espresso);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  html, body { background-color: #FAF4E8; }
+
+  /* ── Layout ── */
+  .site{ max-width:880px; margin:0 auto; min-height:100vh; }
+
+  /* ── Nav ── */
+  .nav{
+    display:flex;flex-wrap:nowrap;gap:0;justify-content:space-evenly;overflow-x:auto;
+    padding:1.25rem 1rem 0.75rem;
+    background:rgba(245,240,232,0.95);
+    border-bottom:1px solid rgba(196,169,122,0.4);
+    width:100%;
+    position:relative;
+  }
+  .nav::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    opacity:0.6;
+  }
+  .nav button{
+    background:transparent;border:none;
+    font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:600;color:var(--text-muted);cursor:pointer;
+    padding:8px 14px 10px;border-radius:3px;
+    transition:all .18s;letter-spacing:.06em;
+    text-transform:uppercase;position:relative;
+  }
+  .nav button::after{
+    content:'';position:absolute;bottom:0;left:50%;right:50%;
+    height:2px;background:var(--gold);transition:left .2s,right .2s;
+  }
+  .nav button:hover{ color:var(--espresso);transform:scale(1.15); }
+  .nav button.active{ color:var(--espresso); }
+  .nav button.active::after{ left:12px;right:12px; }
+  .nav-rsvp{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 14px 8px !important;
+    color:#FAF4E8 !important;
+    font-weight:700 !important;
+    font-family:'Cinzel',Georgia,serif !important;
+    font-size:16px !important;
+    letter-spacing:.18em !important;
+    border:none !important;
+    border-radius:0 !important;
+  }
+  .rsvp-swirl{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:100%;height:100%;
+    pointer-events:none;
+    opacity:1;
+    transition:opacity .2s;
+    overflow:visible;
+    z-index:0;
+  }
+  .nav-rsvp{ overflow:visible !important; z-index:1; }
+  .nav-rsvp span, .nav-rsvp:not(svg){ position:relative; z-index:2; }
+
+  .nav-rsvp:hover .nav-rsvp-heart,.nav-rsvp.active .nav-rsvp-heart{
+    opacity:1;transform:translate(-50%,-52%) scale(1.08);
+  }
+
+
+  /* ── Page header ── */
+  .page-header{
+    text-align:center;
+    padding:4.5rem 2rem 3.5rem;
+  }
+  .page-header-eyebrow{
+    font-family:'Cinzel',serif;
+    font-size:10px;letter-spacing:5px;
+    color:var(--gold-dark);text-transform:uppercase;
+    opacity:.75;margin-bottom:1.6rem;display:block;
+  }
+  .page-header-title{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(70px,11vw,110px);
+    font-weight:400;color:var(--espresso);
+    line-height:1;margin-bottom:1.6rem;
+  }
+  .page-header-rule{
+    display:flex;align-items:center;gap:14px;
+    max-width:260px;margin:0 auto 1.5rem;
+  }
+  .page-header-rule::before,.page-header-rule::after{
+    content:'';flex:1;height:.5px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  }
+  .header-diamond{
+    width:6px;height:6px;
+    background:var(--gold);transform:rotate(45deg);flex-shrink:0;
+  }
+  .page-header-sub{
+    font-family:'Cinzel',serif;font-size:12px;
+    letter-spacing:.35em;color:var(--brown);
+    text-transform:uppercase;opacity:.8;
+  }
+
+  /* ── Timeline ── */
+  .story-timeline{
+    position:relative;
+    padding:0 2rem 6rem;
+    max-width:700px;
+    margin:0 auto;
+  }
+  /* Vertical line */
+  .story-timeline::before{
+    content:'';
+    position:absolute;
+    left:calc(2rem + 9px);
+    top:0;bottom:0;
+    width:1px;
+    background:linear-gradient(to bottom,
+      transparent,
+      rgba(196,169,122,0.45) 6%,
+      rgba(196,169,122,0.45) 94%,
+      transparent);
+  }
+
+  .timeline-entry{
+    display:flex;
+    gap:2.5rem;
+    align-items:flex-start;
+    margin-bottom:4.5rem;
+    position:relative;
+  }
+
+  /* Dot on the line */
+  .entry-node{
+    flex-shrink:0;
+    width:18px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:.4rem;
+  }
+  .entry-dot{
+    width:18px;height:18px;
+    border-radius:50%;
+    background:#FAF4E8;
+    border:1.5px solid var(--gold);
+    box-shadow:0 0 0 3px rgba(196,169,122,0.18);
+    position:relative;
+  }
+  .entry-dot::after{
+    content:'';
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:7px;height:7px;
+    border-radius:50%;
+    background:var(--gold-dark);
+  }
+
+  /* Content beside the dot */
+  .entry-body{
+    flex:1;
+    padding-top:.1rem;
+  }
+  .entry-number{
+    font-family:'Cinzel',serif;
+    font-size:9px;letter-spacing:4px;
+    color:var(--gold-dark);text-transform:uppercase;
+    opacity:.6;margin-bottom:.8rem;display:block;
+  }
+  .entry-title{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(42px,6.5vw,58px);
+    color:var(--espresso);
+    line-height:1;margin-bottom:.7rem;
+  }
+  .entry-rule{
+    width:36px;height:.5px;
+    background:var(--gold);
+    margin-bottom:1rem;opacity:.65;
+  }
+  .entry-text{
+    font-family:'Cormorant Garamond',serif;
+    font-size:17px;line-height:1.95;
+    color:var(--text-body);font-style:italic;
+  }
+
+  /* Divider between entries */
+  .timeline-divider{
+    display:flex;align-items:center;
+    gap:12px;
+    margin:0 0 4.5rem calc(2.5rem + 18px);
+    max-width:220px;
+    opacity:.45;
+  }
+  .timeline-divider::before,.timeline-divider::after{
+    content:'';flex:1;height:.5px;
+    background:var(--gold);
+  }
+  .divider-glyph{ font-size:12px;color:var(--gold-dark); }
+
+  /* ── Closing monogram ── */
+  .story-closing{
+    text-align:center;
+    padding:1rem 2rem 5rem;
+  }
+  .closing-monogram{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(38px,6vw,52px);
+    color:var(--gold-dark);
+    opacity:.55;
+    letter-spacing:2px;
+  }
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(12px)}
+    to{opacity:1;transform:none}
+  }
+  .story-timeline{ animation:fadeUp .5s ease .1s both; }
+  .page-header{ animation:fadeUp .5s ease both; }
+
+  /* ── Mobile ── */
+  @media(max-width:560px){
+    .story-timeline{ padding:0 1.25rem 5rem; }
+    .story-timeline::before{ left:calc(1.25rem + 9px); }
+    .timeline-divider{ margin-left:calc(1.5rem + 18px); }
+    .page-header{ padding:3rem 1.5rem 2.5rem; }
+    .nav button{ font-size:10px;padding:6px 8px;letter-spacing:.08em; }
+  }
+</style>
+</head>
+<body>
+<div class="site">
+
+  <nav class="nav">
+    <button onclick="window.location.href='index.htm'">Home</button>
+    <button class="active" onclick="window.location.href='story.htm'">Our Story</button>
+    <button onclick="window.location.href='details.htm'">Wedding Details</button>
+    <button onclick="window.location.href='party.htm'">Wedding Party</button>
+    <button class="nav-rsvp" onclick="window.location.href='rsvp.htm'">
+      <span style="position:relative;z-index:2;">RSVP</span>
+      <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
+    </button>
+    <button onclick="window.location.href='registry.htm'">Registry</button>
+    <button onclick="window.location.href='todo.htm'">Things to Do</button>
+    <button onclick="window.location.href='travel-photobook.html'">Photo Gallery</button>
+    <button onclick="window.location.href='faq.htm'">FAQ</button>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <span class="page-header-eyebrow">Chelsea &amp; Matt</span>
+    <div class="page-header-title">Our Story</div>
+    <div class="page-header-rule"><span class="header-diamond"></span></div>
+    <span class="page-header-sub">April 18, 2027 &nbsp;·&nbsp; Coral Gables, FL</span>
+  </div>
+
+  <!-- Timeline -->
+  <div class="story-timeline">
+
+    <!-- Chapter I -->
+    <div class="timeline-entry">
+      <div class="entry-node"><div class="entry-dot"></div></div>
+      <div class="entry-body">
+        <span class="entry-number">Chapter I</span>
+        <div class="entry-title">The Dog Park</div>
+        <div class="entry-rule"></div>
+        <p class="entry-text">It all started the best way possible &mdash; at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. Matt&rsquo;s dog, Titan, made himself right at home by Chelsea&rsquo;s side &mdash; and that&rsquo;s when Matt knew she was something special.</p>
+      </div>
+    </div>
+
+    <div class="timeline-divider"><span class="divider-glyph">&#10087;</span></div>
+
+    <!-- Chapter II -->
+    <div class="timeline-entry">
+      <div class="entry-node"><div class="entry-dot"></div></div>
+      <div class="entry-body">
+        <span class="entry-number">Chapter II</span>
+        <div class="entry-title">The Open Road</div>
+        <div class="entry-rule"></div>
+        <p class="entry-text">After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt worked remotely. Together they set off across the country &mdash; glowing desert sunsets, peaceful mountain views, and a new dog park in every city. Life on the road gave them a freedom and closeness they&rsquo;ll always carry with them.</p>
+      </div>
+    </div>
+
+    <div class="timeline-divider"><span class="divider-glyph">&#10087;</span></div>
+
+    <!-- Chapter III -->
+    <div class="timeline-entry">
+      <div class="entry-node"><div class="entry-dot"></div></div>
+      <div class="entry-body">
+        <span class="entry-number">Chapter III</span>
+        <div class="entry-title">Forever</div>
+        <div class="entry-rule"></div>
+        <p class="entry-text">Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment &mdash; thanks to two dogs who knew they belonged together long before they did &mdash; has grown into a love filled with laughter, adventure, and an unbreakable bond. Through every mile traveled, they found home in each other.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Closing -->
+  <div class="story-closing">
+    <div class="closing-monogram">C &amp; M</div>
+  </div>
+
+
+</div>
+</body>
+</html>

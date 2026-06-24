@@ -29,12 +29,13 @@
 
   body{
     font-family:'Cormorant Garamond',Georgia,serif;
-    background-color:transparent;
+    background-color:#FAF4E8;
     color:var(--espresso);
     min-height:100vh;
     position:relative;
     overflow-x:hidden;
   }
+  html, body { background-color: #FAF4E8; }
 
   /* ── Background SVG canvas ── */
   .bg-canvas{
@@ -57,8 +58,8 @@
   }
 
   /* ── Nav ── */
-  .nav{
-    display:flex;flex-wrap:wrap;gap:2px;justify-content:center;
+    .nav{
+    display:flex;flex-wrap:nowrap;gap:0;justify-content:space-evenly;overflow-x:auto;
     padding:1.25rem 1rem 0.75rem;
     position:sticky;top:0;
     background:rgba(245,240,232,0.95);
@@ -66,6 +67,9 @@
     -webkit-backdrop-filter:blur(6px);
     z-index:100;
     border-bottom:1px solid rgba(196,169,122,0.4);
+    width:100vw;
+    margin-left:50%;
+    transform:translateX(-50%);
   }
   .nav::before{
     content:'';
@@ -77,13 +81,13 @@
   }
   .nav button{
     background:transparent;border:none;
-    font-size:11.5px;font-family:'Cormorant Garamond',Georgia,serif;
-    font-weight:500;
+    font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:600;
     color:var(--text-muted);cursor:pointer;
-    padding:7px 12px 9px;
+    padding:8px 14px 10px;
     border-radius:3px;
     transition:all .18s;
-    letter-spacing:.12em;
+    letter-spacing:.06em;
     text-transform:uppercase;
     position:relative;
   }
@@ -92,9 +96,39 @@
     height:2px;background:var(--gold);
     transition:left .2s,right .2s;
   }
-  .nav button:hover{color:var(--espresso)}
+  .nav button:hover{color:var(--espresso);transform:scale(1.15);}
   .nav button.active{color:var(--espresso)}
   .nav button.active::after{left:12px;right:12px}
+  .nav-rsvp{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 14px 8px !important;
+    color:#FAF4E8 !important;
+    font-weight:700 !important;
+    font-family:'Cinzel',Georgia,serif !important;
+    font-size:16px !important;
+    letter-spacing:.18em !important;
+    border:none !important;
+    border-radius:0 !important;
+  }
+  .rsvp-swirl{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:100%;height:100%;
+    pointer-events:none;
+    opacity:1;
+    transition:opacity .2s;
+    overflow:visible;
+    z-index:0;
+  }
+  .nav-rsvp{ overflow:visible !important; z-index:1; }
+  .nav-rsvp span, .nav-rsvp:not(svg){ position:relative; z-index:2; }
+
+
+
 
   /* ── Pages ── */
   .page{display:none;padding:2.5rem 2rem 4rem;animation:fadeUp .4s ease both}
@@ -326,7 +360,7 @@
   .registry-item h3{font-size:18px;font-weight:400;color:var(--espresso);margin-bottom:.4rem}
   .registry-item p{font-size:14px;color:var(--text-muted);margin-bottom:1.1rem;line-height:1.75;font-style:italic}
   .registry-link{
-    display:inline-block;font-size:11px;font-family:'Cormorant Garamond',Georgia,serif;
+    display:inline-block;font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
     font-weight:500;letter-spacing:.14em;text-transform:uppercase;
     color:var(--espresso);border:0.5px solid rgba(139,105,20,0.45);
     border-radius:3px;padding:6px 14px;text-decoration:none;
@@ -1184,6 +1218,40 @@
     .pb-nav-btn{padding:5px 10px;font-size:10px}
     .pb-grid{grid-template-columns:1fr}
   }
+
+  /* ── Lightbox ── */
+  #lightbox{
+    display:none;position:fixed;inset:0;z-index:9999;
+    background:rgba(0,0,0,0.88);
+    align-items:center;justify-content:center;
+    cursor:zoom-out;
+  }
+  #lightbox.open{ display:flex; }
+  #lightbox img{
+    max-width:90vw;max-height:90vh;
+    object-fit:contain;
+    border-radius:6px;
+    box-shadow:0 8px 40px rgba(0,0,0,0.6);
+    cursor:default;
+  }
+  #lightbox-close{
+    position:fixed;top:18px;right:24px;
+    font-size:36px;color:#fff;
+    background:none;border:none;cursor:pointer;
+    line-height:1;opacity:0.8;
+  }
+  #lightbox-close:hover{opacity:1;}
+  .portrait-frame{
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+    cursor:pointer;
+  }
+  .portrait-frame:hover{
+    transform:scale(1.06);
+    box-shadow:0 6px 20px rgba(0,0,0,0.25);
+    z-index:2;
+    position:relative;
+  }
+  .portrait-frame img{ cursor:pointer; }
 </style>
 </head>
 <body>
@@ -1351,7 +1419,10 @@
     <button onclick="window.location.href='index.htm'">Home</button>
     <button onclick="window.location.href='details.htm'">Wedding Details</button>
     <button class="active" onclick="window.location.href='party.htm'">Wedding Party</button>
-    <button onclick="window.location.href='rsvp.htm'">RSVP</button>
+    <button class="nav-rsvp" onclick="window.location.href='rsvp.htm'">
+      <span style="position:relative;z-index:2;">RSVP</span>
+      <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
+    </button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
     <button onclick="window.location.href='todo.htm'">Things to Do</button>
     <button onclick="window.location.href='travel-photobook.html'">Photo Gallery</button>
@@ -1362,6 +1433,7 @@
   <div class="page visible" id="page-party">
     <div class="page-header">
       <p style="font-size:36px;font-weight:300;font-style:italic;font-family:'Cormorant Garamond',Georgia,serif;color:var(--espresso);letter-spacing:.08em">Wedding Party</p>
+      <p style="font-size:20px;font-family:'Cormorant Garamond',Georgia,serif;color:var(--gold-dark);letter-spacing:.06em;margin-top:0.5rem;">Meet the Wedding Party!</p>
     </div>
     <div class="section-label">Bridesmaids</div>
     <div class="portrait-grid">
@@ -1381,6 +1453,7 @@
         <div class="portrait-caption">
           <div class="portrait-name">Kiersten Begin</div>
           <div class="portrait-role">Matron of Honor</div>
+          <div class="portrait-role" style="font-size:0.85em;opacity:0.75;margin-top:2px;">Bestie</div>
         </div>
       </div>
 
@@ -1399,6 +1472,7 @@
         <div class="portrait-caption">
           <div class="portrait-name">Lexus Bailey</div>
           <div class="portrait-role">Maid of Honor</div>
+          <div class="portrait-role" style="font-size:0.85em;opacity:0.75;margin-top:2px;">Sister</div>
         </div>
       </div>
 
@@ -1417,6 +1491,7 @@
         <div class="portrait-caption">
           <div class="portrait-name">Harley Lego</div>
           <div class="portrait-role">Bridesmaid</div>
+          <div class="portrait-role" style="font-size:0.85em;opacity:0.75;margin-top:2px;">Bestie</div>
         </div>
       </div>
 
@@ -1435,6 +1510,7 @@
         <div class="portrait-caption">
           <div class="portrait-name">Jessica Odermatt</div>
           <div class="portrait-role">Bridesmaid</div>
+          <div class="portrait-role" style="font-size:0.85em;opacity:0.75;margin-top:2px;">Bestie</div>
         </div>
       </div>
 
@@ -1462,6 +1538,7 @@
         <div class="portrait-caption">
           <div class="portrait-name">Lily O&#39;Leary</div>
           <div class="portrait-role">Bridesmaid</div>
+          <div class="portrait-role" style="font-size:0.85em;opacity:0.75;margin-top:2px;">Niece</div>
         </div>
       </div>
 
@@ -1480,6 +1557,7 @@
         <div class="portrait-caption">
           <div class="portrait-name">Emily James</div>
           <div class="portrait-role">Bridesmaid</div>
+          <div class="portrait-role" style="font-size:0.85em;opacity:0.75;margin-top:2px;">Bestie</div>
         </div>
       </div>
 
@@ -1561,10 +1639,6 @@
       </div>
 
     </div>
-        <div class="section-label">Other Roles</div>
-    <div class="party-grid">
-      <div class="person-card"><h4>Gerald and Janet Finnegan</h4><div class="person-role">Officiants</div></div>
-    </div>
 
   </div>
 
@@ -1573,6 +1647,7 @@
 
 
 </div>
+
 
 </div><!-- /site -->
 
@@ -2039,6 +2114,40 @@ function submitRSVP() {
     initBook(item);
   });
 })();
+</script>
+<!-- Lightbox -->
+<div id="lightbox">
+  <button id="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  // Make all portrait frames clickable
+  document.querySelectorAll('.portrait-frame img').forEach(function(img){
+    img.parentElement.addEventListener('click', function(){
+      openLightbox(img.src);
+    });
+  });
+
+  function openLightbox(src){
+    // Use the full src (already black-bar-stripped JPGs)
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
+  // Click backdrop to close
+  document.getElementById('lightbox').addEventListener('click', function(e){
+    if(e.target === this) closeLightbox();
+  });
+  // Esc key to close
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLightbox();
+  });
 </script>
 </body>
 </html>

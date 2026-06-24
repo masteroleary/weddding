@@ -29,12 +29,13 @@
 
   body{
     font-family:'Cormorant Garamond',Georgia,serif;
-    background-color:var(--cream);
+    background-color:#FAF4E8;
     color:var(--espresso);
     min-height:100vh;
     position:relative;
     overflow-x:hidden;
   }
+  html, body { background-color: #FAF4E8; }
 
   /* ── Background SVG canvas ── */
   .bg-canvas{
@@ -56,8 +57,8 @@
   }
 
   /* ── Nav ── */
-  .nav{
-    display:flex;flex-wrap:wrap;gap:2px;justify-content:center;
+    .nav{
+    display:flex;flex-wrap:nowrap;gap:0;justify-content:space-evenly;overflow-x:auto;
     padding:1.25rem 1rem 0.75rem;
     position:sticky;top:0;
     background:rgba(245,240,232,0.95);
@@ -65,6 +66,9 @@
     -webkit-backdrop-filter:blur(6px);
     z-index:100;
     border-bottom:1px solid rgba(196,169,122,0.4);
+    width:100vw;
+    margin-left:50%;
+    transform:translateX(-50%);
   }
   .nav::before{
     content:'';
@@ -76,13 +80,13 @@
   }
   .nav button{
     background:transparent;border:none;
-    font-size:11.5px;font-family:'Cormorant Garamond',Georgia,serif;
-    font-weight:500;
+    font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:600;
     color:var(--text-muted);cursor:pointer;
-    padding:7px 12px 9px;
+    padding:8px 14px 10px;
     border-radius:3px;
     transition:all .18s;
-    letter-spacing:.12em;
+    letter-spacing:.06em;
     text-transform:uppercase;
     position:relative;
   }
@@ -91,9 +95,39 @@
     height:2px;background:var(--gold);
     transition:left .2s,right .2s;
   }
-  .nav button:hover{color:var(--espresso)}
+  .nav button:hover{color:var(--espresso);transform:scale(1.15);}
   .nav button.active{color:var(--espresso)}
   .nav button.active::after{left:12px;right:12px}
+  .nav-rsvp{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 14px 8px !important;
+    color:#FAF4E8 !important;
+    font-weight:700 !important;
+    font-family:'Cinzel',Georgia,serif !important;
+    font-size:16px !important;
+    letter-spacing:.18em !important;
+    border:none !important;
+    border-radius:0 !important;
+  }
+  .rsvp-swirl{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:100%;height:100%;
+    pointer-events:none;
+    opacity:1;
+    transition:opacity .2s;
+    overflow:visible;
+    z-index:0;
+  }
+  .nav-rsvp{ overflow:visible !important; z-index:1; }
+  .nav-rsvp span, .nav-rsvp:not(svg){ position:relative; z-index:2; }
+
+
+
 
   /* ── Pages ── */
   .page{display:none;padding:2.5rem 2rem 4rem;animation:fadeUp .4s ease both}
@@ -284,7 +318,7 @@
   .registry-item h3{font-size:18px;font-weight:400;color:var(--espresso);margin-bottom:.4rem}
   .registry-item p{font-size:14px;color:var(--text-muted);margin-bottom:1.1rem;line-height:1.75;font-style:italic}
   .registry-link{
-    display:inline-block;font-size:11px;font-family:'Cormorant Garamond',Georgia,serif;
+    display:inline-block;font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
     font-weight:500;letter-spacing:.14em;text-transform:uppercase;
     color:var(--espresso);border:0.5px solid rgba(139,105,20,0.45);
     border-radius:3px;padding:6px 14px;text-decoration:none;
@@ -733,6 +767,72 @@
     .monogram{font-size:50px}
     .page{padding:2rem 1rem 3rem}
   }
+
+  /* ── Attendance buttons ── */
+  .attend-group{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+  .attend-btn{
+    padding:1.6rem 1rem;
+    font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:.16em;
+    text-transform:uppercase;text-align:center;
+    border:1px solid var(--border);border-radius:3px;
+    background:#fff9f0;cursor:pointer;color:var(--muted);
+    transition:all .22s ease;line-height:1.8;
+    box-shadow:0 2px 8px rgba(43,26,15,0.05);
+    position:relative;overflow:hidden;
+  }
+  .attend-btn .btn-icon{display:block;font-size:22px;margin-bottom:.35rem;transition:transform .22s ease}
+  .attend-btn .btn-label{display:block;font-size:10px;letter-spacing:.18em}
+  .attend-btn:hover{
+    border-color:var(--gold);color:var(--espresso);
+    background:rgba(196,169,122,0.1);
+    box-shadow:0 6px 20px rgba(139,105,20,0.18);
+    transform:translateY(-2px);
+  }
+  .attend-btn:hover .btn-icon{transform:scale(1.2)}
+  .attend-btn.selected-yes{
+    background:linear-gradient(135deg,#C9A87C,#B8935F);
+    border-color:#B8935F;color:#3E2208;font-weight:600;
+    box-shadow:0 6px 22px rgba(139,105,20,0.28);
+    transform:translateY(-1px);
+  }
+  .attend-btn.selected-yes .btn-icon{transform:scale(1.15)}
+  .attend-btn.selected-no{
+    background:rgba(100,50,50,0.07);
+    border-color:rgba(155,60,60,0.35);color:#6a2020;
+    box-shadow:0 4px 14px rgba(100,50,50,0.1);
+    transform:translateY(-1px);
+  }
+
+  /* ── Meal cards ── */
+  .meal-cards{display:flex;flex-direction:column;gap:.6rem;margin-top:.65rem}
+  .meal-card{
+    display:flex;align-items:center;gap:1rem;
+    padding:1.1rem 1.1rem;border:1px solid var(--border);border-radius:3px;
+    background:#fff9f0;cursor:pointer;
+    transition:all .22s ease;
+    font-size:15px;color:var(--text);font-family:'Cormorant Garamond',Georgia,serif;
+    box-shadow:0 1px 4px rgba(43,26,15,0.04);
+  }
+  .meal-card:hover{
+    border-color:var(--gold);
+    background:rgba(196,169,122,0.1);
+    box-shadow:0 5px 18px rgba(139,105,20,0.15);
+    transform:translateX(4px);
+  }
+  .meal-card.selected{
+    border-color:var(--gold-dark);
+    background:rgba(196,169,122,0.15);
+    box-shadow:0 4px 16px rgba(139,105,20,0.18);
+    color:var(--espresso);font-weight:600;
+  }
+  .meal-card input[type="radio"]{display:none}
+  .meal-icon{font-size:22px;width:28px;text-align:center;flex-shrink:0;transition:transform .22s ease}
+  .meal-card:hover .meal-icon{transform:scale(1.2)}
+  .meal-card.selected .meal-icon{transform:scale(1.15)}
+  .meal-check{margin-left:auto;font-size:14px;color:var(--gold-dark);opacity:0;transition:opacity .2s}
+  .meal-card.selected .meal-check{opacity:1}
+  .guest-name-input{width:100%;padding:10px 13px;font-size:15px;font-family:"Cormorant Garamond",Georgia,serif;border-radius:4px;border:0.5px solid rgba(139,105,20,0.4);background:rgba(255,250,242,0.92);color:var(--espresso);outline:none;transition:border .18s;box-sizing:border-box;}
+  .guest-name-input:focus{border-color:var(--gold-dark);box-shadow:0 0 0 3px rgba(154,123,79,0.1);}
 </style>
 </head>
 <body>
@@ -900,7 +1000,10 @@
     <button onclick="window.location.href='index.htm'">Home</button>
     <button onclick="window.location.href='details.htm'">Wedding Details</button>
     <button onclick="window.location.href='party.htm'">Wedding Party</button>
-    <button class="active" onclick="window.location.href='rsvp.htm'">RSVP</button>
+    <button class="nav-rsvp active" onclick="window.location.href='rsvp.htm'">
+      <span style="position:relative;z-index:2;">RSVP</span>
+      <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
+    </button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
     <button onclick="window.location.href='todo.htm'">Things to Do</button>
     <button onclick="window.location.href='travel-photobook.html'">Photo Gallery</button>
@@ -914,35 +1017,75 @@
       <p>Please respond by March 1, 2027</p>
     </div>
     <div class="rsvp-wrap" id="rsvp-form-wrap">
-      <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name" id="rsvp-name"></div>
-      <div class="form-group"><label>Will you attend?</label>
-        <select id="rsvp-attend">
+
+      <!-- Will you attend — top, big buttons -->
+      <div class="form-group" style="margin-bottom:2rem;">
+        <label>Will you be joining us?</label>
+        <div class="attend-group">
+          <button type="button" class="attend-btn" id="btn-yes" onclick="selectAttend('yes')">
+            <span class="btn-icon">🥂</span>
+            <span class="btn-label">Joyfully Accepts</span>
+          </button>
+          <button type="button" class="attend-btn" id="btn-no" onclick="selectAttend('no')">
+            <span class="btn-icon">🤍</span>
+            <span class="btn-label">Regretfully Declines</span>
+          </button>
+        </div>
+        <select id="rsvp-attend" style="display:none">
           <option value="">Select one...</option>
-          <option>Joyfully accepts</option>
-          <option>Regretfully declines</option>
+          <option value="Joyfully accepts">Joyfully accepts</option>
+          <option value="Regretfully declines">Regretfully declines</option>
         </select>
       </div>
-      <div class="form-group"><label>Number of Guests (including yourself)</label>
-        <select><option>1</option><option>2</option><option>3</option><option>4</option></select>
+
+<!-- Number of guests -->
+      <div class="form-group">
+        <label>Number of Guests (including yourself)</label>
+        <select id="rsvp-guests" onchange="updateGuestNames()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
       </div>
-      <p style="font-style:italic;color:var(--text-muted);font-size:15px;margin:0.75rem 0 0.5rem;line-height:1.5;">(To ensure an intimate celebration, we are able to accommodate only those guests listed on your invitation. If a plus one has been reserved for you, it will be indicated. Thank you for understanding.)</p>
-      <div class="note-box" style="margin-top:0.75rem;margin-bottom:0;">Please do not bring gifts to the venue — we'd love for you to ship them in advance or contribute online. Thank you so much for your generosity!</div>
+
+      <!-- Dynamic guest name fields -->
+      <div id="guest-names" style="margin-top:.75rem;display:none">
+        <label style="display:block;font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.6rem;">Guest Names</label>
+        <div id="guest-name-fields" style="display:flex;flex-direction:column;gap:.5rem;"></div>
+      </div>
+
+      <p style="font-style:italic;color:var(--text-muted);font-size:14px;margin:.5rem 0 .75rem;line-height:1.6;">(To ensure an intimate celebration, we are able to accommodate only those guests listed on your invitation. If a plus one has been reserved for you, it will be indicated. Thank you for understanding.)</p>
+      <div class="note-box" style="margin-top:.75rem;margin-bottom:0;">Please do not bring gifts to the venue — we'd love for you to ship them in advance or contribute online. Thank you so much for your generosity!</div>
 
       <hr style="border:none;border-top:1px solid rgba(196,169,122,0.3);margin:2rem 0 1.5rem;">
 
-      <div class="form-group"><label>Meal Preference (for each guest in your party)</label>
-        <div class="checkbox-group">
-          <label><input type="radio" name="meal" value="Beef Tenderloin"> Beef Tenderloin</label>
-          <label><input type="radio" name="meal" value="Pan-Seared Salmon"> Pan-Seared Salmon</label>
-          <label><input type="radio" name="meal" value="Wild Mushroom Risotto (V, GF)"> Wild Mushroom Risotto (V, GF)</label>
+      <!-- Meal preference — card style -->
+      <div class="form-group">
+        <label>Meal Preference (for each guest in your party)</label>
+        <div class="meal-cards">
+          <label class="meal-card" onclick="selectMeal(this)">
+            <input type="radio" name="meal" value="Beef Tenderloin">
+            <span class="meal-icon">🥩</span><span>Beef Tenderloin</span><span class="meal-check">✓</span>
+          </label>
+          <label class="meal-card" onclick="selectMeal(this)">
+            <input type="radio" name="meal" value="Pan-Seared Salmon">
+            <span class="meal-icon">🐟</span><span>Pan-Seared Salmon</span><span class="meal-check">✓</span>
+          </label>
+          <label class="meal-card" onclick="selectMeal(this)">
+            <input type="radio" name="meal" value="Wild Mushroom Risotto (V, GF)">
+            <span class="meal-icon">🍄</span><span>Wild Mushroom Risotto (V, GF)</span><span class="meal-check">✓</span>
+          </label>
         </div>
       </div>
-      <div class="form-group"><label>Dietary Restrictions / Allergies</label>
-        <textarea placeholder="Let us know of any allergies or dietary needs..."></textarea>
+
+      <!-- Dietary -->
+      <div class="form-group">
+        <label>Dietary Restrictions / Allergies</label>
+        <textarea id="rsvp-dietary" placeholder="Let us know of any allergies or dietary needs..."></textarea>
       </div>
-      <div class="form-group"><label>Song Request</label>
-        <input type="text" placeholder="What song will get you on the dance floor?">
+
+      <!-- Song -->
+      <div class="form-group">
+        <label>Song Request</label>
+        <input type="text" id="rsvp-song" placeholder="What song will get you on the dance floor?">
       </div>
+
       <button class="submit-btn" onclick="submitRSVP()">Submit RSVP</button>
     </div>
     <div class="rsvp-thanks" id="rsvp-thanks">
@@ -1192,12 +1335,74 @@ function playEndScene() {
   }, 3300);
 }
 
+window.addEventListener("load", updateGuestNames);
+
+function updateGuestNames() {
+  var count = parseInt(document.getElementById('rsvp-guests').value) || 1;
+  var wrap = document.getElementById('guest-names');
+  var fields = document.getElementById('guest-name-fields');
+  wrap.style.display = 'block';
+  fields.innerHTML = '';
+  for (var i = 1; i <= count; i++) {
+    var inp = document.createElement('input');
+    inp.type = 'text';
+    inp.id = 'guest-name-' + i;
+    inp.placeholder = i === 1 ? 'Your name' : 'Guest ' + i + ' name';
+    inp.className = 'guest-name-input';
+    fields.appendChild(inp);
+  }
+}
+
+
+function selectAttend(choice) {
+  const sel = document.getElementById('rsvp-attend');
+  const btnYes = document.getElementById('btn-yes');
+  const btnNo  = document.getElementById('btn-no');
+  btnYes.classList.remove('selected-yes');
+  btnNo.classList.remove('selected-no');
+  if (choice === 'yes') {
+    sel.value = 'Joyfully accepts';
+    btnYes.classList.add('selected-yes');
+  } else {
+    sel.value = 'Regretfully declines';
+    btnNo.classList.add('selected-no');
+  }
+}
+
+function selectMeal(card) {
+  document.querySelectorAll('.meal-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+}
+
+
+var WEDDING_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHjqHq7hBQAveEA0hOCx6xAY1IJQ3uA4J6OxAHhVAfvPUMGhxBcA_7_HYVQ8P5piZBmw/exec'; // Set this to your Google Apps Script URL
+
 function submitRSVP() {
-  const name = document.getElementById('rsvp-name').value.trim();
   const attend = document.getElementById('rsvp-attend').value;
-  if (!name || !attend) {
-    alert('Please fill in your name and attendance status.');
+  if (!attend) {
+    alert('Please select whether you will attend.');
     return;
+  }
+  const meal = (document.querySelector('input[name="meal"]:checked') || {}).value || '';
+  const count = parseInt(document.getElementById('rsvp-guests').value) || 1;
+  const guestNames = Array.from({length:count},(_,i)=>(document.getElementById('guest-name-'+(i+1))||{}).value||'').join(', ');
+  const entry = {
+    type: 'rsvp',
+    name: guestNames,
+    attending: attend,
+    guests: document.getElementById('rsvp-guests').value,
+    guestNames,
+    meal,
+    dietary: document.getElementById('rsvp-dietary').value,
+    songRequest: document.getElementById('rsvp-song').value
+  };
+  // Save to localStorage
+  const saved = JSON.parse(localStorage.getItem('wdg_rsvps') || '[]');
+  saved.push({...entry, timestamp: new Date().toISOString()});
+  localStorage.setItem('wdg_rsvps', JSON.stringify(saved));
+  // Send to Google Apps Script if configured
+  if (typeof WEDDING_SCRIPT_URL !== 'undefined' && WEDDING_SCRIPT_URL) {
+    fetch(WEDDING_SCRIPT_URL, {method:'POST', mode:'no-cors', body:JSON.stringify(entry)}).catch(()=>{});
   }
   document.getElementById('rsvp-form-wrap').style.display = 'none';
   document.getElementById('rsvp-thanks').style.display = 'block';

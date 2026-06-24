@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — Matt &amp; Chelsea</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --cream:#FAF4E8;--gold:#C4A97A;--gold-dark:#9A7B4F;
+    --espresso:#2B1A0F;--text:#5C4A32;--muted:#7A6040;
+    --border:rgba(139,105,20,0.25);
+  }
+  body{font-family:'Cormorant Garamond',Georgia,serif;background:#FAF4E8;color:var(--espresso);min-height:100vh}
+
+  /* ── Login ── */
+  #login{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+  .login-card{
+    background:#fff9f0;border:0.5px solid var(--border);border-radius:4px;
+    padding:3rem 2.5rem;text-align:center;max-width:380px;width:100%;
+    box-shadow:0 8px 40px rgba(43,26,15,0.08);
+  }
+  .login-eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:1rem;display:block}
+  .login-title{font-family:'Cinzel',serif;font-size:22px;font-weight:400;letter-spacing:.1em;color:var(--espresso);margin-bottom:2rem}
+  .login-divider{width:40px;height:0.5px;background:var(--gold);margin:0 auto 2rem}
+  .login-input{
+    width:100%;padding:12px 14px;font-size:16px;font-family:'Cormorant Garamond',serif;
+    border:0.5px solid var(--border);border-radius:3px;background:rgba(255,250,242,0.92);
+    color:var(--espresso);outline:none;margin-bottom:1rem;transition:border .18s;
+    text-align:center;letter-spacing:.15em;
+  }
+  .login-input:focus{border-color:var(--gold-dark)}
+  .login-btn{
+    width:100%;padding:13px;font-family:'Cinzel',serif;font-size:12px;
+    letter-spacing:.2em;text-transform:uppercase;
+    background:#C9A87C;border:1px solid #B8935F;border-radius:2px;
+    color:#3E2208;cursor:pointer;transition:background .2s;
+  }
+  .login-btn:hover{background:#BC9A6A}
+  .login-error{color:#9b2335;font-size:13px;font-style:italic;margin-top:.75rem;display:none}
+
+  /* ── Dashboard ── */
+  #dashboard{display:none}
+  .dash-header{
+    background:rgba(245,240,232,0.97);border-bottom:1px solid var(--border);
+    padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;
+    position:sticky;top:0;z-index:10;
+  }
+  .dash-title{font-family:'Cinzel',serif;font-size:14px;letter-spacing:.12em;color:var(--espresso)}
+  .dash-title span{color:var(--gold-dark);font-size:11px;margin-left:4px}
+  .logout-btn{
+    font-family:'Cinzel',serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    background:none;border:0.5px solid var(--border);border-radius:2px;padding:6px 14px;
+    color:var(--muted);cursor:pointer;transition:all .18s;
+  }
+  .logout-btn:hover{border-color:var(--espresso);color:var(--espresso)}
+
+  .dash-body{max-width:1000px;margin:0 auto;padding:2rem 1.5rem 5rem}
+
+  /* Stats */
+  .stats-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem}
+  .stat-card{
+    flex:1;min-width:140px;background:#fff9f0;border:0.5px solid var(--border);
+    border-radius:4px;padding:1.25rem 1.5rem;text-align:center;
+  }
+  .stat-num{font-family:'Cinzel',serif;font-size:34px;font-weight:400;color:var(--espresso);display:block;line-height:1;margin-bottom:.35rem}
+  .stat-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+  /* Tabs */
+  .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:2rem}
+  .tab-btn{
+    font-family:'Cinzel',serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    padding:10px 22px;background:none;border:none;border-bottom:2px solid transparent;
+    color:var(--muted);cursor:pointer;transition:all .18s;margin-bottom:-1px;
+  }
+  .tab-btn.active{color:var(--espresso);border-bottom-color:var(--gold)}
+
+  /* Table */
+  .section-heading{
+    font-family:'Cinzel',serif;font-size:12px;letter-spacing:.15em;color:var(--espresso);
+    margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;
+  }
+  .refresh-btn{
+    font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+    background:none;border:0.5px solid var(--border);border-radius:2px;padding:5px 12px;
+    color:var(--muted);cursor:pointer;transition:all .18s;
+  }
+  .refresh-btn:hover{color:var(--espresso);border-color:var(--espresso)}
+  .data-table{width:100%;border-collapse:collapse;font-size:14px}
+  .data-table th{
+    font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--gold-dark);padding:8px 12px;text-align:left;
+    border-bottom:1px solid var(--border);white-space:nowrap;
+  }
+  .data-table td{
+    padding:10px 12px;border-bottom:0.5px solid rgba(139,105,20,0.1);
+    vertical-align:top;color:var(--text);
+  }
+  .data-table tr:last-child td{border-bottom:none}
+  .data-table tr:hover td{background:rgba(196,169,122,0.05)}
+  .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-family:'Cinzel',serif;letter-spacing:.04em}
+  .badge-yes{background:rgba(154,123,79,0.15);color:#5a3e1b}
+  .badge-no{background:rgba(155,60,60,0.1);color:#7a2020}
+
+  /* Songs */
+  .song-list{list-style:none}
+  .song-item{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:11px 0;border-bottom:0.5px solid rgba(139,105,20,0.1);font-size:15px;
+  }
+  .song-item:last-child{border-bottom:none}
+  .song-name{color:var(--espresso)}
+  .song-date{font-size:11px;color:var(--muted);font-style:italic;white-space:nowrap;margin-left:1rem}
+
+  /* Setup / empty */
+  .empty-state{text-align:center;padding:4rem 2rem;color:var(--muted);font-style:italic;font-size:16px}
+  .setup-banner{
+    background:rgba(196,169,122,0.1);border:0.5px solid var(--gold);
+    border-radius:4px;padding:1.75rem;margin-bottom:2.5rem;
+  }
+  .setup-banner h3{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#6B4A22;margin-bottom:1rem}
+  .setup-banner p{font-size:15px;color:var(--text);line-height:1.6;margin-bottom:.5rem}
+  .setup-banner ol{padding-left:1.5rem;line-height:2;font-size:15px;color:var(--text)}
+  .setup-banner code{font-family:monospace;font-size:12px;background:rgba(0,0,0,0.07);padding:1px 6px;border-radius:2px}
+  .loading{color:var(--muted);font-style:italic;font-size:14px;padding:1.5rem 0}
+
+  @media(max-width:640px){
+    .dash-body{padding:1.25rem 1rem 3rem}
+    .stats-row{gap:.75rem}
+    .data-table th:nth-child(n+5),.data-table td:nth-child(n+5){display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+  CONFIG — Update these two values:
+  1. ADMIN_PASSWORD  → your secret password
+  2. SCRIPT_URL      → your Google Apps Script Web App URL
+     (leave blank until you set up Google Sheets)
+══════════════════════════════════════════════════════════ -->
+<script>
+const ADMIN_PASSWORD = 'chelsea2027';
+const SCRIPT_URL     = 'https://script.google.com/macros/s/AKfycbwHjqHq7hBQAveEA0hOCx6xAY1IJQ3uA4J6OxAHhVAfvPUMGhxBcA_7_HYVQ8P5piZBmw/exec'; // paste your Google Apps Script URL here
+</script>
+<!-- ═══════════════════════════════════════════════════════ -->
+
+
+<!-- ── Login Screen ───────────────────────────────────────── -->
+<div id="login">
+  <div class="login-card">
+    <span class="login-eyebrow">Matt &amp; Chelsea · April 18, 2027</span>
+    <h1 class="login-title">Admin</h1>
+    <div class="login-divider"></div>
+    <input class="login-input" type="password" id="pwd" placeholder="Password"
+      onkeydown="if(event.key==='Enter')login()">
+    <button class="login-btn" onclick="login()">Enter</button>
+    <p class="login-error" id="login-error">Incorrect password — try again</p>
+  </div>
+</div>
+
+
+<!-- ── Dashboard ──────────────────────────────────────────── -->
+<div id="dashboard">
+
+  <div class="dash-header">
+    <div class="dash-title">Matt &amp; Chelsea <span>· Admin</span></div>
+    <button class="logout-btn" onclick="logout()">Log Out</button>
+  </div>
+
+  <div class="dash-body">
+
+    <!-- Setup instructions (shown when SCRIPT_URL not set) -->
+    <div class="setup-banner" id="setup-banner" style="display:none">
+      <h3>⚙ One-time Setup — Connect Google Sheets</h3>
+      <p>Right now, submissions save to this browser only. To see responses from all your guests (on any device), follow these steps once:</p>
+      <ol>
+        <li>Go to <strong>script.google.com</strong> and click <strong>New project</strong></li>
+        <li>Delete the starter code and paste in the code from <code>apps-script.gs</code> (in your wedding folder)</li>
+        <li>Click <strong>Deploy → New deployment → Web app</strong></li>
+        <li>Set <em>Execute as:</em> <strong>Me</strong> &nbsp;·&nbsp; <em>Who has access:</em> <strong>Anyone</strong></li>
+        <li>Click <strong>Deploy</strong>, then copy the Web App URL</li>
+        <li>Open <code>admin.htm</code>, <code>rsvp.htm</code>, and <code>details.htm</code> — paste the URL into the <code>SCRIPT_URL</code> (or <code>WEDDING_SCRIPT_URL</code>) variable at the top of each file</li>
+      </ol>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-num" id="stat-total">0</span><span class="stat-label">Total RSVPs</span></div>
+      <div class="stat-card"><span class="stat-num" id="stat-yes">0</span><span class="stat-label">Attending</span></div>
+      <div class="stat-card"><span class="stat-num" id="stat-no">0</span><span class="stat-label">Not Attending</span></div>
+      <div class="stat-card"><span class="stat-num" id="stat-songs">0</span><span class="stat-label">Song Requests</span></div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('rsvps',this)">RSVPs</button>
+      <button class="tab-btn" onclick="switchTab('songs',this)">Song Requests</button>
+    </div>
+
+    <!-- RSVPs panel -->
+    <div id="panel-rsvps">
+      <div class="section-heading">
+        Guest Responses
+        <button class="refresh-btn" onclick="loadData()">↺ Refresh</button>
+      </div>
+      <div id="rsvp-content"><p class="loading">Loading…</p></div>
+    </div>
+
+    <!-- Songs panel -->
+    <div id="panel-songs" style="display:none">
+      <div class="section-heading">
+        Song Requests
+        <button class="refresh-btn" onclick="loadData()">↺ Refresh</button>
+      </div>
+      <div id="song-content"><p class="loading">Loading…</p></div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+// ── Auth ─────────────────────────────────────────────────────
+function login() {
+  if (document.getElementById('pwd').value === ADMIN_PASSWORD) {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    sessionStorage.setItem('wdg-auth','1');
+    init();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd').value = '';
+    document.getElementById('pwd').focus();
+  }
+}
+function logout() {
+  sessionStorage.removeItem('wdg-auth');
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('pwd').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+if (sessionStorage.getItem('wdg-auth') === '1') {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+}
+
+// ── Tabs ─────────────────────────────────────────────────────
+function switchTab(tab, btn) {
+  document.getElementById('panel-rsvps').style.display = tab==='rsvps' ? '' : 'none';
+  document.getElementById('panel-songs').style.display = tab==='songs' ? '' : 'none';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── Data ─────────────────────────────────────────────────────
+function init() {
+  if (!SCRIPT_URL) {
+    document.getElementById('setup-banner').style.display = 'block';
+    // Show localStorage data while not yet connected
+    const rsvps = JSON.parse(localStorage.getItem('wdg_rsvps') || '[]');
+    const songs = JSON.parse(localStorage.getItem('wdg_songs') || '[]');
+    renderRsvpsLocal(rsvps);
+    renderSongsLocal(songs);
+    updateStats(rsvps, songs);
+  } else {
+    loadData();
+  }
+}
+
+async function loadData() {
+  try {
+    const [rRes, sRes] = await Promise.all([
+      fetch(SCRIPT_URL + '?type=rsvps'),
+      fetch(SCRIPT_URL + '?type=songs')
+    ]);
+    const rJson = await rRes.json();
+    const sJson = await sRes.json();
+    const rsvpRows = (rJson.data || []).slice(1);
+    const songRows = (sJson.data || []).slice(1);
+    renderRsvpsSheet(rsvpRows);
+    renderSongsSheet(songRows);
+    updateStatsSheet(rsvpRows, songRows);
+  } catch(e) {
+    document.getElementById('rsvp-content').innerHTML = '<p class="loading">Could not connect. Check your SCRIPT_URL is correct.</p>';
+    document.getElementById('song-content').innerHTML = '<p class="loading">Could not connect.</p>';
+  }
+}
+
+// ── Stats ─────────────────────────────────────────────────────
+function updateStats(rsvps, songs) {
+  const yes = rsvps.filter(r => (r.attending||'').toLowerCase().includes('accept')).length;
+  document.getElementById('stat-total').textContent = rsvps.length;
+  document.getElementById('stat-yes').textContent = yes;
+  document.getElementById('stat-no').textContent = rsvps.length - yes;
+  document.getElementById('stat-songs').textContent = songs.length;
+}
+function updateStatsSheet(rsvpRows, songRows) {
+  const yes = rsvpRows.filter(r => (r[2]||'').toLowerCase().includes('accept')).length;
+  document.getElementById('stat-total').textContent = rsvpRows.length;
+  document.getElementById('stat-yes').textContent = yes;
+  document.getElementById('stat-no').textContent = rsvpRows.length - yes;
+  document.getElementById('stat-songs').textContent = songRows.length;
+}
+
+// ── Render: localStorage mode ──────────────────────────────────
+function renderRsvpsLocal(rsvps) {
+  if (!rsvps.length) {
+    document.getElementById('rsvp-content').innerHTML = '<p class="empty-state">No RSVPs yet — check back soon! 💌</p>';
+    return;
+  }
+  let html = '<table class="data-table"><thead><tr><th>Name</th><th>Attending</th><th>Guests</th><th>Meal</th><th>Dietary</th><th>Song Request</th><th>Date</th></tr></thead><tbody>';
+  rsvps.forEach(r => {
+    const isYes = (r.attending||'').toLowerCase().includes('accept');
+    const date = r.timestamp ? new Date(r.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+    html += `<tr>
+      <td>${r.name||''}</td>
+      <td><span class="badge ${isYes?'badge-yes':'badge-no'}">${r.attending||''}</span></td>
+      <td>${r.guests||''}</td>
+      <td>${r.meal||''}</td>
+      <td>${r.dietary||''}</td>
+      <td>${r.songRequest||''}</td>
+      <td>${date}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('rsvp-content').innerHTML = html;
+}
+
+function renderSongsLocal(songs) {
+  if (!songs.length) {
+    document.getElementById('song-content').innerHTML = '<p class="empty-state">No song requests yet — guests will add them soon! 🎶</p>';
+    return;
+  }
+  let html = '<ul class="song-list">';
+  songs.forEach(s => {
+    const date = s.timestamp ? new Date(s.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+    html += `<li class="song-item"><span class="song-name">♪ &nbsp;${s.song||''}</span><span class="song-date">${date}</span></li>`;
+  });
+  html += '</ul>';
+  document.getElementById('song-content').innerHTML = html;
+}
+
+// ── Render: Google Sheets mode ──────────────────────────────────
+function renderRsvpsSheet(rows) {
+  if (!rows.length) {
+    document.getElementById('rsvp-content').innerHTML = '<p class="empty-state">No RSVPs yet — check back soon! 💌</p>';
+    return;
+  }
+  let html = '<table class="data-table"><thead><tr><th>Name</th><th>Attending</th><th>Guests</th><th>Meal</th><th>Dietary</th><th>Song Request</th><th>Date</th></tr></thead><tbody>';
+  rows.forEach(row => {
+    const isYes = (row[2]||'').toLowerCase().includes('accept');
+    const date = row[0] ? new Date(row[0]).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
+    html += `<tr>
+      <td>${row[1]||''}</td>
+      <td><span class="badge ${isYes?'badge-yes':'badge-no'}">${row[2]||''}</span></td>
+      <td>${row[3]||''}</td>
+      <td>${row[4]||''}</td>
+      <td>${row[5]||''}</td>
+      <td>${row[6]||''}</td>
+      <td>${date}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById('rsvp-content').innerHTML = html;
+}
+
+function renderSongsSheet(rows) {
+  if (!rows.length) {
+    document.getElementById('song-content').innerHTML = '<p class="empty-state">No song requests yet! 🎶</p>';
+    return;
+  }
+  let html = '<ul class="song-list">';
+  rows.forEach(row => {
+    const date = row[0] ? new Date(row[0]).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+    html += `<li class="song-item"><span class="song-name">♪ &nbsp;${row[1]||''}</span><span class="song-date">${date}</span></li>`;
+  });
+  html += '</ul>';
+  document.getElementById('song-content').innerHTML = html;
+}
+
+// Auto-init if session active
+if (sessionStorage.getItem('wdg-auth') === '1') init();
+</script>
+</body>
+</html>
