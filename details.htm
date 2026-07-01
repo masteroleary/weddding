@@ -37,16 +37,7 @@
   }
   html, body { background-color: #FAF4E8; }
 
-  /* ── Background SVG canvas ── */
-  .bg-canvas{
-    position:fixed;
-    top:0;left:0;width:100%;height:100%;
-    pointer-events:none;
-    z-index:0;
-    overflow:hidden;
-    display:none;
-  }
-  .bg-canvas svg{width:100%;height:100%;position:absolute;top:0;left:0}
+  
 
   /* ── Layout ── */
   .site{
@@ -820,163 +811,6 @@
 <body>
 
 
-<!-- Background -->
-<div class="bg-canvas">
-  <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 900">
-    <rect width="1200" height="900" fill="#F5F0E8"/>
-
-    <!-- linen texture lines -->
-    <g opacity="0.045" stroke="#8B6914" stroke-width="0.4">
-      <line x1="0" y1="60" x2="1200" y2="60"/><line x1="0" y1="120" x2="1200" y2="120"/>
-      <line x1="0" y1="180" x2="1200" y2="180"/><line x1="0" y1="240" x2="1200" y2="240"/>
-      <line x1="0" y1="300" x2="1200" y2="300"/><line x1="0" y1="360" x2="1200" y2="360"/>
-      <line x1="0" y1="420" x2="1200" y2="420"/><line x1="0" y1="480" x2="1200" y2="480"/>
-      <line x1="0" y1="540" x2="1200" y2="540"/><line x1="0" y1="600" x2="1200" y2="600"/>
-      <line x1="0" y1="660" x2="1200" y2="660"/><line x1="0" y1="720" x2="1200" y2="720"/>
-      <line x1="0" y1="780" x2="1200" y2="780"/><line x1="0" y1="840" x2="1200" y2="840"/>
-    </g>
-
-    <!-- ornate border frame -->
-    <g opacity="0.18">
-      <rect x="22" y="22" width="1156" height="856" rx="2" fill="none" stroke="#8B6914" stroke-width="0.8"/>
-      <rect x="32" y="32" width="1136" height="836" rx="1" fill="none" stroke="#C4A97A" stroke-width="0.4"/>
-      <rect x="42" y="42" width="1116" height="816" rx="1" fill="none" stroke="#C4A97A" stroke-width="0.2" stroke-dasharray="4,8"/>
-    </g>
-
-    <!-- top/bottom crown ornament -->
-    <g opacity="0.22">
-      <path d="M22 60 L55 28 L1145 28 L1178 60" fill="none" stroke="#8B6914" stroke-width="0.55"/>
-      <path d="M22 840 L55 872 L1145 872 L1178 840" fill="none" stroke="#8B6914" stroke-width="0.55"/>
-      <circle cx="600" cy="24" r="4" fill="none" stroke="#8B6914" stroke-width="0.6"/>
-      <line x1="590" y1="24" x2="570" y2="24" stroke="#8B6914" stroke-width="0.5"/>
-      <line x1="610" y1="24" x2="630" y2="24" stroke="#8B6914" stroke-width="0.5"/>
-      <circle cx="600" cy="876" r="4" fill="none" stroke="#8B6914" stroke-width="0.6"/>
-      <line x1="590" y1="876" x2="570" y2="876" stroke="#8B6914" stroke-width="0.5"/>
-      <line x1="610" y1="876" x2="630" y2="876" stroke="#8B6914" stroke-width="0.5"/>
-    </g>
-
-    <!-- ══ FLORAL CORNER TL ══ -->
-    <g opacity="0.55" transform="translate(30,30)">
-      <!-- stem -->
-      <path d="M20,140 C22,110 30,80 45,55" fill="none" stroke="#8B6914" stroke-width="0.7"/>
-      <path d="M20,140 C10,115 5,85 15,60" fill="none" stroke="#8B6914" stroke-width="0.5"/>
-      <!-- leaves -->
-      <path d="M28,105 C20,95 10,92 8,82 C18,80 28,88 28,105Z" fill="#A4966B" opacity="0.35"/>
-      <path d="M35,80 C42,68 55,65 60,55 C50,53 38,60 35,80Z" fill="#A4966B" opacity="0.3"/>
-      <path d="M18,115 C8,108 2,100 0,88 C10,86 18,96 18,115Z" fill="#A4966B" opacity="0.28"/>
-      <!-- large rose bloom -->
-      <ellipse cx="45" cy="52" rx="16" ry="18" fill="none" stroke="#8B6914" stroke-width="0.7"/>
-      <ellipse cx="45" cy="52" rx="11" ry="13" fill="none" stroke="#8B6914" stroke-width="0.5"/>
-      <ellipse cx="45" cy="52" rx="7" ry="8" fill="none" stroke="#C4A97A" stroke-width="0.4"/>
-      <ellipse cx="45" cy="52" rx="3" ry="4" fill="#C4A97A" opacity="0.4"/>
-      <!-- petals around rose -->
-      <ellipse cx="45" cy="34" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.5" transform="rotate(-10,45,34)"/>
-      <ellipse cx="60" cy="40" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.5" transform="rotate(50,60,40)"/>
-      <ellipse cx="63" cy="57" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(90,63,57)"/>
-      <ellipse cx="30" cy="40" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.5" transform="rotate(-60,30,40)"/>
-      <ellipse cx="27" cy="57" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(-100,27,57)"/>
-      <!-- small buds -->
-      <ellipse cx="65" cy="75" rx="8" ry="10" fill="none" stroke="#8B6914" stroke-width="0.5"/>
-      <ellipse cx="65" cy="75" rx="4" ry="5" fill="none" stroke="#C4A97A" stroke-width="0.35"/>
-      <ellipse cx="10" cy="68" rx="7" ry="9" fill="none" stroke="#8B6914" stroke-width="0.45"/>
-      <ellipse cx="10" cy="68" rx="3" ry="4" fill="none" stroke="#C4A97A" stroke-width="0.3"/>
-      <!-- scattered petals -->
-      <ellipse cx="80" cy="90" rx="4" ry="7" fill="none" stroke="#A4966B" stroke-width="0.4" transform="rotate(30,80,90)" opacity="0.6"/>
-      <ellipse cx="5" cy="45" rx="3" ry="5" fill="none" stroke="#A4966B" stroke-width="0.35" transform="rotate(-20,5,45)" opacity="0.5"/>
-      <circle cx="75" cy="108" r="2" fill="#C4A97A" opacity="0.3"/>
-      <circle cx="55" cy="20" r="1.5" fill="#C4A97A" opacity="0.35"/>
-    </g>
-
-    <!-- ══ FLORAL CORNER TR ══ -->
-    <g opacity="0.55" transform="translate(1170,30) scale(-1,1)">
-      <path d="M20,140 C22,110 30,80 45,55" fill="none" stroke="#8B6914" stroke-width="0.7"/>
-      <path d="M20,140 C10,115 5,85 15,60" fill="none" stroke="#8B6914" stroke-width="0.5"/>
-      <path d="M28,105 C20,95 10,92 8,82 C18,80 28,88 28,105Z" fill="#A4966B" opacity="0.35"/>
-      <path d="M35,80 C42,68 55,65 60,55 C50,53 38,60 35,80Z" fill="#A4966B" opacity="0.3"/>
-      <path d="M18,115 C8,108 2,100 0,88 C10,86 18,96 18,115Z" fill="#A4966B" opacity="0.28"/>
-      <ellipse cx="45" cy="52" rx="16" ry="18" fill="none" stroke="#8B6914" stroke-width="0.7"/>
-      <ellipse cx="45" cy="52" rx="11" ry="13" fill="none" stroke="#8B6914" stroke-width="0.5"/>
-      <ellipse cx="45" cy="52" rx="7" ry="8" fill="none" stroke="#C4A97A" stroke-width="0.4"/>
-      <ellipse cx="45" cy="52" rx="3" ry="4" fill="#C4A97A" opacity="0.4"/>
-      <ellipse cx="45" cy="34" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.5" transform="rotate(-10,45,34)"/>
-      <ellipse cx="60" cy="40" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.5" transform="rotate(50,60,40)"/>
-      <ellipse cx="63" cy="57" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(90,63,57)"/>
-      <ellipse cx="30" cy="40" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.5" transform="rotate(-60,30,40)"/>
-      <ellipse cx="27" cy="57" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(-100,27,57)"/>
-      <ellipse cx="65" cy="75" rx="8" ry="10" fill="none" stroke="#8B6914" stroke-width="0.5"/>
-      <ellipse cx="65" cy="75" rx="4" ry="5" fill="none" stroke="#C4A97A" stroke-width="0.35"/>
-      <ellipse cx="10" cy="68" rx="7" ry="9" fill="none" stroke="#8B6914" stroke-width="0.45"/>
-      <ellipse cx="10" cy="68" rx="3" ry="4" fill="none" stroke="#C4A97A" stroke-width="0.3"/>
-      <ellipse cx="80" cy="90" rx="4" ry="7" fill="none" stroke="#A4966B" stroke-width="0.4" transform="rotate(30,80,90)" opacity="0.6"/>
-      <circle cx="75" cy="108" r="2" fill="#C4A97A" opacity="0.3"/>
-    </g>
-
-    <!-- ══ FLORAL CORNER BL ══ -->
-    <g opacity="0.45" transform="translate(30,900) scale(1,-1)">
-      <path d="M20,140 C22,110 30,80 45,55" fill="none" stroke="#8B6914" stroke-width="0.7"/>
-      <path d="M20,140 C10,115 5,85 15,60" fill="none" stroke="#8B6914" stroke-width="0.5"/>
-      <path d="M28,105 C20,95 10,92 8,82 C18,80 28,88 28,105Z" fill="#A4966B" opacity="0.3"/>
-      <path d="M35,80 C42,68 55,65 60,55 C50,53 38,60 35,80Z" fill="#A4966B" opacity="0.25"/>
-      <ellipse cx="45" cy="52" rx="16" ry="18" fill="none" stroke="#8B6914" stroke-width="0.65"/>
-      <ellipse cx="45" cy="52" rx="11" ry="13" fill="none" stroke="#8B6914" stroke-width="0.45"/>
-      <ellipse cx="45" cy="52" rx="6" ry="7" fill="none" stroke="#C4A97A" stroke-width="0.35"/>
-      <ellipse cx="45" cy="34" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(-10,45,34)"/>
-      <ellipse cx="60" cy="40" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(50,60,40)"/>
-      <ellipse cx="30" cy="40" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(-60,30,40)"/>
-      <ellipse cx="65" cy="75" rx="7" ry="9" fill="none" stroke="#8B6914" stroke-width="0.45"/>
-      <ellipse cx="10" cy="68" rx="6" ry="8" fill="none" stroke="#8B6914" stroke-width="0.4"/>
-    </g>
-
-    <!-- ══ FLORAL CORNER BR ══ -->
-    <g opacity="0.45" transform="translate(1170,900) scale(-1,-1)">
-      <path d="M20,140 C22,110 30,80 45,55" fill="none" stroke="#8B6914" stroke-width="0.7"/>
-      <path d="M20,140 C10,115 5,85 15,60" fill="none" stroke="#8B6914" stroke-width="0.5"/>
-      <path d="M28,105 C20,95 10,92 8,82 C18,80 28,88 28,105Z" fill="#A4966B" opacity="0.3"/>
-      <path d="M35,80 C42,68 55,65 60,55 C50,53 38,60 35,80Z" fill="#A4966B" opacity="0.25"/>
-      <ellipse cx="45" cy="52" rx="16" ry="18" fill="none" stroke="#8B6914" stroke-width="0.65"/>
-      <ellipse cx="45" cy="52" rx="11" ry="13" fill="none" stroke="#8B6914" stroke-width="0.45"/>
-      <ellipse cx="45" cy="52" rx="6" ry="7" fill="none" stroke="#C4A97A" stroke-width="0.35"/>
-      <ellipse cx="45" cy="34" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(-10,45,34)"/>
-      <ellipse cx="60" cy="40" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(50,60,40)"/>
-      <ellipse cx="30" cy="40" rx="5" ry="8" fill="none" stroke="#8B6914" stroke-width="0.45" transform="rotate(-60,30,40)"/>
-      <ellipse cx="65" cy="75" rx="7" ry="9" fill="none" stroke="#8B6914" stroke-width="0.45"/>
-      <ellipse cx="10" cy="68" rx="6" ry="8" fill="none" stroke="#8B6914" stroke-width="0.4"/>
-    </g>
-
-    <!-- scattered floating petals -->
-    <g opacity="0.12">
-      <ellipse cx="200" cy="150" rx="5" ry="8" fill="#8B6914" transform="rotate(25,200,150)"/>
-      <ellipse cx="950" cy="200" rx="4" ry="7" fill="#8B6914" transform="rotate(-15,950,200)"/>
-      <ellipse cx="150" cy="600" rx="4" ry="6" fill="#8B6914" transform="rotate(40,150,600)"/>
-      <ellipse cx="1050" cy="700" rx="5" ry="7" fill="#8B6914" transform="rotate(-30,1050,700)"/>
-      <ellipse cx="300" cy="800" rx="3" ry="5" fill="#8B6914" transform="rotate(15,300,800)"/>
-      <ellipse cx="900" cy="750" rx="4" ry="6" fill="#8B6914" transform="rotate(50,900,750)"/>
-      <ellipse cx="600" cy="100" rx="3" ry="5" fill="#8B6914" transform="rotate(-20,600,100)"/>
-      <ellipse cx="700" cy="820" rx="4" ry="6" fill="#8B6914" transform="rotate(35,700,820)"/>
-    </g>
-
-    <!-- gentle sweeping arcs -->
-    <g opacity="0.07">
-      <path d="M0,0 Q600,260 1200,0" fill="none" stroke="#6B4A22" stroke-width="0.7"/>
-      <path d="M0,900 Q600,640 1200,900" fill="none" stroke="#6B4A22" stroke-width="0.6"/>
-    </g>
-
-    <!-- center medallion -->
-    <g opacity="0.06">
-      <circle cx="600" cy="450" r="240" fill="none" stroke="#8B6914" stroke-width="0.6"/>
-      <circle cx="600" cy="450" r="290" fill="none" stroke="#C4A97A" stroke-width="0.3"/>
-      <circle cx="600" cy="450" r="180" fill="none" stroke="#8B6914" stroke-width="0.3" stroke-dasharray="3,9"/>
-    </g>
-
-    <!-- candle-glow soft blobs -->
-    <g opacity="0.06">
-      <circle cx="150" cy="300" r="120" fill="#C4A97A"/>
-      <circle cx="1050" cy="300" r="110" fill="#C4A97A"/>
-      <circle cx="600" cy="800" r="130" fill="#C4A97A"/>
-    </g>
-  </svg>
-</div>
-
 <div class="site">
 
       <nav class="nav">
@@ -987,9 +821,9 @@
       <span style="position:relative;z-index:2;">RSVP</span>
       <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
     </button>
+    <button onclick="window.location.href='travel-photobook.html'">Our Story</button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
     <button onclick="window.location.href='todo.htm'">Things to Do</button>
-    <button onclick="window.location.href='travel-photobook.html'">Photo Gallery</button>
     <button onclick="window.location.href='faq.htm'">FAQ</button>
   </nav>
 

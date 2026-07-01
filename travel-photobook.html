@@ -3,193 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>C &amp; M — Photo Gallery</title>
+<title>C &amp; M — Our Story</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Caveat:wght@400;500;600&family=Cinzel:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500&display=swap');
 
   *{box-sizing:border-box;margin:0;padding:0}
-
   :root{
-    --cream:#F5F0E8;
-    --gold:#C4A97A;
-    --gold-dark:#9A7B4F;
-    --brown:#6B4A22;
-    --espresso:#2B1A0F;
+    --cream:#FAF4E8;--gold:#C4A97A;--gold-dark:#9A7B4F;--espresso:#2B1A0F;
   }
-
-  html{ scroll-behavior:smooth; background-color:#FAF4E8; }
-
-  body{
-    font-family:'Cormorant Garamond',Georgia,serif;
-    background:#F5EFE3;
-    min-height:100vh;
-    color:var(--espresso);
-  }
-  html, body { background-color: #FAF4E8; }
+  html,body{background:#FAF4E8;font-family:'Cormorant Garamond',Georgia,serif;min-height:100vh;color:var(--espresso);}
 
   /* ── Nav ── */
   .nav{
     display:flex;flex-wrap:wrap;gap:2px;justify-content:center;
-    padding:1.25rem 1rem 0.75rem;
-    position:sticky;top:0;
-    background:rgba(245,240,232,0.95);
-    backdrop-filter:blur(6px);
-    -webkit-backdrop-filter:blur(6px);
-    z-index:100;
-    border-bottom:1px solid rgba(196,169,122,0.4);
-    width:100vw;
-    margin-left:50%;
-    transform:translateX(-50%);
+    padding:1.25rem 1rem 0.75rem;position:sticky;top:0;
+    background:rgba(250,244,232,0.97);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    z-index:100;border-bottom:1px solid rgba(196,169,122,0.4);
+    width:100vw;margin-left:50%;transform:translateX(-50%);
   }
-  .nav::before{
-    content:'';
-    display:block;
-    position:absolute;
-    top:0;left:0;right:0;height:3px;
-    background:linear-gradient(90deg,transparent,var(--gold),transparent);
-    opacity:0.6;
-  }
-  .nav button{
-    background:transparent;border:none;
-    font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
-    font-weight:600;
-    color:var(--text-muted, #7A6040);cursor:pointer;
-    padding:8px 14px 10px;
-    border-radius:3px;
-    transition:all .18s;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    position:relative;
-  }
-  .nav button::after{
-    content:'';position:absolute;bottom:0;left:50%;right:50%;
-    height:2px;background:var(--gold);
-    transition:left .2s,right .2s;
-  }
+  .nav::before{content:'';display:block;position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6;}
+  .nav button{background:transparent;border:none;font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;color:#7A6040;cursor:pointer;padding:8px 14px 10px;border-radius:3px;transition:all .18s;letter-spacing:.06em;text-transform:uppercase;position:relative;}
+  .nav button::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:2px;background:var(--gold);transition:left .2s,right .2s;}
   .nav button:hover{color:var(--espresso);transform:scale(1.15);}
-  .nav button.active{color:var(--espresso)}
-  .nav button.active::after{left:12px;right:12px}
-  .nav-rsvp{
+  .nav button.active{color:var(--espresso);}
+  .nav button.active::after{left:12px;right:12px;}
+  .nav-rsvp{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:8px 14px 8px !important;color:#FAF4E8 !important;font-weight:700 !important;font-family:'Cinzel',Georgia,serif !important;font-size:16px !important;letter-spacing:.18em !important;border:none !important;border-radius:0 !important;overflow:visible !important;z-index:1;}
+  .rsvp-swirl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;pointer-events:none;opacity:1;overflow:visible;z-index:0;}
+  .nav-rsvp span{position:relative;z-index:2;}
+
+  /* ── Header ── */
+  .page-header{text-align:center;padding:2.5rem 1rem 2rem;}
+  .page-header h1{font-family:'Cinzel',Georgia,serif;font-size:clamp(20px,3vw,28px);font-weight:400;color:var(--espresso);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.5rem;}
+  .page-header p{font-size:16px;font-style:italic;color:var(--gold-dark);letter-spacing:.06em;}
+  .header-rule{width:80px;height:1px;background:var(--gold);margin:1rem auto 0;opacity:0.6;}
+
+  /* ── Infinite Belt ── */
+  .belt-wrap{
+    width:100%;overflow:hidden;
+    padding:0 0 3rem;
     position:relative;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    padding:8px 14px 8px !important;
-    color:#FAF4E8 !important;
-    font-weight:700 !important;
-    font-family:'Cinzel',Georgia,serif !important;
-    font-size:16px !important;
-    letter-spacing:.18em !important;
-    border:none !important;
-    border-radius:0 !important;
   }
-  .rsvp-swirl{
+
+  /* Playback controls */
+  .controls-bar{
     position:absolute;
-    top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    width:100%;height:100%;
-    pointer-events:none;
-    opacity:1;
-    transition:opacity .2s;
-    overflow:visible;
-    z-index:0;
-  }
-  .nav-rsvp{ overflow:visible !important; z-index:1; }
-  .nav-rsvp span, .nav-rsvp:not(svg){ position:relative; z-index:2; }
-
-  .nav-rsvp:hover .nav-rsvp-heart,.nav-rsvp.active .nav-rsvp-heart{
-    opacity:1;transform:translate(-50%,-52%) scale(1.08);
-  }
-
-
-  /* ── Page header ── */
-  .page-header{
-    text-align:center;padding:3rem 1rem 1rem;
-  }
-  .page-header h1{
-    font-family:'Caveat',cursive;
-    font-size:clamp(36px,6vw,62px);
-    font-weight:600;
-    color:var(--espresso);letter-spacing:.02em;
-    margin-bottom:0.4rem;
-  }
-  .page-header p{
-    font-size:16px;color:var(--gold-dark);letter-spacing:.06em;
-  }
-  .header-rule{
-    width:80px;height:1px;background:var(--gold);
-    margin:1rem auto 0;opacity:0.6;
-  }
-
-  /* ── Polaroid Wall ── */
-  .polaroid-wall{
+    top:14px;
+    right:18px;
+    z-index:20;
     display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:2.5rem 2rem;
-    padding:3rem 2rem 5rem;
-    max-width:1200px;
-    margin:0 auto;
+    gap:8px;
+    align-items:center;
+  }
+  .ctrl-btn{
+    background:rgba(250,244,232,0.88);
+    border:0.5px solid rgba(196,169,122,0.55);
+    color:var(--espresso);
+    font-size:14px;
+    width:38px;height:38px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(0,0,0,0.12);
+    transition:background .18s,transform .18s;
+    user-select:none;
+    line-height:1;
+    padding:0;
+  }
+  .ctrl-btn:hover{background:rgba(250,244,232,1);transform:scale(1.08);}
+  .ctrl-btn.active{background:var(--gold);color:#fff;border-color:var(--gold-dark);}
+  /* soft fade edges */
+  .belt-wrap::before,.belt-wrap::after{
+    content:'';position:absolute;top:0;bottom:0;width:120px;z-index:10;pointer-events:none;
+  }
+  .belt-wrap::before{left:0;background:linear-gradient(to right,#FAF4E8 0%,transparent 100%);}
+  .belt-wrap::after{right:0;background:linear-gradient(to left,#FAF4E8 0%,transparent 100%);}
+
+  .belt-track{
+    display:flex;gap:0;
+    width:max-content;
+    will-change:transform;
   }
 
-  .polaroid{
-    background:#fff;
-    padding:10px 10px 44px 10px;
-    box-shadow:0 4px 18px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.10);
-    cursor:pointer;
-    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  .belt-photo{
+    flex-shrink:0;
+    height:52vh;
+    width:auto;
+    border-radius:3px;
+    overflow:hidden;
+    box-shadow:0 6px 28px rgba(43,26,15,0.18),0 1px 6px rgba(0,0,0,0.08);
     position:relative;
+    cursor:pointer;
+    background:#FAF4E8;
   }
-  .polaroid:hover{
-    transform:rotate(0deg) scale(1.07) translateY(-8px) !important;
-    box-shadow:0 14px 40px rgba(0,0,0,0.28), 0 2px 8px rgba(0,0,0,0.14);
-    z-index:10;
-  }
-  .polaroid img{
+  .belt-photo img{
+    height:100%;
+    width:auto;
     display:block;
-    width:220px;
-    height:220px;
-    object-fit:cover;
-    object-position:center;
+    transition:transform 0.4s ease;
   }
-  .polaroid .caption{
-    position:absolute;
-    bottom:10px;left:0;right:0;
-    text-align:center;
-    font-family:'Caveat',cursive;
-    font-size:15px;
-    color:#777;
-    padding:0 8px;
-  }
+  .belt-photo:hover img{transform:scale(1.03);}
 
   /* ── Lightbox ── */
-  #lightbox{
-    display:none;position:fixed;inset:0;z-index:9999;
-    background:rgba(0,0,0,0.9);
-    align-items:center;justify-content:center;
-    cursor:zoom-out;
-  }
-  #lightbox.open{ display:flex; }
-  #lightbox img{
-    max-width:90vw;max-height:90vh;
-    object-fit:contain;
-    border-radius:2px;
-    box-shadow:0 8px 40px rgba(0,0,0,0.6);
-    cursor:default;
-  }
-  #lightbox-close{
-    position:fixed;top:18px;right:24px;
-    font-size:36px;color:#fff;
-    background:none;border:none;cursor:pointer;
-    line-height:1;opacity:0.8;
-  }
+  #lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;cursor:zoom-out;}
+  #lightbox.open{display:flex;}
+  #lightbox img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:2px;box-shadow:0 8px 40px rgba(0,0,0,0.6);cursor:default;}
+  #lightbox-close{position:fixed;top:18px;right:24px;font-size:36px;color:#fff;background:none;border:none;cursor:pointer;line-height:1;opacity:0.75;}
   #lightbox-close:hover{opacity:1;}
+  #lb-prev,#lb-next{position:fixed;top:50%;transform:translateY(-50%);background:rgba(250,244,232,0.15);border:0.5px solid rgba(255,255,255,0.25);color:#fff;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:background .18s;}
+  #lb-prev:hover,#lb-next:hover{background:rgba(250,244,232,0.25);}
+  #lb-prev{left:20px;}#lb-next{right:20px;}
+  #lb-counter{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:.14em;color:rgba(255,255,255,0.55);}
 
   @media(max-width:600px){
-    .polaroid img{width:150px;height:150px;}
-    .polaroid{padding:7px 7px 36px 7px;}
-    .polaroid-wall{gap:1.5rem 1rem;padding:2rem 1rem 4rem;}
+    .belt-photo{height:50vw;}
+    .belt-wrap::before,.belt-wrap::after{width:40px;}
   }
+
+  /* ── Our Story ── */
+  .story-section-wrap{
+    max-width:620px;margin:3rem auto 4rem;text-align:center;padding:0 1.5rem;
+  }
+  .story-section-rule{width:80px;height:1px;background:var(--gold);margin:0 auto 2.5rem;opacity:0.6;}
+  .story-section-eyebrow{
+    font-family:'Cinzel',serif;font-size:10px;letter-spacing:4px;
+    color:var(--gold-dark);text-transform:uppercase;opacity:.7;margin-bottom:2rem;
+  }
+  .story-wrap{max-width:580px;margin:0 auto;text-align:center}
+  .story-entry{margin:0 0 2.75rem}
+  .story-entry-title{
+    font-family:'Great Vibes',cursive;font-size:clamp(36px,5.5vw,50px);
+    color:var(--espresso);line-height:1;margin-bottom:.65rem;
+  }
+  .story-entry-rule{
+    width:32px;height:.5px;background:var(--gold);
+    margin:0 auto .9rem;opacity:.6;
+  }
+  .story-entry-text{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:16px;line-height:1.9;color:#5A3E28;font-style:italic;
+  }
+  .story-divider-glyph-wrap{
+    display:flex;align-items:center;gap:14px;margin:0 auto 2.75rem;max-width:200px;
+  }
+  .story-divider-glyph-wrap::before,.story-divider-glyph-wrap::after{
+    content:'';flex:1;height:.5px;background:rgba(196,169,122,0.4);
+  }
+  .story-glyph{font-size:14px;color:var(--gold-dark);opacity:.55}
+
 </style>
 </head>
 <body>
@@ -202,78 +162,182 @@
       <span style="position:relative;z-index:2;">RSVP</span>
       <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
     </button>
+    <button class="active" onclick="window.location.href='travel-photobook.html'">Our Story</button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
     <button onclick="window.location.href='todo.htm'">Things to Do</button>
-    <button class="active" onclick="window.location.href='travel-photobook.html'">Photo Gallery</button>
     <button onclick="window.location.href='faq.htm'">FAQ</button>
   </nav>
 
-<div class="page-header">
-  <h1>Our Travel Photos</h1>
-  <p>Chelsea &amp; Matt</p>
-  <div class="header-rule"></div>
+
+<div class="belt-wrap">
+  <div class="belt-track" id="belt"></div>
+  <div class="controls-bar">
+    <button class="ctrl-btn" id="rwBtn" onclick="toggleRW()" title="Reverse" style="font-family:'Cinzel',Georgia,serif;font-size:13px;font-weight:700;letter-spacing:.04em;width:48px;height:48px;">x1</button>
+    <button class="ctrl-btn" id="pauseBtn" onclick="togglePause()" title="Pause" style="width:48px;height:48px;font-size:16px;">&#9646;&#9646;</button>
+    <button class="ctrl-btn" id="ffBtn" onclick="toggleFF()" title="Speed up" style="font-family:'Cinzel',Georgia,serif;font-size:13px;font-weight:700;letter-spacing:.04em;width:48px;height:48px;">x1</button>
+  </div>
 </div>
 
-<div class="polaroid-wall" id="polaroid-wall"></div>
+
+<div class="story-section-wrap">
+  <div class="story-section-rule"></div>
+  <div class="story-wrap">
+    <div class="story-section-eyebrow">&#10087; &ensp; Our Story &ensp; &#10087;</div>
+
+    <div class="story-entry">
+      <div class="story-entry-title">The Dog Park</div>
+      <div class="story-entry-rule"></div>
+      <p class="story-entry-text">It all started the best way possible &mdash; at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. Matt&rsquo;s dog, Titan, made himself right at home by Chelsea&rsquo;s side &mdash; and that&rsquo;s when Matt knew she was something special.</p>
+    </div>
+
+    <div class="story-divider-glyph-wrap"><span class="story-glyph">&#10087;</span></div>
+
+    <div class="story-entry">
+      <div class="story-entry-title">The Open Road</div>
+      <div class="story-entry-rule"></div>
+      <p class="story-entry-text">After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt worked remotely. Together they set off across the country &mdash; glowing desert sunsets, peaceful mountain views, and a new dog park in every city. Life on the road gave them a freedom and closeness they&rsquo;ll always carry with them.</p>
+    </div>
+
+    <div class="story-divider-glyph-wrap"><span class="story-glyph">&#10087;</span></div>
+
+    <div class="story-entry">
+      <div class="story-entry-title">Forever</div>
+      <div class="story-entry-rule"></div>
+      <p class="story-entry-text">Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment &mdash; thanks to two dogs who knew they belonged together long before they did &mdash; has grown into a love filled with laughter, adventure, and an unbreakable bond. Through every mile traveled, they found home in each other.</p>
+    </div>
+  </div>
+</div>
 
 <!-- Lightbox -->
 <div id="lightbox">
-  <button id="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+  <button id="lightbox-close" onclick="closeLB()">&#x2715;</button>
+  <button id="lb-prev" onclick="lbMove(-1)">&#8592;</button>
   <img id="lightbox-img" src="" alt="">
+  <button id="lb-next" onclick="lbMove(1)">&#8594;</button>
+  <div id="lb-counter"></div>
 </div>
 
 <script>
 const photos = [
-  'images/carousel-01.jpg',
-  'images/carousel-02.jpg',
-  'images/carousel-03.jpg',
-  'images/carousel-04.jpg',
-  'images/carousel-05.jpg',
-  'images/carousel-06.jpg',
-  'images/carousel-07.jpg',
-  'images/carousel-08.jpg',
-  'images/carousel-09.jpg',
-  'images/carousel-10.jpg',
-  'images/carousel-11.jpg',
-  'images/carousel-12.jpg',
-  'images/carousel-13.jpg',
-  'images/carousel-14.jpg',
-  'images/carousel-15.jpg',
-  'images/carousel-16.jpg',
-  'images/carousel-17.jpg',
-  'images/carousel-18.jpg',
+  'images/carousel-01.jpg','images/carousel-02.jpg','images/carousel-03.jpg',
+  'images/carousel-04.jpg','images/carousel-05.jpg','images/carousel-06.jpg',
+  'images/carousel-07.jpg','images/carousel-08.jpg','images/carousel-09.jpg',
+  'images/carousel-10.jpg','images/carousel-11.jpg','images/carousel-12.jpg',
+  'images/carousel-13.jpg','images/carousel-14.jpg','images/carousel-15.jpg',
+  'images/carousel-16.jpg','images/carousel-17.jpg','images/carousel-18.jpg',
   'images/carousel-19.jpg',
+  'images/IMG_1566.jpeg','images/IMG_1567.jpeg','images/IMG_1568.jpeg',
+  'images/IMG_1570.jpeg','images/IMG_1571.jpeg','images/IMG_1572.jpeg',
+  'images/IMG_1573.jpeg','images/IMG_1575.jpeg','images/IMG_1578.jpeg',
+  'images/IMG_1579.jpeg','images/IMG_1580.jpeg','images/IMG_1583.jpeg',
+  'images/IMG_1584.jpeg',
 ];
 
-// Fixed rotations so they stay put on hover
-const rotations = [-3.2, 2.1, -1.5, 4.0, -2.8, 1.7, -4.1, 3.3, -1.1,
-                    2.6, -3.7, 1.2, -2.3, 4.4, -1.8, 3.0, -2.5, 1.9, -3.4];
+const belt = document.getElementById('belt');
 
-const wall = document.getElementById('polaroid-wall');
+// Shuffle photos randomly
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+const shuffled = shuffle(photos);
 
-photos.forEach((src, i) => {
-  const el = document.createElement('div');
-  el.className = 'polaroid';
-  el.style.transform = 'rotate(' + rotations[i] + 'deg)';
-  el.innerHTML = `<img src="${src}" alt="Photo ${i+1}" loading="lazy"><div class="caption"></div>`;
-  el.addEventListener('click', () => openLightbox(src));
-  wall.appendChild(el);
-});
+// Build photos + duplicate for seamless loop
+function buildSet(clickable) {
+  return shuffled.map((src, i) => {
+    const div = document.createElement('div');
+    div.className = 'belt-photo';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Photo ' + (i + 1);
+    img.loading = 'lazy';
+    div.appendChild(img);
+    if (clickable) div.addEventListener('click', () => openLB(i));
+    return div;
+  });
+}
 
-function openLightbox(src) {
-  document.getElementById('lightbox-img').src = src;
+buildSet(true).forEach(el => belt.appendChild(el));
+buildSet(false).forEach(el => belt.appendChild(el)); // duplicate for loop
+
+// Lightbox
+let lbIndex = 0;
+function openLB(i) {
+  lbIndex = i;
+  document.getElementById('lightbox-img').src = photos[i];
+  document.getElementById('lb-counter').textContent = (i+1) + ' / ' + photos.length;
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-function closeLightbox() {
+function closeLB() {
   document.getElementById('lightbox').classList.remove('open');
   document.getElementById('lightbox-img').src = '';
   document.body.style.overflow = '';
 }
-document.getElementById('lightbox').addEventListener('click', function(e) {
-  if (e.target === this) closeLightbox();
+function lbMove(dir) {
+  lbIndex = (lbIndex + dir + photos.length) % photos.length;
+  document.getElementById('lightbox-img').src = photos[lbIndex];
+  document.getElementById('lb-counter').textContent = (lbIndex+1) + ' / ' + photos.length;
+}
+document.getElementById('lightbox').addEventListener('click', function(e){ if(e.target===this) closeLB(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLB();
+  if (e.key === 'ArrowLeft') lbMove(-1);
+  if (e.key === 'ArrowRight') lbMove(1);
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// JS-driven scroll — no CSS animation so speed changes don't reset position
+const beltTrack = document.getElementById('belt');
+let pos = 0;
+let halfWidth = 0;
+let isPaused = false;
+let isFast = false;
+let isReversed = false;
+const normalSpeed = 90;  // px/sec
+const fastSpeed   = 200; // px/sec
+let lastTime = null;
+
+function tick(ts) {
+  if (lastTime === null) lastTime = ts;
+  const dt = Math.min((ts - lastTime) / 1000, 0.1); // cap at 100ms to avoid jumps
+  lastTime = ts;
+
+  if (!isPaused && halfWidth > 0) {
+    const spd = isFast ? fastSpeed : normalSpeed;
+    pos += isReversed ? -(spd * dt) : (spd * dt);
+    if (pos >= halfWidth) pos -= halfWidth;
+    if (pos < 0) pos += halfWidth;
+    beltTrack.style.transform = `translateX(-${pos}px)`;
+  }
+  requestAnimationFrame(tick);
+}
+
+// Measure after images have had a moment to load
+setTimeout(() => {
+  halfWidth = beltTrack.scrollWidth / 2;
+  requestAnimationFrame(tick);
+}, 300);
+
+function togglePause() {
+  isPaused = !isPaused;
+  if (!isPaused) lastTime = null; // reset timer so no jump on resume
+  document.getElementById('pauseBtn').innerHTML = isPaused ? '&#9654;' : '&#9646;&#9646;';
+  document.getElementById('pauseBtn').classList.toggle('active', isPaused);
+}
+function toggleFF() {
+  isFast = !isFast;
+  document.getElementById('ffBtn').textContent = isFast ? 'x2' : 'x1';
+  document.getElementById('ffBtn').classList.toggle('active', isFast);
+}
+function toggleRW() {
+  isReversed = !isReversed;
+  document.getElementById('rwBtn').textContent = isReversed ? 'x2' : 'x1';
+  document.getElementById('rwBtn').classList.toggle('active', isReversed);
+}
 </script>
 
 </body>
