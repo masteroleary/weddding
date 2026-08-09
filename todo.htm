@@ -325,12 +325,56 @@
   /* ── Things to do ── */
   .todo-list{margin-top:1.5rem;display:grid;gap:.85rem}
   .todo-item{
-    display:flex;gap:1.1rem;padding:1.1rem 1.35rem;
+    display:grid;grid-template-columns:132px 1fr;gap:1.25rem;
+    padding:1.1rem 1.35rem;
     border-radius:6px;border:0.5px solid var(--border);background:var(--card-bg);
   }
-  .todo-icon{font-size:20px;flex-shrink:0;margin-top:2px;line-height:1}
+  /* Photo well: the <img> sits above the placeholder, so if the file is
+     missing its onerror drops it and the placeholder shows through. */
+  .todo-photo{
+    position:relative;aspect-ratio:1/1;overflow:hidden;
+    border-radius:5px;background:var(--parchment);
+    border:0.5px solid rgba(139,105,20,0.18);
+  }
+  .todo-photo img{
+    position:relative;z-index:1;
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .todo-photo-ph{
+    position:absolute;inset:0;z-index:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Cinzel',Georgia,serif;
+    font-size:7px;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--gold-dark);opacity:.5;
+  }
+  .todo-icon{
+    position:absolute;z-index:2;left:6px;bottom:6px;
+    width:26px;height:26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;line-height:1;
+    background:rgba(253,250,245,0.92);
+    border:0.5px solid rgba(139,105,20,0.3);
+    box-shadow:0 1px 3px rgba(107,74,34,0.14);
+  }
+  .todo-body{min-width:0}
   .todo-item h4{font-size:17px;font-weight:400;color:var(--espresso);margin-bottom:.25rem}
   .todo-item p{font-size:13.5px;color:var(--text-muted);line-height:1.75;font-style:italic}
+  .todo-addr{
+    margin-top:.5rem;font-size:10px;font-weight:500;letter-spacing:.14em;
+    color:var(--gold-dark);text-transform:uppercase;
+  }
+  .todo-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+  .todo-link{
+    display:inline-flex;align-items:center;gap:.32rem;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:12px;letter-spacing:.06em;
+    color:var(--gold-deep);text-decoration:none;
+    padding:.28rem .62rem;border-radius:3px;
+    border:0.5px solid var(--border);background:rgba(255,255,255,0.4);
+    transition:background .15s,border-color .15s;
+  }
+  .todo-link:hover{background:#FFF;border-color:var(--gold-deep)}
+  .todo-link svg{width:11px;height:11px;flex-shrink:0}
 
   /* ── FAQ ── */
   .faq-list{margin-top:1.5rem}
@@ -744,6 +788,8 @@
     .nav button{font-size:10px;padding:6px 8px;letter-spacing:.08em}
     .monogram{font-size:50px}
     .page{padding:2rem 1rem 3rem}
+    .todo-item{grid-template-columns:92px 1fr;gap:.9rem;padding:.95rem 1rem}
+    .todo-icon{width:22px;height:22px;font-size:12px;left:4px;bottom:4px}
   }
 </style>
 </head>
@@ -772,14 +818,134 @@
       <p>Make the most of your time in beautiful Coral Gables, Florida</p>
     </div>
     <div class="todo-list">
-      <div class="todo-item"><div class="todo-icon">🌊</div><div><h4>Hit the Beach</h4><p>Coral Gables is minutes from some of Miami's best beaches. Crandon Park Beach on Key Biscayne is a local favorite — calm turquoise water, lush surroundings, and far less crowded than South Beach.</p></div></div>
-      <div class="todo-item"><div class="todo-icon">🏊</div><div><h4>Venetian Pool</h4><p>One of the most unique pools in the world, the historic Venetian Pool is a stunning 820,000-gallon lagoon carved from coral rock, complete with waterfalls and grottos. A must-see Coral Gables landmark!</p></div></div>
-      <div class="todo-item"><div class="todo-icon">🍽️</div><div><h4>Miracle Mile Dining</h4><p>Coral Gables' vibrant Miracle Mile is lined with exceptional restaurants. Don't miss Bulla Gastrobar for Spanish tapas, Seasons 52 for fresh seasonal cuisine, or La Dorada for outstanding seafood.</p></div></div>
-      <div class="todo-item"><div class="todo-icon">🛍️</div><div><h4>Shops at Merrick Park</h4><p>An open-air luxury shopping destination featuring Neiman Marcus, Nordstrom, and dozens of boutiques and restaurants. Perfect for a relaxed afternoon of browsing and dining al fresco.</p></div></div>
-      <div class="todo-item"><div class="todo-icon">🎨</div><div><h4>Wynwood Arts District</h4><p>Just 20 minutes away, Miami's Wynwood neighborhood is a world-famous outdoor art gallery with massive murals, galleries, breweries, and trendy cafés. Great for an afternoon adventure.</p></div></div>
-      <div class="todo-item"><div class="todo-icon">🚤</div><div><h4>Explore Biscayne Bay</h4><p>Rent a boat, kayak, or paddleboard and explore the gorgeous Biscayne Bay. Several marinas offer half-day rentals, and the views of the Miami skyline from the water are unforgettable.</p></div></div>
-      <div class="todo-item"><div class="todo-icon">🌿</div><div><h4>Fairchild Tropical Botanic Garden</h4><p>A stunning 83-acre tropical garden featuring rare palms, flowering trees, and a butterfly garden. A peaceful escape into Florida's lush natural beauty — just minutes from the wedding venue.</p></div></div>
-      <div class="todo-item"><div class="todo-icon">🍹</div><div><h4>Little Havana</h4><p>Immerse yourself in Miami's vibrant Cuban culture along Calle Ocho. Sip a cafecito, watch a domino game in Domino Park, grab a Cuban sandwich, and soak up the music and energy of this iconic neighborhood.</p></div></div>
+      <div class="todo-item">
+        <div class="todo-photo">
+          <img src="images/todo-beach.jpg" alt="Crandon Park Beach" loading="lazy" onerror="this.remove()">
+          <div class="todo-photo-ph">photo</div>
+          <div class="todo-icon">🌊</div>
+        </div>
+        <div class="todo-body">
+          <h4>Hit the Beach</h4>
+          <p>Coral Gables is minutes from some of Miami's best beaches. Crandon Park Beach on Key Biscayne is a local favorite — calm turquoise water, lush surroundings, and far less crowded than South Beach.</p>
+          <div class="todo-addr">6747 Crandon Blvd, Key Biscayne</div>
+          <div class="todo-actions">
+            <a class="todo-link" href="https://www.miamidade.gov/parks/crandon-beach.asp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Website</a>
+            <a class="todo-link" href="https://www.google.com/maps/search/?api=1&amp;query=Crandon+Park+Beach,+6747+Crandon+Blvd,+Key+Biscayne,+FL+33149" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Map</a>
+          </div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-photo">
+          <img src="images/todo-venetian.jpg" alt="Venetian Pool" loading="lazy" onerror="this.remove()">
+          <div class="todo-photo-ph">photo</div>
+          <div class="todo-icon">🏊</div>
+        </div>
+        <div class="todo-body">
+          <h4>Venetian Pool</h4>
+          <p>One of the most unique pools in the world, the historic Venetian Pool is a stunning 820,000-gallon lagoon carved from coral rock, complete with waterfalls and grottos. A must-see Coral Gables landmark!</p>
+          <div class="todo-addr">2701 De Soto Blvd, Coral Gables</div>
+          <div class="todo-actions">
+            <a class="todo-link" href="https://www.coralgables.com/attractions/venetian-pool" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Website</a>
+            <a class="todo-link" href="https://www.google.com/maps/search/?api=1&amp;query=Venetian+Pool,+2701+De+Soto+Blvd,+Coral+Gables,+FL+33134" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Map</a>
+          </div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-photo">
+          <img src="images/todo-miraclemile.jpg" alt="Miracle Mile, Coral Gables" loading="lazy" onerror="this.remove()">
+          <div class="todo-photo-ph">photo</div>
+          <div class="todo-icon">🍽️</div>
+        </div>
+        <div class="todo-body">
+          <h4>Miracle Mile Dining</h4>
+          <p>Coral Gables' vibrant Miracle Mile is lined with exceptional restaurants. Don't miss Bulla Gastrobar for Spanish tapas, Seasons 52 for fresh seasonal cuisine, or La Dorada for outstanding seafood.</p>
+          <div class="todo-addr">Miracle Mile, Coral Gables</div>
+          <div class="todo-actions">
+            <a class="todo-link" href="https://www.coralgables.com/attractions/miracle-mile" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Website</a>
+            <a class="todo-link" href="https://www.google.com/maps/search/?api=1&amp;query=Miracle+Mile,+Coral+Gables,+FL+33134" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Map</a>
+          </div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-photo">
+          <img src="images/todo-merrick.jpg" alt="Shops at Merrick Park" loading="lazy" onerror="this.remove()">
+          <div class="todo-photo-ph">photo</div>
+          <div class="todo-icon">🛍️</div>
+        </div>
+        <div class="todo-body">
+          <h4>Shops at Merrick Park</h4>
+          <p>An open-air luxury shopping destination featuring Neiman Marcus, Nordstrom, and dozens of boutiques and restaurants. Perfect for a relaxed afternoon of browsing and dining al fresco.</p>
+          <div class="todo-addr">358 San Lorenzo Ave, Coral Gables</div>
+          <div class="todo-actions">
+            <a class="todo-link" href="https://www.shopsatmerrickpark.com/en/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Website</a>
+            <a class="todo-link" href="https://www.google.com/maps/search/?api=1&amp;query=Shops+at+Merrick+Park,+358+San+Lorenzo+Ave,+Coral+Gables,+FL+33146" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Map</a>
+          </div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-photo">
+          <img src="images/todo-wynwood.jpg" alt="Wynwood Walls" loading="lazy" onerror="this.remove()">
+          <div class="todo-photo-ph">photo</div>
+          <div class="todo-icon">🎨</div>
+        </div>
+        <div class="todo-body">
+          <h4>Wynwood Arts District</h4>
+          <p>Just 20 minutes away, Miami's Wynwood neighborhood is a world-famous outdoor art gallery with massive murals, galleries, breweries, and trendy cafés. Great for an afternoon adventure.</p>
+          <div class="todo-addr">Wynwood Walls · 2516 NW 2nd Ave, Miami</div>
+          <div class="todo-actions">
+            <a class="todo-link" href="https://thewynwoodwalls.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Website</a>
+            <a class="todo-link" href="https://www.google.com/maps/search/?api=1&amp;query=Wynwood+Walls,+2516+NW+2nd+Ave,+Miami,+FL+33127" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Map</a>
+          </div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-photo">
+          <img src="images/todo-biscayne.jpg" alt="Biscayne Bay" loading="lazy" onerror="this.remove()">
+          <div class="todo-photo-ph">photo</div>
+          <div class="todo-icon">🚤</div>
+        </div>
+        <div class="todo-body">
+          <h4>Explore Biscayne Bay</h4>
+          <p>Rent a boat, kayak, or paddleboard and explore the gorgeous Biscayne Bay. Several marinas offer half-day rentals, and the views of the Miami skyline from the water are unforgettable.</p>
+          <div class="todo-addr">Crandon Park Marina · 4000 Crandon Blvd, Key Biscayne</div>
+          <div class="todo-actions">
+            <a class="todo-link" href="https://www.miamiandbeaches.com/things-to-do/water-sports/boating-watersports-on-key-biscayne" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Website</a>
+            <a class="todo-link" href="https://www.google.com/maps/search/?api=1&amp;query=Crandon+Park+Marina,+4000+Crandon+Blvd,+Key+Biscayne,+FL+33149" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Map</a>
+          </div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-photo">
+          <img src="images/todo-fairchild.jpg" alt="Fairchild Tropical Botanic Garden" loading="lazy" onerror="this.remove()">
+          <div class="todo-photo-ph">photo</div>
+          <div class="todo-icon">🌿</div>
+        </div>
+        <div class="todo-body">
+          <h4>Fairchild Tropical Botanic Garden</h4>
+          <p>A stunning 83-acre tropical garden featuring rare palms, flowering trees, and a butterfly garden. A peaceful escape into Florida's lush natural beauty — just minutes from the wedding venue.</p>
+          <div class="todo-addr">10901 Old Cutler Rd, Coral Gables</div>
+          <div class="todo-actions">
+            <a class="todo-link" href="https://fairchildgarden.org/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Website</a>
+            <a class="todo-link" href="https://www.google.com/maps/search/?api=1&amp;query=Fairchild+Tropical+Botanic+Garden,+10901+Old+Cutler+Rd,+Coral+Gables,+FL+33156" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Map</a>
+          </div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-photo">
+          <img src="images/todo-havana.jpg" alt="Little Havana, Calle Ocho" loading="lazy" onerror="this.remove()">
+          <div class="todo-photo-ph">photo</div>
+          <div class="todo-icon">🍹</div>
+        </div>
+        <div class="todo-body">
+          <h4>Little Havana</h4>
+          <p>Immerse yourself in Miami's vibrant Cuban culture along Calle Ocho. Sip a cafecito, watch a domino game in Domino Park, grab a Cuban sandwich, and soak up the music and energy of this iconic neighborhood.</p>
+          <div class="todo-addr">Domino Park · 801 SW 15th Ave, Miami</div>
+          <div class="todo-actions">
+            <a class="todo-link" href="https://www.miamiandbeaches.com/things-to-do/attractions/explore-calle-ocho-in-little-havana" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>Website</a>
+            <a class="todo-link" href="https://www.google.com/maps/search/?api=1&amp;query=Domino+Park,+801+SW+15th+Ave,+Miami,+FL+33135" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Map</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
