@@ -15,7 +15,7 @@
   html,body{background:#FAF4E8;font-family:'Cormorant Garamond',Georgia,serif;min-height:100vh;color:var(--espresso);}
 
   /* Nav */
-  .nav{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;padding:1.25rem 1rem 0.75rem;position:sticky;top:0;background:rgba(250,244,232,0.97);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:100;border-bottom:1px solid rgba(196,169,122,0.4);width:100vw;margin-left:50%;transform:translateX(-50%);}
+  .nav{display:flex;flex-wrap:nowrap;gap:0;justify-content:space-evenly;overflow-x:auto;padding:1.25rem 1rem 0.75rem;position:sticky;top:0;background:rgba(250,244,232,0.97);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:100;border-bottom:1px solid rgba(196,169,122,0.4);width:100vw;margin-left:50%;transform:translateX(-50%);}
   .nav::before{content:'';display:block;position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6;}
   .nav button{background:transparent;border:none;font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;color:var(--text-muted);cursor:pointer;padding:8px 14px 10px;border-radius:3px;transition:all .18s;letter-spacing:.06em;text-transform:uppercase;position:relative;}
   .nav button::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:2px;background:var(--gold);transition:left .2s,right .2s;}
@@ -28,7 +28,7 @@
 
   /* Header */
   .page-header{text-align:center;padding:3.5rem 1rem 1rem;}
-  .page-eyebrow{font-family:'Cinzel',Georgia,serif;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-dark);opacity:.75;margin-bottom:1rem;display:block;}
+  .page-eyebrow{font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-dark);opacity:.75;margin-bottom:1rem;display:block;}
   .page-title{font-family:'Great Vibes',cursive;font-size:clamp(52px,8vw,80px);color:var(--espresso);font-weight:400;line-height:1;margin-bottom:.25rem;}
   .page-subtitle{font-size:15px;font-style:italic;color:var(--text-muted);letter-spacing:.04em;margin-top:.6rem;}
   .header-rule{display:flex;align-items:center;gap:14px;max-width:300px;margin:1.5rem auto 0;}
@@ -38,7 +38,7 @@
   /* FAQ */
   .faq-wrap{max-width:680px;margin:3rem auto 2rem;padding:0 1.5rem;}
 
-  .faq-category{font-family:'Cinzel',Georgia,serif;font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dark);opacity:.65;margin:2.75rem 0 1rem;display:flex;align-items:center;gap:10px;}
+  .faq-category{font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dark);opacity:.65;margin:2.75rem 0 1rem;display:flex;align-items:center;gap:10px;}
   .faq-category::before,.faq-category::after{content:'';flex:1;height:0.5px;background:linear-gradient(90deg,transparent,rgba(196,169,122,0.45),transparent);}
   .faq-category:first-of-type{margin-top:0;}
 
@@ -62,12 +62,12 @@
   .contact-inner::before{margin-bottom:1.75rem;}
   .contact-inner::after{margin-top:1.75rem;}
   .contact-glyph{font-size:20px;margin-bottom:.65rem;display:block;color:var(--gold);}
-  .contact-title{font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.7rem;}
+  .contact-title{font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.7rem;}
   .contact-text{font-size:16px;font-style:italic;color:var(--text-body);line-height:1.85;}
 
   @media(max-width:600px){
     .faq-q-text{font-size:16px;}
-    .nav button{font-size:10px;padding:6px 8px;}
+    .nav button{font-size:15px;padding:6px 8px;}
   }
 </style>
 </head>

@@ -37,10 +37,15 @@
   .nav{
     display:flex;flex-wrap:nowrap;gap:0;justify-content:space-evenly;overflow-x:auto;
     padding:1.25rem 1rem 0.75rem;
+    position:sticky;top:0;
     background:rgba(245,240,232,0.95);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    z-index:100;
     border-bottom:1px solid rgba(196,169,122,0.4);
-    width:100%;
-    position:relative;
+    width:100vw;
+    margin-left:50%;
+    transform:translateX(-50%);
   }
   .nav::before{
     content:'';position:absolute;top:0;left:0;right:0;height:3px;
@@ -102,7 +107,7 @@
   }
   .page-header-eyebrow{
     font-family:'Cinzel',serif;
-    font-size:10px;letter-spacing:5px;
+    font-size:12px;letter-spacing:5px;
     color:var(--gold-dark);text-transform:uppercase;
     opacity:.75;margin-bottom:1.6rem;display:block;
   }
@@ -192,7 +197,7 @@
   }
   .entry-number{
     font-family:'Cinzel',serif;
-    font-size:9px;letter-spacing:4px;
+    font-size:12px;letter-spacing:4px;
     color:var(--gold-dark);text-transform:uppercase;
     opacity:.6;margin-bottom:.8rem;display:block;
   }
@@ -225,7 +230,7 @@
     content:'';flex:1;height:.5px;
     background:var(--gold);
   }
-  .divider-glyph{ font-size:12px;color:var(--gold-dark); }
+  .divider-glyph{ font-size:15px;color:var(--gold-dark); }
 
   /* ── Closing monogram ── */
   .story-closing{
@@ -253,7 +258,7 @@
     .story-timeline::before{ left:calc(1.25rem + 9px); }
     .timeline-divider{ margin-left:calc(1.5rem + 18px); }
     .page-header{ padding:3rem 1.5rem 2.5rem; }
-    .nav button{ font-size:10px;padding:6px 8px;letter-spacing:.08em; }
+    .nav button{ font-size:15px;padding:6px 8px;letter-spacing:.08em; }
   }
 </style>
 </head>
@@ -262,16 +267,15 @@
 
   <nav class="nav">
     <button onclick="window.location.href='index.htm'">Home</button>
-    <button class="active" onclick="window.location.href='story.htm'">Our Story</button>
     <button onclick="window.location.href='details.htm'">Wedding Details</button>
     <button onclick="window.location.href='party.htm'">Wedding Party</button>
     <button class="nav-rsvp" onclick="window.location.href='rsvp.htm'">
       <span style="position:relative;z-index:2;">RSVP</span>
       <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
     </button>
+    <button onclick="window.location.href='travel-photobook.html'">Our Story</button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
     <button onclick="window.location.href='todo.htm'">Things to Do</button>
-    <button onclick="window.location.href='travel-photobook.html'">Photo Gallery</button>
     <button onclick="window.location.href='faq.htm'">FAQ</button>
   </nav>
 
@@ -293,7 +297,15 @@
         <span class="entry-number">Chapter I</span>
         <div class="entry-title">The Dog Park</div>
         <div class="entry-rule"></div>
-        <p class="entry-text">It all started the best way possible &mdash; at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. Matt&rsquo;s dog, Titan, made himself right at home by Chelsea&rsquo;s side &mdash; and that&rsquo;s when Matt knew she was something special.</p>
+        <p class="entry-text">
+          Matthew met Chelsea 4 years ago at a dog park in Viera FL. He was OBSESSED with her pretty much immediately. 
+             She said “I always wanted to do the van life stuff” and at the time Starlink had just came out so I knew I could work from the road.
+              After 6 months of learning everything we could about RV life we bought a 36 ft class a with a bathroom for each of us and spent 
+              the next 18 months living on the road, traveling from one national park to another
+              
+          <!--It all started the best way possible &mdash; at the dog park. Matt spotted Chelsea sitting on a bench with her
+           dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. Matt&rsquo;s dog, Titan,
+            made himself right at home by Chelsea&rsquo;s side &mdash; and that&rsquo;s when Matt knew she was something special.--></p>
       </div>
     </div>
 
@@ -306,7 +318,9 @@
         <span class="entry-number">Chapter II</span>
         <div class="entry-title">The Open Road</div>
         <div class="entry-rule"></div>
-        <p class="entry-text">After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt worked remotely. Together they set off across the country &mdash; glowing desert sunsets, peaceful mountain views, and a new dog park in every city. Life on the road gave them a freedom and closeness they&rsquo;ll always carry with them.</p>
+        <p class="entry-text">After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt worked remotely.
+           Together they set off across the country &mdash; glowing desert sunsets, peaceful mountain views, and a new dog park in every city. 
+           Life on the road gave them a freedom and closeness they&rsquo;ll always carry with them.</p>
       </div>
     </div>
 
@@ -319,7 +333,9 @@
         <span class="entry-number">Chapter III</span>
         <div class="entry-title">Forever</div>
         <div class="entry-rule"></div>
-        <p class="entry-text">Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment &mdash; thanks to two dogs who knew they belonged together long before they did &mdash; has grown into a love filled with laughter, adventure, and an unbreakable bond. Through every mile traveled, they found home in each other.</p>
+        <p class="entry-text">Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment
+           &mdash; thanks to two dogs who knew they belonged together long before they did &mdash; has grown into a love filled with laughter,
+            adventure, and an unbreakable bond. Through every mile traveled, they found home in each other.</p>
       </div>
     </div>
 
