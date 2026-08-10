@@ -193,7 +193,9 @@
   /* Content beside the dot */
   .entry-body{
     flex:1;
+    min-width:0;
     padding-top:.1rem;
+    overflow:hidden; /* contains the floated chapter photo */
   }
   .entry-number{
     font-family:'Cinzel',serif;
@@ -216,6 +218,22 @@
     font-family:'Cormorant Garamond',serif;
     font-size:17px;line-height:1.95;
     color:var(--text-body);font-style:italic;
+  }
+
+  /* Chapter photo */
+  .entry-photo{
+    float:right;
+    width:230px;
+    margin:.2rem 0 1rem 1.75rem;
+    padding:7px;
+    background:#FDF9F1;
+    border:1px solid rgba(196,169,122,0.55);
+    box-shadow:0 10px 26px rgba(74,55,40,0.12);
+  }
+  .entry-photo img{
+    display:block;
+    width:100%;height:auto;
+    border-radius:3px;
   }
 
   /* Divider between entries */
@@ -259,6 +277,7 @@
     .timeline-divider{ margin-left:calc(1.5rem + 18px); }
     .page-header{ padding:3rem 1.5rem 2.5rem; }
     .nav button{ font-size:15px;padding:6px 8px;letter-spacing:.08em; }
+    .entry-photo{ float:none;width:100%;max-width:280px;margin:.4rem 0 1.4rem; }
   }
 </style>
 </head>
@@ -297,15 +316,14 @@
         <span class="entry-number">Chapter I</span>
         <div class="entry-title">The Dog Park</div>
         <div class="entry-rule"></div>
+        <figure class="entry-photo">
+          <img src="images/story1.jpg" width="800" height="1067" loading="lazy" decoding="async"
+               alt="Chelsea sitting on a bench at the dog park, petting her dog Ryder at dusk">
+        </figure>
         <p class="entry-text">
-          Matthew met Chelsea 4 years ago at a dog park in Viera FL. He was OBSESSED with her pretty much immediately. 
-             She said “I always wanted to do the van life stuff” and at the time Starlink had just came out so I knew I could work from the road.
-              After 6 months of learning everything we could about RV life we bought a 36 ft class a with a bathroom for each of us and spent 
-              the next 18 months living on the road, traveling from one national park to another
-              
-          <!--It all started the best way possible &mdash; at the dog park. Matt spotted Chelsea sitting on a bench with her
+         It all started the best way possible &mdash; at the dog park. Matt spotted Chelsea sitting on a bench with her
            dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. Matt&rsquo;s dog, Titan,
-            made himself right at home by Chelsea&rsquo;s side &mdash; and that&rsquo;s when Matt knew she was something special.--></p>
+            made himself right at home by Chelsea&rsquo;s side &mdash; and that&rsquo;s when Matt knew she was something special. </p>
       </div>
     </div>
 
