@@ -121,45 +121,131 @@
 
   /* ── Our Story ── */
   .story-section-wrap{
-    max-width:620px;margin:3rem auto 4rem;text-align:center;padding:0 1.5rem;
+    max-width:1120px;margin:3rem auto 4rem;text-align:center;padding:0 1.25rem;
   }
   .story-section-rule{width:80px;height:1px;background:var(--gold);margin:0 auto 2.5rem;opacity:0.6;}
   .story-section-eyebrow{
     font-family:'Cinzel',serif;font-size:12px;letter-spacing:4px;
-    color:var(--gold-dark);text-transform:uppercase;opacity:.7;margin-bottom:2rem;
+    color:var(--gold-dark);text-transform:uppercase;opacity:.7;margin-bottom:3rem;
   }
-  .story-wrap{max-width:580px;margin:0 auto;text-align:center}
-  .story-entry{margin:0 0 2.75rem}
-  .story-entry-title{
-    font-family:'Great Vibes',cursive;font-size:clamp(36px,5.5vw,50px);
-    color:var(--espresso);line-height:1;margin-bottom:.65rem;
+
+  /* ── Open book ── */
+  .book{
+    position:relative;
+    display:grid;grid-template-columns:1fr 1fr;
+    max-width:1040px;margin:0 auto 4.5rem;
+    text-align:left;background:#fff;border-radius:2px;
+    box-shadow:
+      /* fanned page edges — right */
+      3px 0 0 -1px #fff, 3px 0 1px 0 rgba(43,26,15,.07),
+      7px 0 0 -2px #fff, 7px 0 1px -1px rgba(43,26,15,.06),
+      11px 0 0 -3px #fff, 11px 0 1px -2px rgba(43,26,15,.05),
+      /* fanned page edges — left */
+      -3px 0 0 -1px #fff, -3px 0 1px 0 rgba(43,26,15,.07),
+      -7px 0 0 -2px #fff, -7px 0 1px -1px rgba(43,26,15,.06),
+      -11px 0 0 -3px #fff, -11px 0 1px -2px rgba(43,26,15,.05),
+      /* the book sitting on the page */
+      0 22px 50px rgba(43,26,15,.20),
+      0 3px 12px rgba(43,26,15,.10);
   }
-  .story-entry-rule{
-    width:32px;height:.5px;background:var(--gold);
-    margin:0 auto .9rem;opacity:.6;
+  .book:last-of-type{margin-bottom:1.5rem;}
+
+  /* shadow falling into the gutter */
+  .book::after{
+    content:'';position:absolute;z-index:4;pointer-events:none;
+    top:0;bottom:0;left:50%;width:12%;transform:translateX(-50%);
+    background:linear-gradient(to right,
+      rgba(43,26,15,0) 0%,
+      rgba(43,26,15,.04) 26%,
+      rgba(43,26,15,.15) 46%,
+      rgba(43,26,15,.22) 50%,
+      rgba(43,26,15,.15) 54%,
+      rgba(43,26,15,.04) 74%,
+      rgba(43,26,15,0) 100%);
   }
-  .story-entry-text{
+
+  .book-page{
+    position:relative;
+    display:flex;flex-direction:column;justify-content:center;
+    /* tall enough that a portrait plate can grow to nearly the page width */
+    min-height:clamp(440px,46vw,640px);
+    padding:clamp(2rem,3.6vw,3.4rem) clamp(1.75rem,3.2vw,3rem) clamp(2.9rem,4vw,3.8rem);
+  }
+  /* paper curving away toward the spine */
+  .book-page--verso{
+    background:linear-gradient(to left,#EFE6D6 0%,#FBF8F2 6%,#fff 24%);
+    border-radius:2px 0 0 2px;
+  }
+  .book-page--recto{
+    background:linear-gradient(to right,#EFE6D6 0%,#FBF8F2 6%,#fff 24%);
+    border-radius:0 2px 2px 0;
+  }
+
+  .chapter-num{
+    font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:.34em;
+    text-transform:uppercase;color:var(--gold-dark);opacity:.75;margin-bottom:.7rem;
+  }
+  .chapter-title{
+    font-family:'Great Vibes',cursive;font-weight:400;
+    font-size:clamp(34px,4.2vw,48px);line-height:1.05;
+    color:var(--espresso);margin-bottom:.55rem;
+  }
+  .chapter-rule{width:44px;height:.5px;background:var(--gold);opacity:.6;margin-bottom:1.3rem;}
+  .chapter-text{
     font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:16px;line-height:1.9;color:#5A3E28;font-style:italic;
+    font-size:clamp(15px,1.3vw,17px);line-height:1.95;color:#5A3E28;
   }
-  .story-photo{
-    width:100%;max-width:300px;
-    margin:0 auto 1.5rem;
-    padding:7px;
-    background:#FDF9F1;
-    border:1px solid rgba(196,169,122,0.55);
-    box-shadow:0 10px 26px rgba(43,26,15,0.14);
+  .chapter-text::first-letter{
+    float:left;font-family:'Cinzel',Georgia,serif;
+    font-size:3.05em;line-height:.84;padding:.08em .1em 0 0;
+    color:var(--gold-dark);
   }
-  .story-photo img{
-    display:block;width:100%;height:auto;border-radius:3px;
+
+  /* page number, outer bottom corner */
+  .folio{
+    position:absolute;bottom:clamp(1.15rem,1.9vw,1.7rem);
+    font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:.2em;
+    color:var(--gold-dark);opacity:.5;
   }
-  .story-divider-glyph-wrap{
-    display:flex;align-items:center;gap:14px;margin:0 auto 2.75rem;max-width:200px;
+  .book-page--verso .folio{left:clamp(1.75rem,3.2vw,3rem);}
+  .book-page--recto .folio{right:clamp(1.75rem,3.2vw,3rem);}
+
+  /* mounted photograph */
+  .plate{
+    align-self:center;max-width:100%;margin:0;padding:8px;
+    background:#FDFBF6;border:1px solid rgba(196,169,122,0.5);
+    box-shadow:0 10px 26px rgba(43,26,15,0.15);
   }
-  .story-divider-glyph-wrap::before,.story-divider-glyph-wrap::after{
-    content:'';flex:1;height:.5px;background:rgba(196,169,122,0.4);
+  .plate img{
+    display:block;width:auto;max-width:100%;
+    max-height:clamp(300px,37vw,500px);object-fit:contain;
   }
-  .story-glyph{font-size:15px;color:var(--gold-dark);opacity:.55}
+  /* blank page — awaiting a photograph */
+  .plate-empty{
+    align-self:center;display:flex;align-items:center;justify-content:center;
+    min-height:clamp(220px,26vw,320px);
+  }
+  .plate-glyph{font-size:22px;color:var(--gold-dark);opacity:.16;}
+
+  @media(max-width:780px){
+    .book{grid-template-columns:1fr;max-width:560px;margin-bottom:3.25rem;}
+    .book::after{display:none;}
+    .book-page{min-height:0;padding:2.4rem 1.75rem 1.9rem;justify-content:flex-start;}
+    .book-page--verso{
+      background:linear-gradient(to bottom,#fff 76%,#FBF8F2 94%,#EFE6D6 100%);
+      border-radius:2px 2px 0 0;
+      box-shadow:0 6px 14px -7px rgba(43,26,15,.28);
+    }
+    .book-page--recto{
+      background:linear-gradient(to top,#fff 76%,#FBF8F2 94%,#EFE6D6 100%);
+      border-radius:0 0 2px 2px;
+      padding-top:2rem;
+    }
+    .folio{position:static;margin-top:1.6rem;}
+    .book-page--recto .folio{align-self:flex-end;}
+    .plate-empty{min-height:120px;}
+    .plate img{max-height:62vh;}
+  }
 
 </style>
 </head>
@@ -173,7 +259,7 @@
       <span style="position:relative;z-index:2;">RSVP</span>
       <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
     </button>
-    <button class="active" onclick="window.location.href='our-story.html'">Our Story</button>
+    <button class="active" onclick="window.location.href='our-story-flipbook.html'">Our Story</button>
     <button onclick="window.location.href='registry.htm'">Registry</button>
     <button onclick="window.location.href='todo.htm'">Things to Do</button>
     <button onclick="window.location.href='faq.htm'">FAQ</button>
@@ -192,35 +278,56 @@
 
 <div class="story-section-wrap">
   <div class="story-section-rule"></div>
-  <div class="story-wrap">
-    <div class="story-section-eyebrow">&#10087; &ensp; Our Story &ensp; &#10087;</div>
+  <div class="story-section-eyebrow">&#10087; &ensp; Our Story &ensp; &#10087;</div>
 
-    <div class="story-entry">
-      <div class="story-entry-title">The Dog Park</div>
-      <div class="story-entry-rule"></div>
-      <figure class="story-photo">
+  <article class="book">
+    <div class="book-page book-page--verso">
+      <div class="chapter-num">Chapter One</div>
+      <h2 class="chapter-title">The Dog Park</h2>
+      <div class="chapter-rule"></div>
+      <p class="chapter-text">It all started the best way possible &mdash; at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. Matt&rsquo;s dog, Titan, made himself right at home by Chelsea&rsquo;s side &mdash; and that&rsquo;s when Matt knew she was something special.</p>
+      <div class="folio">1</div>
+    </div>
+    <div class="book-page book-page--recto">
+      <figure class="plate">
         <img src="images/story1.jpg" width="800" height="1067" loading="lazy" decoding="async"
              alt="Chelsea sitting on a bench at the dog park, petting her dog Ryder at dusk">
       </figure>
-      <p class="story-entry-text">It all started the best way possible &mdash; at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. Matt&rsquo;s dog, Titan, made himself right at home by Chelsea&rsquo;s side &mdash; and that&rsquo;s when Matt knew she was something special.</p>
+      <div class="folio">2</div>
     </div>
+  </article>
 
-    <div class="story-divider-glyph-wrap"><span class="story-glyph">&#10087;</span></div>
-
-    <div class="story-entry">
-      <div class="story-entry-title">The Open Road</div>
-      <div class="story-entry-rule"></div>
-      <p class="story-entry-text">After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt worked remotely. Together they set off across the country &mdash; glowing desert sunsets, peaceful mountain views, and a new dog park in every city. Life on the road gave them a freedom and closeness they&rsquo;ll always carry with them.</p>
+  <article class="book">
+    <div class="book-page book-page--verso">
+      <div class="chapter-num">Chapter Two</div>
+      <h2 class="chapter-title">The Open Road</h2>
+      <div class="chapter-rule"></div>
+      <p class="chapter-text">After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt worked remotely. Together they set off across the country &mdash; glowing desert sunsets, peaceful mountain views, and a new dog park in every city. Life on the road gave them a freedom and closeness they&rsquo;ll always carry with them.</p>
+      <div class="folio">3</div>
     </div>
-
-    <div class="story-divider-glyph-wrap"><span class="story-glyph">&#10087;</span></div>
-
-    <div class="story-entry">
-      <div class="story-entry-title">Forever</div>
-      <div class="story-entry-rule"></div>
-      <p class="story-entry-text">Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment &mdash; thanks to two dogs who knew they belonged together long before they did &mdash; has grown into a love filled with laughter, adventure, and an unbreakable bond. Through every mile traveled, they found home in each other.</p>
+    <div class="book-page book-page--recto">
+      <figure class="plate">
+        <img src="images/story-camping.jpg" width="1200" height="1600" loading="lazy" decoding="async"
+             alt="Chelsea crouching with both dogs at a pine-shaded RV campsite, the motorhome parked behind and a campfire burning nearby">
+      </figure>
+      <div class="folio">4</div>
     </div>
-  </div>
+  </article>
+
+  <article class="book">
+    <div class="book-page book-page--verso">
+      <div class="chapter-num">Chapter Three</div>
+      <h2 class="chapter-title">Forever</h2>
+      <div class="chapter-rule"></div>
+      <p class="chapter-text">Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment &mdash; thanks to two dogs who knew they belonged together long before they did &mdash; has grown into a love filled with laughter, adventure, and an unbreakable bond. Through every mile traveled, they found home in each other.</p>
+      <div class="folio">5</div>
+    </div>
+    <div class="book-page book-page--recto">
+      <!-- photograph to come — replace this block with a <figure class="plate"> -->
+      <div class="plate-empty" aria-hidden="true"><span class="plate-glyph">&#10087;</span></div>
+      <div class="folio">6</div>
+    </div>
+  </article>
 </div>
 
 <!-- Lightbox -->
