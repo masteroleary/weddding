@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C &amp; M — Our Story (flipbook preview)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500&display=swap');
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --cream:#FAF4E8;--gold:#C4A97A;--gold-dark:#9A7B4F;--espresso:#2B1A0F;
+  }
+  html,body{background:#FAF4E8;font-family:'Cormorant Garamond',Georgia,serif;min-height:100vh;color:var(--espresso);}
+
+  /* ── Nav ── */
+  .nav{
+    display:flex;flex-wrap:nowrap;gap:0;justify-content:space-evenly;overflow-x:auto;
+    padding:1.25rem 1rem 0.75rem;position:sticky;top:0;
+    background:rgba(250,244,232,0.97);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    z-index:100;border-bottom:1px solid rgba(196,169,122,0.4);
+    width:100vw;margin-left:50%;transform:translateX(-50%);
+  }
+  .nav::before{content:'';display:block;position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.6;}
+  .nav button{background:transparent;border:none;font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;color:#7A6040;cursor:pointer;padding:8px 14px 10px;border-radius:3px;transition:all .18s;letter-spacing:.06em;text-transform:uppercase;position:relative;}
+  .nav button::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:2px;background:var(--gold);transition:left .2s,right .2s;}
+  .nav button:hover{color:var(--espresso);transform:scale(1.15);}
+  .nav button.active{color:var(--espresso);}
+  .nav button.active::after{left:12px;right:12px;}
+  .nav-rsvp{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:8px 14px 8px !important;color:#FAF4E8 !important;font-weight:700 !important;font-family:'Cinzel',Georgia,serif !important;font-size:16px !important;letter-spacing:.18em !important;border:none !important;border-radius:0 !important;overflow:visible !important;z-index:1;}
+  .rsvp-swirl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;pointer-events:none;opacity:1;overflow:visible;z-index:0;}
+  .nav-rsvp span{position:relative;z-index:2;}
+
+  /* ── Preview banner (remove if this version is adopted) ── */
+  .preview-flag{
+    max-width:1120px;margin:1.5rem auto 0;padding:.65rem 1rem;
+    text-align:center;font-size:13px;letter-spacing:.08em;font-style:italic;
+    color:var(--gold-dark);border:1px dashed rgba(196,169,122,.55);background:rgba(196,169,122,.07);
+  }
+
+  /* ── Infinite Belt ── */
+  .belt-wrap{width:100%;overflow:hidden;padding:0 0 3rem;position:relative;}
+  .controls-bar{position:absolute;top:14px;right:18px;z-index:20;display:flex;gap:8px;align-items:center;}
+  .ctrl-btn{
+    background:rgba(250,244,232,0.88);
+    border:0.5px solid rgba(196,169,122,0.55);
+    color:var(--espresso);font-size:15px;width:38px;height:38px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    box-shadow:0 2px 10px rgba(0,0,0,0.12);transition:background .18s,transform .18s;
+    user-select:none;line-height:1;padding:0;
+  }
+  .ctrl-btn:hover{background:rgba(250,244,232,1);transform:scale(1.08);}
+  .ctrl-btn.active{background:var(--gold);color:#fff;border-color:var(--gold-dark);}
+  .belt-wrap::before,.belt-wrap::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:10;pointer-events:none;}
+  .belt-wrap::before{left:0;background:linear-gradient(to right,#FAF4E8 0%,transparent 100%);}
+  .belt-wrap::after{right:0;background:linear-gradient(to left,#FAF4E8 0%,transparent 100%);}
+  .belt-track{display:flex;gap:0;width:max-content;will-change:transform;}
+  .belt-photo{
+    flex-shrink:0;height:52vh;width:auto;border-radius:3px;overflow:hidden;
+    box-shadow:0 6px 28px rgba(43,26,15,0.18),0 1px 6px rgba(0,0,0,0.08);
+    position:relative;cursor:pointer;background:#FAF4E8;
+  }
+  .belt-photo img{height:100%;width:auto;display:block;transition:transform 0.4s ease;}
+  .belt-photo:hover img{transform:scale(1.03);}
+
+  /* ── Lightbox ── */
+  #lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;cursor:zoom-out;}
+  #lightbox.open{display:flex;}
+  #lightbox img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:2px;box-shadow:0 8px 40px rgba(0,0,0,0.6);cursor:default;}
+  #lightbox-close{position:fixed;top:18px;right:24px;font-size:36px;color:#fff;background:none;border:none;cursor:pointer;line-height:1;opacity:0.75;}
+  #lightbox-close:hover{opacity:1;}
+  #lb-prev,#lb-next{position:fixed;top:50%;transform:translateY(-50%);background:rgba(250,244,232,0.15);border:0.5px solid rgba(255,255,255,0.25);color:#fff;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:background .18s;}
+  #lb-prev:hover,#lb-next:hover{background:rgba(250,244,232,0.25);}
+  #lb-prev{left:20px;}#lb-next{right:20px;}
+  #lb-counter{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:.14em;color:rgba(255,255,255,0.55);}
+
+  @media(max-width:600px){
+    .belt-photo{height:50vw;}
+    .belt-wrap::before,.belt-wrap::after{width:40px;}
+  }
+
+  /* ── Our Story ── */
+  /* side padding has to clear the fanned edges, which sit outside the stage box */
+  .story-section-wrap{max-width:1160px;margin:2rem auto 4rem;text-align:center;padding:0 clamp(1.25rem,3vw,2.5rem);}
+  .story-section-rule{width:80px;height:1px;background:var(--gold);margin:0 auto 2.5rem;opacity:0.6;}
+  .story-section-eyebrow{
+    font-family:'Cinzel',serif;font-size:12px;letter-spacing:4px;
+    color:var(--gold-dark);text-transform:uppercase;opacity:.7;margin-bottom:2.5rem;
+  }
+
+  /* ── Flipbook stage ── */
+  .flip-stage{
+    position:relative;
+    max-width:1100px;margin:0 auto;
+    /* drop-shadow traces the book's real silhouette, which box-shadow can't do
+       (the wrapper is always full-spread width, even when only the cover shows) */
+    filter:drop-shadow(0 22px 44px rgba(43,26,15,0.22));
+  }
+  /* re-filtering the whole book every animation frame is expensive — drop it while turning */
+  .flip-stage.is-flipping{filter:none;}
+
+  /* ── Fanned page edges ──
+     StPageFlip only ever renders the two live pages, so the "thick book" look
+     has to be faked either side of them. Sized in JS from the visible pages:
+     the left stack grows and the right shrinks as you read through. */
+  .book-edge{
+    position:absolute;z-index:0;pointer-events:none;opacity:0;
+    transition:left .45s ease,width .45s ease,opacity .35s ease;
+  }
+  /* the vertical layer rounds the stack off top and bottom so it reads as a
+     block of paper rather than a flat striped bar */
+  .book-edge--left{
+    background:
+      linear-gradient(to bottom,rgba(43,26,15,.22) 0,rgba(43,26,15,0) 9%,rgba(43,26,15,0) 91%,rgba(43,26,15,.22) 100%),
+      repeating-linear-gradient(to left,#FDFAF3 0 2px,rgba(43,26,15,.16) 2px 3px);
+    border-radius:3px 0 0 3px;
+    box-shadow:-1px 2px 7px rgba(43,26,15,.14);
+  }
+  .book-edge--right{
+    background:
+      linear-gradient(to bottom,rgba(43,26,15,.22) 0,rgba(43,26,15,0) 9%,rgba(43,26,15,0) 91%,rgba(43,26,15,.22) 100%),
+      repeating-linear-gradient(to right,#FDFAF3 0 2px,rgba(43,26,15,.16) 2px 3px);
+    border-radius:0 3px 3px 0;
+    box-shadow:1px 2px 7px rgba(43,26,15,.14);
+  }
+  .flip-book{margin:0 auto;}
+  /* pages are hidden until StPageFlip claims them, so no flash of stacked markup */
+  .flip-book .pg{display:none;}
+  .flip-book.ready .pg{display:block;}
+
+  /* StPageFlip writes `display:block` inline on every page, so the flex
+     layout has to live on an inner wrapper rather than on .pg itself. */
+  .pg{background:#fff;overflow:hidden;}
+  .pg-inner{
+    height:100%;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:clamp(1.6rem,2.9vw,3rem) clamp(1.5rem,2.6vw,2.6rem) clamp(2.6rem,3.6vw,3.4rem);
+    text-align:left;
+  }
+  /* paper curving away toward the spine */
+  .pg--verso{background:linear-gradient(to left,#EFE6D6 0%,#FBF8F2 5%,#fff 20%);}
+  .pg--recto{background:linear-gradient(to right,#EFE6D6 0%,#FBF8F2 5%,#fff 20%);}
+
+  /* ── Covers ── */
+  .pg-cover{
+    background:linear-gradient(135deg,#4A3520 0%,#2B1A0F 52%,#1C1108 100%);
+    color:#F3E7D0;
+    box-shadow:inset 0 0 0 1px rgba(196,169,122,.4), inset 0 0 0 9px rgba(0,0,0,.18), inset 0 0 0 10px rgba(196,169,122,.28);
+  }
+  .pg-cover .pg-inner{align-items:center;text-align:center;}
+  .cover-eyebrow{font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-bottom:1.2rem;}
+  .cover-title{font-family:'Great Vibes',cursive;font-weight:400;font-size:clamp(34px,4vw,52px);line-height:1.15;color:#F7EFDD;}
+  .cover-rule{width:70px;height:1px;background:var(--gold);opacity:.7;margin:1.3rem auto;}
+  .cover-names{font-family:'Cinzel',Georgia,serif;font-size:clamp(12px,1.15vw,14px);letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.9;}
+  .cover-glyph{font-size:17px;color:var(--gold);opacity:.5;margin-top:1.6rem;}
+  .pg-cover--back{justify-content:center;}
+  .cover-back-text{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(15px,1.3vw,18px);color:#E4D5B8;opacity:.85;line-height:1.8;max-width:22em;margin:0 auto;}
+
+  /* ── Chapter typography (matches our-story.html) ── */
+  .chapter-num{
+    font-family:'Cinzel',Georgia,serif;font-size:clamp(10px,.85vw,12px);letter-spacing:.34em;
+    text-transform:uppercase;color:var(--gold-dark);opacity:.75;margin-bottom:.6rem;
+  }
+  .chapter-title{
+    font-family:'Great Vibes',cursive;font-weight:400;
+    font-size:clamp(30px,3.6vw,46px);line-height:1.05;
+    color:var(--espresso);margin-bottom:.5rem;
+  }
+  .chapter-rule{width:44px;height:.5px;background:var(--gold);opacity:.6;margin-bottom:1.1rem;}
+  .chapter-text{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:clamp(15px,1.22vw,17px);line-height:1.85;color:#5A3E28;
+  }
+  .chapter-text::first-letter{
+    float:left;font-family:'Cinzel',Georgia,serif;
+    font-size:3.05em;line-height:.84;padding:.08em .1em 0 0;
+    color:var(--gold-dark);
+  }
+
+  .folio{
+    position:absolute;bottom:clamp(1rem,1.7vw,1.6rem);
+    font-family:'Cinzel',Georgia,serif;font-size:11px;letter-spacing:.2em;
+    color:var(--gold-dark);opacity:.5;
+  }
+  .pg--verso .folio{left:clamp(1.5rem,2.6vw,2.6rem);}
+  .pg--recto .folio{right:clamp(1.5rem,2.6vw,2.6rem);}
+
+  .plate{
+    align-self:center;max-width:100%;margin:0;padding:7px;
+    background:#FDFBF6;border:1px solid rgba(196,169,122,0.5);
+    box-shadow:0 8px 22px rgba(43,26,15,0.15);
+  }
+  /* StPageFlip sizes the page in JS, so there is no CSS height to clamp
+     against — --page-h is measured and fed back in by positionEdges(). */
+  .plate img{
+    display:block;width:auto;max-width:100%;
+    max-height:calc(var(--page-h,420px) * .8);
+    object-fit:contain;
+  }
+  .plate-empty{align-self:center;display:flex;align-items:center;justify-content:center;min-height:clamp(180px,22vw,280px);}
+  .plate-glyph{font-size:22px;color:var(--gold-dark);opacity:.16;}
+
+  /* ── Flip controls ── */
+  .flip-controls{
+    display:flex;align-items:center;justify-content:center;gap:1.1rem;
+    margin:2.25rem auto 0;
+  }
+  .flip-btn{
+    background:rgba(250,244,232,0.9);border:0.5px solid rgba(196,169,122,0.6);
+    color:var(--espresso);width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;
+    box-shadow:0 2px 10px rgba(43,26,15,0.12);transition:background .18s,transform .18s,opacity .18s;
+  }
+  .flip-btn:hover:not(:disabled){background:#fff;transform:scale(1.08);}
+  .flip-btn:disabled{opacity:.3;cursor:default;}
+  .flip-counter{
+    font-family:'Cinzel',Georgia,serif;font-size:12px;letter-spacing:.18em;
+    color:var(--gold-dark);min-width:7.5em;text-align:center;
+  }
+  .flip-hint{
+    font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;
+    color:var(--gold-dark);opacity:.75;margin-top:1rem;letter-spacing:.03em;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+    <button onclick="window.location.href='index.htm'">Home</button>
+    <button onclick="window.location.href='details.htm'">Wedding Details</button>
+    <button onclick="window.location.href='party.htm'">Wedding Party</button>
+    <button class="nav-rsvp" onclick="window.location.href='rsvp.htm'">
+      <span style="position:relative;z-index:2;">RSVP</span>
+      <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
+    </button>
+    <button class="active" onclick="window.location.href='our-story.html'">Our Story</button>
+    <button onclick="window.location.href='registry.htm'">Registry</button>
+    <button onclick="window.location.href='todo.htm'">Things to Do</button>
+    <button onclick="window.location.href='faq.htm'">FAQ</button>
+  </nav>
+
+<div class="preview-flag">
+  Preview &mdash; StPageFlip version. The scrolling open-book version lives at <a href="our-story.html" style="color:var(--gold-dark)">our-story.html</a>.
+</div>
+
+<div class="belt-wrap">
+  <div class="belt-track" id="belt"></div>
+  <div class="controls-bar">
+    <button class="ctrl-btn" id="rwBtn" onclick="toggleRW()" title="Reverse" style="font-family:'Cinzel',Georgia,serif;font-size:13px;font-weight:700;letter-spacing:.04em;width:48px;height:48px;">x1</button>
+    <button class="ctrl-btn" id="pauseBtn" onclick="togglePause()" title="Pause" style="width:48px;height:48px;font-size:16px;">&#9646;&#9646;</button>
+    <button class="ctrl-btn" id="ffBtn" onclick="toggleFF()" title="Speed up" style="font-family:'Cinzel',Georgia,serif;font-size:13px;font-weight:700;letter-spacing:.04em;width:48px;height:48px;">x1</button>
+  </div>
+</div>
+
+<div class="story-section-wrap">
+  <div class="story-section-rule"></div>
+  <div class="story-section-eyebrow">&#10087; &ensp; Our Story &ensp; &#10087;</div>
+
+  <div class="flip-stage">
+    <!-- must precede the book so the live pages paint over them -->
+    <div class="book-edge book-edge--left" aria-hidden="true"></div>
+    <div class="book-edge book-edge--right" aria-hidden="true"></div>
+    <div class="flip-book" id="flipbook">
+
+      <!-- front cover -->
+      <div class="pg pg-cover" data-density="hard">
+        <div class="pg-inner">
+          <div class="cover-eyebrow">The Story of</div>
+          <div class="cover-title">Chelsea &amp; Matt</div>
+          <div class="cover-rule"></div>
+          <div class="cover-names">How we found each other</div>
+          <div class="cover-glyph">&#10087;</div>
+        </div>
+      </div>
+
+      <!-- chapter one -->
+      <div class="pg pg--verso">
+        <div class="pg-inner">
+          <div class="chapter-num">Chapter One</div>
+          <h2 class="chapter-title">The Dog Park</h2>
+          <div class="chapter-rule"></div>
+          <p class="chapter-text">It all started the best way possible &mdash; at the dog park. Matt spotted Chelsea sitting on a bench with her dog, Ryder, and struck up a conversation. Before long, he invited her out with friends that same night. Matt&rsquo;s dog, Titan, made himself right at home by Chelsea&rsquo;s side &mdash; and that&rsquo;s when Matt knew she was something special.</p>
+          <div class="folio">1</div>
+        </div>
+      </div>
+      <div class="pg pg--recto">
+        <div class="pg-inner">
+          <figure class="plate">
+            <img src="images/story1.jpg" width="800" height="1067" loading="lazy" decoding="async"
+                 alt="Chelsea sitting on a bench at the dog park, petting her dog Ryder at dusk">
+          </figure>
+          <div class="folio">2</div>
+        </div>
+      </div>
+
+      <!-- chapter two -->
+      <div class="pg pg--verso">
+        <div class="pg-inner">
+          <div class="chapter-num">Chapter Two</div>
+          <h2 class="chapter-title">The Open Road</h2>
+          <div class="chapter-rule"></div>
+          <p class="chapter-text">After purchasing their brand-new RV, Chelsea took a leap of faith and quit her job while Matt worked remotely. Together they set off across the country &mdash; glowing desert sunsets, peaceful mountain views, and a new dog park in every city. Life on the road gave them a freedom and closeness they&rsquo;ll always carry with them.</p>
+          <div class="folio">3</div>
+        </div>
+      </div>
+      <div class="pg pg--recto">
+        <div class="pg-inner">
+          <!-- photograph to come — replace this block with a <figure class="plate"> -->
+          <div class="plate-empty" aria-hidden="true"><span class="plate-glyph">&#10087;</span></div>
+          <div class="folio">4</div>
+        </div>
+      </div>
+
+      <!-- chapter three -->
+      <div class="pg pg--verso">
+        <div class="pg-inner">
+          <div class="chapter-num">Chapter Three</div>
+          <h2 class="chapter-title">Forever</h2>
+          <div class="chapter-rule"></div>
+          <p class="chapter-text">Today, Chelsea and Matt stand hand in hand, ready to begin their forever. What started as a simple moment &mdash; thanks to two dogs who knew they belonged together long before they did &mdash; has grown into a love filled with laughter, adventure, and an unbreakable bond. Through every mile traveled, they found home in each other.</p>
+          <div class="folio">5</div>
+        </div>
+      </div>
+      <div class="pg pg--recto">
+        <div class="pg-inner">
+          <!-- photograph to come — replace this block with a <figure class="plate"> -->
+          <div class="plate-empty" aria-hidden="true"><span class="plate-glyph">&#10087;</span></div>
+          <div class="folio">6</div>
+        </div>
+      </div>
+
+      <!-- back cover -->
+      <div class="pg pg-cover pg-cover--back" data-density="hard">
+        <div class="pg-inner">
+          <div class="cover-glyph" style="margin:0 0 1.4rem">&#10087;</div>
+          <p class="cover-back-text">&hellip;and the rest of the story starts on October the tenth.</p>
+          <div class="cover-rule"></div>
+          <div class="cover-names">C &amp; M</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="flip-controls">
+    <button class="flip-btn" id="flipPrev" aria-label="Previous page">&#8592;</button>
+    <span class="flip-counter" id="flipCounter">&nbsp;</span>
+    <button class="flip-btn" id="flipNext" aria-label="Next page">&#8594;</button>
+  </div>
+  <div class="flip-hint">Drag a page corner, or use the arrows &mdash; the keyboard arrows work too.</div>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <button id="lightbox-close" onclick="closeLB()">&#x2715;</button>
+  <button id="lb-prev" onclick="lbMove(-1)">&#8592;</button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lb-next" onclick="lbMove(1)">&#8594;</button>
+  <div id="lb-counter"></div>
+</div>
+
+<script src="vendor/page-flip.browser.js"></script>
+<script>
+const photos = [
+  'images/carousel-01.jpg','images/carousel-02.jpg','images/carousel-03.jpg',
+  'images/carousel-04.jpg','images/carousel-05.jpg','images/carousel-06.jpg',
+  'images/carousel-07.jpg','images/carousel-08.jpg','images/carousel-09.jpg',
+  'images/carousel-10.jpg','images/carousel-11.jpg','images/carousel-12.jpg',
+  'images/carousel-13.jpg','images/carousel-14.jpg','images/carousel-15.jpg',
+  'images/carousel-16.jpg','images/carousel-17.jpg','images/carousel-18.jpg',
+  'images/carousel-19.jpg',
+  'images/IMG_1566.jpeg','images/IMG_1567.jpeg','images/IMG_1568.jpeg',
+  'images/IMG_1570.jpeg','images/IMG_1571.jpeg','images/IMG_1572.jpeg',
+  'images/IMG_1573.jpeg','images/IMG_1575.jpeg','images/IMG_1578.jpeg',
+  'images/IMG_1579.jpeg','images/IMG_1580.jpeg','images/IMG_1583.jpeg',
+  'images/IMG_1584.jpeg',
+];
+
+const belt = document.getElementById('belt');
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+const shuffled = shuffle(photos);
+
+function buildSet(clickable) {
+  return shuffled.map((src, i) => {
+    const div = document.createElement('div');
+    div.className = 'belt-photo';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Photo ' + (i + 1);
+    img.loading = 'lazy';
+    div.appendChild(img);
+    if (clickable) div.addEventListener('click', () => openLB(i));
+    return div;
+  });
+}
+
+buildSet(true).forEach(el => belt.appendChild(el));
+buildSet(false).forEach(el => belt.appendChild(el));
+
+// Lightbox
+let lbIndex = 0;
+function lbIsOpen(){ return document.getElementById('lightbox').classList.contains('open'); }
+function openLB(i) {
+  lbIndex = i;
+  document.getElementById('lightbox-img').src = photos[i];
+  document.getElementById('lb-counter').textContent = (i+1) + ' / ' + photos.length;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLB() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-img').src = '';
+  document.body.style.overflow = '';
+}
+function lbMove(dir) {
+  lbIndex = (lbIndex + dir + photos.length) % photos.length;
+  document.getElementById('lightbox-img').src = photos[lbIndex];
+  document.getElementById('lb-counter').textContent = (lbIndex+1) + ' / ' + photos.length;
+}
+document.getElementById('lightbox').addEventListener('click', function(e){ if(e.target===this) closeLB(); });
+
+// Belt scroll
+const beltTrack = document.getElementById('belt');
+let pos = 0, halfWidth = 0, isPaused = false, isFast = false, isReversed = false;
+const normalSpeed = 90, fastSpeed = 200;
+let lastTime = null;
+
+function tick(ts) {
+  if (lastTime === null) lastTime = ts;
+  const dt = Math.min((ts - lastTime) / 1000, 0.1);
+  lastTime = ts;
+  if (!isPaused && halfWidth > 0) {
+    const spd = isFast ? fastSpeed : normalSpeed;
+    pos += isReversed ? -(spd * dt) : (spd * dt);
+    if (pos >= halfWidth) pos -= halfWidth;
+    if (pos < 0) pos += halfWidth;
+    beltTrack.style.transform = `translateX(-${pos}px)`;
+  }
+  requestAnimationFrame(tick);
+}
+setTimeout(() => {
+  halfWidth = beltTrack.scrollWidth / 2;
+  requestAnimationFrame(tick);
+}, 300);
+
+function togglePause() {
+  isPaused = !isPaused;
+  if (!isPaused) lastTime = null;
+  document.getElementById('pauseBtn').innerHTML = isPaused ? '&#9654;' : '&#9646;&#9646;';
+  document.getElementById('pauseBtn').classList.toggle('active', isPaused);
+}
+function toggleFF() {
+  isFast = !isFast;
+  document.getElementById('ffBtn').textContent = isFast ? 'x2' : 'x1';
+  document.getElementById('ffBtn').classList.toggle('active', isFast);
+}
+function toggleRW() {
+  isReversed = !isReversed;
+  document.getElementById('rwBtn').textContent = isReversed ? 'x2' : 'x1';
+  document.getElementById('rwBtn').classList.toggle('active', isReversed);
+}
+
+/* ── StPageFlip ── */
+const bookEl = document.getElementById('flipbook');
+const counterEl = document.getElementById('flipCounter');
+const prevBtn = document.getElementById('flipPrev');
+const nextBtn = document.getElementById('flipNext');
+
+bookEl.classList.add('ready');
+
+const pageFlip = new St.PageFlip(bookEl, {
+  width: 550,
+  height: 733,
+  size: 'stretch',
+  minWidth: 300,
+  maxWidth: 560,
+  minHeight: 400,
+  maxHeight: 750,
+  drawShadow: true,
+  maxShadowOpacity: 0.5,
+  flippingTime: 800,
+  showCover: true,
+  usePortrait: true,
+  mobileScrollSupport: true,
+  clickEventForward: true,
+  showPageCorners: true,
+});
+
+pageFlip.loadFromHTML(document.querySelectorAll('#flipbook .pg'));
+
+function syncFlipUI() {
+  const i = pageFlip.getCurrentPageIndex();
+  const total = pageFlip.getPageCount();
+  // portrait shows a single page, so "Pages 1–2" would be a lie there
+  const single = pageFlip.getOrientation() === 'portrait';
+  const label = i === 0 ? 'Cover'
+              : i >= total - 1 ? 'The End'
+              : single ? 'Page ' + i
+              : 'Pages ' + i + '–' + Math.min(i + 1, total - 2);
+  counterEl.textContent = label;
+  prevBtn.disabled = i === 0;
+  nextBtn.disabled = i >= total - 1;
+}
+
+const stageEl = document.querySelector('.flip-stage');
+const edgeL = document.querySelector('.book-edge--left');
+const edgeR = document.querySelector('.book-edge--right');
+
+// Fan the page edges either side of whatever pages are currently on screen.
+// Measured rather than assumed, because the visible box differs between the
+// lone cover, a full spread, and single-page portrait mode.
+function positionEdges() {
+  const visible = [...bookEl.querySelectorAll('.stf__item')]
+    .filter(el => getComputedStyle(el).display !== 'none');
+  if (!visible.length) return;
+
+  const stage = stageEl.getBoundingClientRect();
+  let left = Infinity, right = -Infinity, top = Infinity, bottom = -Infinity;
+  for (const el of visible) {
+    const r = el.getBoundingClientRect();
+    left = Math.min(left, r.left);  right = Math.max(right, r.right);
+    top = Math.min(top, r.top);     bottom = Math.max(bottom, r.bottom);
+  }
+  left -= stage.left; right -= stage.left;
+  top -= stage.top;   bottom -= stage.top;
+
+  // hand the measured page height to CSS so the plate can scale with the book
+  stageEl.style.setProperty('--page-h', (bottom - top) + 'px');
+
+  const leaves = pageFlip.getPageCount() - 1;
+  const read = leaves > 0 ? Math.min(Math.max(pageFlip.getCurrentPageIndex() / leaves, 0), 1) : 0;
+  // never let the fan reach past the stage's side padding, or it forces a
+  // horizontal scrollbar at widths where the stage fills the viewport
+  const slack = Math.max(0, Math.min(stage.left, document.documentElement.clientWidth - stage.right) - 4);
+  const fan = Math.min(Math.max(8, Math.min(18, (right - left) * 0.019)), slack);
+  const inset = 5;
+  const lw = 1 + fan * read;          // stack that has already been turned
+  const rw = 1 + fan * (1 - read);    // stack still to come
+
+  for (const [el, x, w, show] of [[edgeL, left - lw, lw, read > 0.02],
+                                  [edgeR, right, rw, read < 0.98]]) {
+    el.style.top = (top + inset) + 'px';
+    el.style.height = (bottom - top - inset * 2) + 'px';
+    el.style.left = x + 'px';
+    el.style.width = w + 'px';
+    el.style.opacity = show ? '1' : '0';
+  }
+}
+
+// The incoming page is still display:none on the frame the flip reports done,
+// and the book has no final height until fonts and the aspect ratio settle —
+// so always measure a couple of frames late.
+let edgeRaf;
+function scheduleEdges() {
+  cancelAnimationFrame(edgeRaf);
+  edgeRaf = requestAnimationFrame(() => requestAnimationFrame(positionEdges));
+}
+function refreshFlipUI() { syncFlipUI(); scheduleEdges(); }
+
+pageFlip.on('flip', refreshFlipUI);
+pageFlip.on('changeOrientation', refreshFlipUI);
+pageFlip.on('changeState', e => {
+  stageEl.classList.toggle('is-flipping', e.data !== 'read');
+  syncFlipUI();
+  // only re-measure once the pages have settled, or the fan chases the flip
+  if (e.data === 'read') scheduleEdges();
+});
+
+// catches the initial sizing pass, font loading, and any container resize
+if (window.ResizeObserver) new ResizeObserver(scheduleEdges).observe(bookEl);
+window.addEventListener('resize', scheduleEdges);
+window.addEventListener('load', scheduleEdges);
+
+refreshFlipUI();
+
+prevBtn.addEventListener('click', () => pageFlip.flipPrev());
+nextBtn.addEventListener('click', () => pageFlip.flipNext());
+
+document.addEventListener('keydown', e => {
+  if (lbIsOpen()) {
+    if (e.key === 'Escape') closeLB();
+    if (e.key === 'ArrowLeft') lbMove(-1);
+    if (e.key === 'ArrowRight') lbMove(1);
+    return;
+  }
+  if (e.key === 'ArrowLeft') pageFlip.flipPrev();
+  if (e.key === 'ArrowRight') pageFlip.flipNext();
+});
+</script>
+
+</body>
+</html>
