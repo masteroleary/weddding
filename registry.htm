@@ -331,6 +331,34 @@
     font-size:15px;color:var(--text-body);line-height:1.85;
     font-style:italic;margin:1.5rem 0;text-align:center;
   }
+  .fund-amounts{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.1rem}
+  .fund-amount{
+    background:transparent;cursor:pointer;
+    font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:500;letter-spacing:.08em;
+    color:var(--text-muted);
+    border:0.5px solid var(--border);border-radius:3px;
+    padding:5px 13px;
+    transition:background .15s,color .15s,border-color .15s;
+  }
+  .fund-amount:hover{color:var(--espresso);border-color:rgba(139,105,20,0.45)}
+  .fund-amount.selected{
+    background:rgba(196,169,122,0.18);color:var(--espresso);
+    border-color:rgba(139,105,20,0.45);
+  }
+  .fund-other{display:none;align-items:baseline;gap:.35rem;margin:0 0 1.1rem}
+  .fund-other.visible{display:flex}
+  .fund-other span{
+    font-size:15px;color:var(--text-muted);
+    font-family:'Cormorant Garamond',Georgia,serif;
+  }
+  .fund-other input{
+    width:90px;background:transparent;
+    border:none;border-bottom:0.5px solid var(--border);
+    font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
+    color:var(--espresso);padding:3px 2px;outline:none;
+  }
+  .fund-other input:focus{border-bottom-color:rgba(139,105,20,0.45)}
 
   /* ── Travel ── */
   .travel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1.5rem}
@@ -808,8 +836,34 @@
     <!-- General Tab -->
     <div class="registry-tab-content visible" id="reg-tab-general">
       <div class="registry-grid">
-        <div class="registry-item"><h3>Honeymoon Fund</h3><p>Help us get to Italy! Contributions toward our Amalfi Coast honeymoon are deeply appreciated.</p><a href="#" class="registry-link">Contribute →</a></div>
-        <div class="registry-item"><h3>New Home Fund</h3><p>As we prepare to buy our first home, we're excited to create a space of our own filled with love and new beginnings.</p><a href="#" class="registry-link">Contribute →</a></div>
+        <div class="registry-item">
+          <h3>Honeymoon Fund</h3>
+          <p>Help us get to Italy! Contributions toward our Amalfi Coast honeymoon are deeply appreciated.</p>
+          <div class="fund-amounts">
+            <button type="button" class="fund-amount" onclick="selectAmount(this, 50)">$50</button>
+            <button type="button" class="fund-amount" onclick="selectAmount(this, 100)">$100</button>
+            <button type="button" class="fund-amount" onclick="selectAmount(this, 250)">$250</button>
+            <button type="button" class="fund-amount" onclick="selectAmount(this, null)">Other</button>
+          </div>
+          <div class="fund-other">
+            <span>$</span><input type="number" min="1" step="1" placeholder="Amount" aria-label="Other amount for the Honeymoon Fund">
+          </div>
+          <a href="#" class="registry-link">Contribute →</a>
+        </div>
+        <div class="registry-item">
+          <h3>New Home Fund</h3>
+          <p>As we prepare to buy our first home, we're excited to create a space of our own filled with love and new beginnings.</p>
+          <div class="fund-amounts">
+            <button type="button" class="fund-amount" onclick="selectAmount(this, 50)">$50</button>
+            <button type="button" class="fund-amount" onclick="selectAmount(this, 100)">$100</button>
+            <button type="button" class="fund-amount" onclick="selectAmount(this, 250)">$250</button>
+            <button type="button" class="fund-amount" onclick="selectAmount(this, null)">Other</button>
+          </div>
+          <div class="fund-other">
+            <span>$</span><input type="number" min="1" step="1" placeholder="Amount" aria-label="Other amount for the New Home Fund">
+          </div>
+          <a href="#" class="registry-link">Contribute →</a>
+        </div>
       </div>
     </div>
 
@@ -875,6 +929,15 @@ function showRegistryTab(id, btn) {
   document.querySelectorAll('.registry-tabs button').forEach(b => b.classList.remove('active'));
   document.getElementById('reg-tab-' + id).classList.add('visible');
   btn.classList.add('active');
+}
+function selectAmount(btn, amount) {
+  const card = btn.closest('.registry-item');
+  card.querySelectorAll('.fund-amount').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const other = card.querySelector('.fund-other');
+  const input = other.querySelector('input');
+  other.classList.toggle('visible', amount === null);
+  if (amount === null) input.focus(); else input.value = '';
 }
 function toggleFAQ(item) {
   const wasOpen = item.classList.contains('open');
