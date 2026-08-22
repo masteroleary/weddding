@@ -191,6 +191,23 @@
     object-fit:contain;
   }
   .plate-empty{align-self:center;display:flex;align-items:center;justify-content:center;min-height:clamp(180px,22vw,280px);}
+
+  /* ── Merged phone page: chapter's words on top, its photo beneath ── */
+  /* flow order, not space-between — the latter banked all the leftover height
+     into the gap between the words and the photo */
+  .pg--single .pg-inner{
+    justify-content:flex-start;
+    padding:clamp(1.5rem,5vw,2rem) clamp(1.35rem,4.5vw,1.9rem) clamp(1rem,3vw,1.4rem);
+  }
+  .pg--single .pg-words{display:flex;flex-direction:column;}
+  .pg--single .chapter-title{font-size:clamp(30px,8.6vw,40px);}
+  .pg--single .chapter-text{font-size:15px;line-height:1.72;}
+  .pg--single .chapter-rule{margin-bottom:.9rem;}
+  /* the plate takes whatever the words leave behind */
+  .pg--single .plate{margin-top:clamp(.85rem,3vw,1.2rem);}
+  .pg--single .plate img{max-height:calc(var(--page-h,600px) * .50);}
+  .pg--single .plate-empty{min-height:0;margin-top:clamp(.85rem,3vw,1.2rem);}
+  .pg--single .folio{bottom:clamp(.7rem,2vw,1rem);}
   .plate-glyph{font-size:22px;color:var(--gold-dark);opacity:.16;}
 
   /* ── Flip controls ── */
@@ -213,6 +230,19 @@
   .flip-hint{
     font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:14px;
     color:var(--gold-dark);opacity:.75;margin-top:1rem;letter-spacing:.03em;
+  }
+
+  /* Phones: arrows sit above the book, within thumb reach and without pushing
+     the page down. Same 540px breakpoint the single-page layout uses. */
+  @media(max-width:540px){
+    .story-section-wrap{display:flex;flex-direction:column;}
+    .story-section-rule{order:1;}
+    .story-section-eyebrow{order:2;margin-bottom:1.5rem;}
+    .flip-controls{order:3;margin:0 auto 1.25rem;}
+    /* auto side margins would cancel the flex stretch and collapse the stage
+       to the book's min-width, so size it explicitly */
+    .flip-stage{order:4;width:100%;}
+    .flip-hint{order:5;}
   }
 </style>
 </head>
@@ -467,25 +497,115 @@ const nextBtn = document.getElementById('flipNext');
 
 bookEl.classList.add('ready');
 
-const pageFlip = new St.PageFlip(bookEl, {
-  width: 550,
-  height: 733,
-  size: 'stretch',
-  minWidth: 300,
-  maxWidth: 560,
-  minHeight: 400,
-  maxHeight: 750,
-  drawShadow: true,
-  maxShadowOpacity: 0.5,
-  flippingTime: 800,
-  showCover: true,
-  usePortrait: true,
-  mobileScrollSupport: true,
-  clickEventForward: true,
-  showPageCorners: true,
-});
+/* Pristine copy of the authored pages, taken before StPageFlip claims the DOM.
+   Every mount builds from these, so switching layouts never degrades content. */
+const PAGE_SOURCE = [...bookEl.querySelectorAll('.pg')].map(el => el.cloneNode(true));
 
-pageFlip.loadFromHTML(document.querySelectorAll('#flipbook .pg'));
+/* Phones get one page per chapter — paragraph on top, photo beneath — instead
+   of a text page you have to turn to reach its photo. That needs a taller page
+   than the spread uses, and the aspect ratio is baked in at construction, so
+   crossing the breakpoint re-mounts the book rather than just reflowing it.
+   Kept comfortably inside StPageFlip's own portrait threshold (2 x minWidth)
+   so merged mode is always single-page. */
+const SINGLE_Q = window.matchMedia('(max-width: 540px)');
+
+const BASE_CFG = {
+  size: 'stretch', minWidth: 260, maxWidth: 560,
+  drawShadow: true, maxShadowOpacity: 0.5, flippingTime: 800,
+  showCover: true, usePortrait: true, mobileScrollSupport: true,
+  clickEventForward: true, showPageCorners: true,
+};
+const SHAPE_SPREAD = { width: 550, height: 733, minHeight: 400, maxHeight: 750 };
+const SHAPE_SINGLE = { width: 480, height: 960, minHeight: 420, maxHeight: 1180 };
+
+// spread: cover,1a,1b,2a,2b,3a,3b,back   merged: cover,1,2,3,back
+const toMerged = i => (i <= 0 ? 0 : i >= 7 ? 4 : Math.floor((i - 1) / 2) + 1);
+const toSpread = i => (i <= 0 ? 0 : i >= 4 ? 7 : (i - 1) * 2 + 1);
+
+function buildMergedPages() {
+  const out = [];
+  let chapter = 0;
+  for (let i = 0; i < PAGE_SOURCE.length; i++) {
+    const src = PAGE_SOURCE[i];
+    if (src.classList.contains('pg-cover')) { out.push(src.cloneNode(true)); continue; }
+
+    const recto = PAGE_SOURCE[i + 1];   // the photo page facing this text page
+    i++;
+    chapter++;
+
+    const page = document.createElement('div');
+    page.className = 'pg pg--single';
+    const inner = document.createElement('div');
+    inner.className = 'pg-inner';
+
+    // the chapter's words, grouped so they stay together at the top
+    const words = document.createElement('div');
+    words.className = 'pg-words';
+    for (const node of src.querySelector('.pg-inner').children) {
+      if (!node.classList.contains('folio')) words.appendChild(node.cloneNode(true));
+    }
+    inner.appendChild(words);
+
+    // then the plate, which settles to the bottom of the page
+    for (const node of recto.querySelector('.pg-inner').children) {
+      if (!node.classList.contains('folio')) inner.appendChild(node.cloneNode(true));
+    }
+
+    const folio = document.createElement('div');
+    folio.className = 'folio';
+    folio.textContent = String(chapter);
+    inner.appendChild(folio);
+
+    page.appendChild(inner);
+    out.push(page);
+  }
+  return out;
+}
+
+let pageFlip = null;
+let isSingle = null;
+
+function mountBook(single, startIndex) {
+  if (pageFlip) { try { pageFlip.destroy(); } catch (e) {} }
+  // strip everything StPageFlip stamped on the container
+  bookEl.className = 'flip-book ready';
+  bookEl.removeAttribute('style');
+  bookEl.innerHTML = '';
+  // destroy() detaches the container itself, so put it back — after the edge
+  // strips, so the live pages still paint over them
+  if (!bookEl.isConnected) stageEl.appendChild(bookEl);
+
+  const pages = single ? buildMergedPages() : PAGE_SOURCE.map(el => el.cloneNode(true));
+  for (const pg of pages) bookEl.appendChild(pg);
+
+  pageFlip = new St.PageFlip(bookEl,
+    Object.assign({}, BASE_CFG, single ? SHAPE_SINGLE : SHAPE_SPREAD));
+  pageFlip.loadFromHTML(bookEl.querySelectorAll('.pg'));
+
+  isSingle = single;
+  wireBookEvents();
+  if (startIndex) pageFlip.turnToPage(Math.min(startIndex, pageFlip.getPageCount() - 1));
+  refreshFlipUI();
+}
+
+function wireBookEvents() {
+  pageFlip.on('flip', refreshFlipUI);
+  pageFlip.on('changeOrientation', refreshFlipUI);
+  pageFlip.on('changeState', e => {
+    stageEl.classList.toggle('is-flipping', e.data !== 'read');
+    if (e.data === 'user_fold') readerEngaged();
+    syncFlipUI();
+    // only re-measure once the pages have settled, or the fan chases the flip
+    if (e.data === 'read') scheduleEdges();
+  });
+}
+
+function onBreakpoint() {
+  const single = SINGLE_Q.matches;
+  if (single === isSingle) return;
+  const was = pageFlip ? pageFlip.getCurrentPageIndex() : 0;
+  mountBook(single, single ? toMerged(was) : toSpread(was));
+}
 
 function syncFlipUI() {
   const i = pageFlip.getCurrentPageIndex();
@@ -556,24 +676,63 @@ function scheduleEdges() {
 }
 function refreshFlipUI() { syncFlipUI(); scheduleEdges(); }
 
-pageFlip.on('flip', refreshFlipUI);
-pageFlip.on('changeOrientation', refreshFlipUI);
-pageFlip.on('changeState', e => {
-  stageEl.classList.toggle('is-flipping', e.data !== 'read');
-  syncFlipUI();
-  // only re-measure once the pages have settled, or the fan chases the flip
-  if (e.data === 'read') scheduleEdges();
-});
+// per-instance handlers now live in wireBookEvents(), since the book is
+// re-mounted whenever the layout crosses the phone breakpoint
 
 // catches the initial sizing pass, font loading, and any container resize
 if (window.ResizeObserver) new ResizeObserver(scheduleEdges).observe(bookEl);
 window.addEventListener('resize', scheduleEdges);
 window.addEventListener('load', scheduleEdges);
 
-refreshFlipUI();
+mountBook(SINGLE_Q.matches, 0);
+if (SINGLE_Q.addEventListener) SINGLE_Q.addEventListener('change', onBreakpoint);
+else SINGLE_Q.addListener(onBreakpoint);          // Safari < 14
+window.addEventListener('resize', onBreakpoint);  // belt and braces
 
-prevBtn.addEventListener('click', () => pageFlip.flipPrev());
-nextBtn.addEventListener('click', () => pageFlip.flipNext());
+/* -- Auto-open --
+   Once the book has scrolled properly into view, open it from the cover to
+   page one so arrivals see the story rather than a closed book. Fires once,
+   and backs off the moment the reader takes control themselves. */
+const AUTO_OPEN_DELAY = 2000;
+let autoOpenTimer = null, autoOpenDone = false, readerTookOver = false;
+
+function cancelAutoOpen() { clearTimeout(autoOpenTimer); autoOpenTimer = null; }
+function readerEngaged() { readerTookOver = true; cancelAutoOpen(); }
+
+if (window.IntersectionObserver) {
+  const opener = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      // ratio is relative to the book, so a book taller than the viewport can
+      // never reach 0.5 -- fall back to how much of the screen it fills
+      const inView = entry.isIntersecting &&
+        (entry.intersectionRatio >= 0.5 ||
+         entry.intersectionRect.height >= window.innerHeight * 0.6);
+      const eligible = !autoOpenDone && !readerTookOver &&
+        pageFlip.getCurrentPageIndex() === 0;
+
+      if (!(inView && eligible)) { cancelAutoOpen(); continue; }
+      if (autoOpenTimer !== null) continue;
+
+      autoOpenTimer = setTimeout(() => {
+        autoOpenTimer = null;
+        if (autoOpenDone || readerTookOver || pageFlip.getCurrentPageIndex() !== 0) return;
+        autoOpenDone = true;
+        opener.disconnect();
+        // an unprompted animation is the exact thing reduced-motion asks you to skip
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          pageFlip.turnToPage(1);
+          refreshFlipUI();
+        } else {
+          pageFlip.flipNext('top');
+        }
+      }, AUTO_OPEN_DELAY);
+    }
+  }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+  opener.observe(stageEl);
+}
+
+prevBtn.addEventListener('click', () => { readerEngaged(); pageFlip.flipPrev(); });
+nextBtn.addEventListener('click', () => { readerEngaged(); pageFlip.flipNext(); });
 
 document.addEventListener('keydown', e => {
   if (lbIsOpen()) {
@@ -582,8 +741,8 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') lbMove(1);
     return;
   }
-  if (e.key === 'ArrowLeft') pageFlip.flipPrev();
-  if (e.key === 'ArrowRight') pageFlip.flipNext();
+  if (e.key === 'ArrowLeft') { readerEngaged(); pageFlip.flipPrev(); }
+  if (e.key === 'ArrowRight') { readerEngaged(); pageFlip.flipNext(); }
 });
 </script>
 
