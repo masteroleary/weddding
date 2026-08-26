@@ -191,18 +191,22 @@
     color:var(--gold-dark);opacity:.75;margin-top:1rem;letter-spacing:.03em;
   }
 
-  /* Phones: arrows sit above the book, within thumb reach and without pushing
-     the page down. Same 540px breakpoint the single-page layout uses. */
+  /* Phones: nothing above the book but the book. The heading, its rule and the
+     page arrows are all dropped so the cover is the first thing in view --
+     turning is by tap or drag on the page itself. */
   @media(max-width:540px){
-    .story-section-wrap{display:flex;flex-direction:column;}
-    .story-section-rule{order:1;}
-    .story-section-eyebrow{order:2;margin-bottom:1.5rem;}
-    .flip-controls{order:3;margin:0 auto 1.25rem;}
+    .story-section-wrap{display:flex;flex-direction:column;padding-top:.5rem;}
+    .story-section-rule,
+    .story-section-eyebrow,
+    .flip-controls{display:none;}
     /* auto side margins would cancel the flex stretch and collapse the stage
        to the book's min-width, so size it explicitly */
-    .flip-stage{order:4;width:100%;}
-    .flip-hint{order:5;}
+    .flip-stage{order:1;width:100%;}
+    .flip-hint{order:2;}
+    .flip-hint-desktop{display:none;}
   }
+  .flip-hint-touch{display:none;}
+  @media(max-width:540px){ .flip-hint-touch{display:inline;} }
 
   /* ── Mobile drawer nav ──
      Eight links will not sit across a phone, so below 780px the sticky bar
@@ -406,7 +410,7 @@
     <span class="flip-counter" id="flipCounter">&nbsp;</span>
     <button class="flip-btn" id="flipNext" aria-label="Next page">&#8594;</button>
   </div>
-  <div class="flip-hint">Drag a page corner, or use the arrows &mdash; the keyboard arrows work too.</div>
+  <div class="flip-hint"><span class="flip-hint-desktop">Drag a page corner, or use the arrows &mdash; the keyboard arrows work too.</span><span class="flip-hint-touch">Tap or drag a page corner to turn.</span></div>
 </div>
 
 <script src="vendor/page-flip.browser.js"></script>

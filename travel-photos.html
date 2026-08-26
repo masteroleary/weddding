@@ -160,6 +160,23 @@
     }
     body.nav-open{overflow:hidden;}
   }
+
+  /* ── Masonry wall ──
+     Same photo list as the slider, laid out in columns so portrait and
+     landscape shots keep their own proportions. */
+  .mason-wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1rem,3vw,2rem) 4rem;}
+  .mason-rule{width:80px;height:1px;background:var(--gold);opacity:.6;margin:0 auto 2.25rem;}
+  .mason{column-count:4;column-gap:14px;}
+  @media(max-width:1100px){ .mason{column-count:3;} }
+  @media(max-width:760px){ .mason{column-count:2;column-gap:10px;} }
+  .mason figure{
+    break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;
+    margin:0 0 14px;cursor:pointer;overflow:hidden;border-radius:2px;
+    background:#F3EADC;box-shadow:0 4px 16px rgba(43,26,15,.14);
+  }
+  @media(max-width:760px){ .mason figure{margin-bottom:10px;} }
+  .mason img{width:100%;height:auto;display:block;transition:transform .45s ease;}
+  .mason figure:hover img{transform:scale(1.04);}
 </style>
 </head>
 <body>
@@ -199,6 +216,11 @@
     <button class="ctrl-btn" id="pauseBtn" onclick="togglePause()" title="Pause" style="width:48px;height:48px;font-size:16px;">&#9646;&#9646;</button>
     <button class="ctrl-btn" id="ffBtn" onclick="toggleFF()" title="Speed up" style="font-family:'Cinzel',Georgia,serif;font-size:13px;font-weight:700;letter-spacing:.04em;width:48px;height:48px;">x1</button>
   </div>
+</div>
+
+<div class="mason-wrap">
+  <div class="mason-rule"></div>
+  <div class="mason" id="mason"></div>
 </div>
 
 <!-- Lightbox -->
@@ -247,7 +269,9 @@ function buildSet(clickable) {
     img.alt = 'Photo ' + (i + 1);
     img.loading = 'lazy';
     div.appendChild(img);
-    if (clickable) div.addEventListener('click', () => openLB(i));
+    // the belt is shuffled, so map back to this photo's place in `photos`,
+    // which is what the lightbox pages through
+    if (clickable) div.addEventListener('click', () => openLB(photos.indexOf(src)));
     return div;
   });
 }
@@ -276,6 +300,20 @@ function lbMove(dir) {
   document.getElementById('lb-counter').textContent = (lbIndex+1) + ' / ' + photos.length;
 }
 document.getElementById('lightbox').addEventListener('click', function(e){ if(e.target===this) closeLB(); });
+
+// Masonry wall — same photos, natural order, same lightbox
+const mason = document.getElementById('mason');
+photos.forEach((src, i) => {
+  const fig = document.createElement('figure');
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = 'Travel photo ' + (i + 1);
+  img.loading = 'lazy';
+  img.decoding = 'async';
+  fig.appendChild(img);
+  fig.addEventListener('click', () => openLB(i));
+  mason.appendChild(fig);
+});
 
 // Belt scroll
 const beltTrack = document.getElementById('belt');

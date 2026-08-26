@@ -1136,11 +1136,14 @@
 
     /* Countdown */
     .countdown-wrap{max-width:100%;padding:0 .5rem}
-    .countdown-boxes{gap:6px}
-    .countdown-box{min-width:72px;padding:.8rem 0 .6rem}
-    .countdown-num{font-size:clamp(32px,8vw,46px)}
-    .countdown-unit{font-size:15px;letter-spacing:.16em}
-    .countdown-sep{font-size:16px;margin-bottom:12px}
+    /* the four boxes share the row and shrink to fit, rather than min-width
+       forcing "Seconds" onto a line of its own */
+    .countdown-boxes{gap:4px;flex-wrap:nowrap;}
+    .countdown-box{min-width:0;flex:1 1 0;padding:.75rem 0 .55rem}
+    .countdown-num{font-size:clamp(28px,7.4vw,42px)}
+    /* 15px/.16em made SECONDS 90px wide inside a 72px box */
+    .countdown-unit{font-size:13px;letter-spacing:.07em}
+    .countdown-sep{font-size:15px;margin-bottom:12px}
 
     /* Envelope — full width on mobile */
     .envelope-card{
