@@ -1675,14 +1675,17 @@ document.addEventListener('touchend', e => {
 });
 
 
-// Countdown to April 18, 2027 5:30 PM
+// Countdown to April 18, 2027, 5:30 PM EDT (Coral Gables, FL)
 function updateCountdown() {
   const daysEl = document.getElementById('cd-days');
   const hoursEl = document.getElementById('cd-hours');
   const minsEl = document.getElementById('cd-mins');
   const secsEl = document.getElementById('cd-secs');
   if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
-  const wedding = new Date('2027-04-18T17:30:00');
+  // -04:00 pins this to 5:30pm EDT in Coral Gables. Without the offset the
+  // browser reads it as the VIEWER's local 5:30pm, so the clock hit zero at
+  // the wrong moment everywhere outside Eastern time.
+  const wedding = new Date('2027-04-18T17:30:00-04:00');
   const now = new Date();
   const diff = wedding - now;
   if (diff <= 0) {

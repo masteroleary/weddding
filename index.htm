@@ -137,9 +137,11 @@
     margin-left:calc(50% - 50vw);
     width:100vw;
     overflow:hidden;
-    height:65vh;
-    min-height:400px;
-    max-height:680px;
+    /* 60% of the original 65vh/400/680 — object-fit:cover on the img means the
+       shorter box crops the photo rather than squashing it */
+    height:39vh;
+    min-height:240px;
+    max-height:408px;
   }
   .hero-banner-img{
     width:100%;height:100%;
@@ -1123,7 +1125,7 @@
   /* ── Responsive ── */
   @media(max-width:600px){
     .nav button{font-size:15px;padding:6px 8px;letter-spacing:.08em}
-    .hero-banner{margin-top:-2rem;min-height:300px}
+    .hero-banner{margin-top:-2rem;min-height:180px}
     .page{padding:1.5rem 1rem 3rem}
     .story-body-section{margin:2rem -1rem 0;}
 
@@ -1447,14 +1449,17 @@ document.addEventListener('touchend', e => {
 });
 
 
-// Countdown to April 18, 2027 5:30 PM
+// Countdown to April 18, 2027, 5:30 PM EDT (Coral Gables, FL)
 function updateCountdown() {
   const daysEl = document.getElementById('cd-days');
   const hoursEl = document.getElementById('cd-hours');
   const minsEl = document.getElementById('cd-mins');
   const secsEl = document.getElementById('cd-secs');
   if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
-  const wedding = new Date('2027-04-18T17:30:00');
+  // -04:00 pins this to 5:30pm EDT in Coral Gables. Without the offset the
+  // browser reads it as the VIEWER's local 5:30pm, so the clock hit zero at
+  // the wrong moment everywhere outside Eastern time.
+  const wedding = new Date('2027-04-18T17:30:00-04:00');
   const now = new Date();
   const diff = wedding - now;
   if (diff <= 0) {
