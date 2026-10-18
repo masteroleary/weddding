@@ -170,6 +170,13 @@
     /* script descenders need room, or the rule below clips the tails */
     line-height:1.35;
   }
+  /* same treatment the .page-header subtitle had, so the line reads
+     as it did before it moved up here */
+  .wd-heading-sub{
+    font-size:15px;font-style:italic;font-weight:300;
+    color:var(--text-muted);
+    margin-top:.15rem;
+  }
   .wd-heading .hero-rule{margin:.4rem auto 0;max-width:230px;}
 
   @media(max-width:600px){
@@ -342,17 +349,6 @@
   }
 
   /* ── Page header ── */
-  .page-header{text-align:center;padding-bottom:2rem;margin-bottom:.5rem;position:relative}
-  .page-header::after{
-    content:'';display:block;width:80px;height:0.5px;
-    background:linear-gradient(90deg,transparent,var(--gold),transparent);
-    margin:1.25rem auto 0;
-  }
-  .page-header h1{
-    font-size:36px;font-weight:300;letter-spacing:.08em;
-    color:var(--espresso);margin-bottom:.4rem;
-  }
-  .page-header p{font-size:15px;font-style:italic;color:var(--text-muted);font-weight:300}
 
   /* ── Cards shared ── */
   .card{
@@ -1325,6 +1321,7 @@
   <!-- ── Section heading ── -->
   <div class="wd-heading">
     <h2 class="wd-heading-text">Wedding Details</h2>
+    <p class="wd-heading-sub">Everything you need to know for the big day</p>
     <div class="hero-rule"><div class="hero-diamond"></div></div>
   </div>
 
@@ -1512,11 +1509,6 @@
       border-bottom:1px solid rgba(154,123,79,0.35);
     ">
       <div style="max-width:880px;margin:0 auto;">
-        <div class="page-header">
-          <h1>Wedding Details</h1>
-          <p>Everything you need to know for the big day</p>
-        </div>
-
     <div class="note-box">Please be seated by 5:15 PM — the ceremony begins promptly at 5:30 PM. We cannot wait to celebrate with you!</div>
 
         <!-- Extra detail cards -->
