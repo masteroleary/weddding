@@ -156,6 +156,26 @@
     box-shadow:0 6px 28px rgba(43,26,15,0.18),0 1px 6px rgba(0,0,0,0.08);
   }
   .belt-photo img{height:100%;width:auto;display:block;}
+
+  /* ── "Wedding Details" section heading ──
+     Pinyon Script, the same hand as the monogram, so the two read as one
+     set rather than two unrelated scripts. Reuses the .hero-rule ornament,
+     which the old header left behind. */
+  .wd-heading{text-align:center;margin:3.25rem auto 2.75rem;padding:0 1.5rem;}
+  .wd-heading-text{
+    font-family:'Pinyon Script',cursive;
+    font-size:clamp(42px,6.2vw,64px);
+    font-weight:400;letter-spacing:.01em;
+    color:var(--brown);
+    /* script descenders need room, or the rule below clips the tails */
+    line-height:1.35;
+  }
+  .wd-heading .hero-rule{margin:.4rem auto 0;max-width:230px;}
+
+  @media(max-width:600px){
+    .wd-heading{margin:2.25rem auto 2rem;}
+    .wd-heading .hero-rule{max-width:170px;}
+  }
   /* sit above the edge fades, which are z-index 10 */
   .belt-controls{
     position:absolute;top:14px;right:16px;z-index:20;
@@ -1303,9 +1323,11 @@
       </div>
     </div>
 
-
-
-
+  <!-- ── Section heading ── -->
+  <div class="wd-heading">
+    <h2 class="wd-heading-text">Wedding Details</h2>
+    <div class="hero-rule"><div class="hero-diamond"></div></div>
+  </div>
 
   <!-- ══ WEDDING DETAILS ══ -->
   <div class="wd-details">
