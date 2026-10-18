@@ -15,7 +15,7 @@
   html,body{background:#FAF4E8;font-family:'Cormorant Garamond',Georgia,serif;min-height:100vh;color:var(--espresso);}
 
   /* Nav */
-  .nav{display:flex;flex-wrap:nowrap;gap:0;justify-content:space-evenly;overflow-x:auto;padding:1.25rem 1rem 0.75rem;position:sticky;top:0;background:#FAF4E8;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:100;border-bottom:none;width:100vw;margin-left:50%;transform:translateX(-50%);}
+  .nav{display:flex;flex-wrap:nowrap;gap:clamp(8px,2vw,34px);justify-content:center;overflow-x:auto;padding:1.25rem 1rem 0.75rem;position:sticky;top:0;background:#FAF4E8;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:100;border-bottom:none;width:100vw;margin-left:50%;transform:translateX(-50%);}
   .nav button{background:transparent;border:none;font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;color:var(--text-muted);cursor:pointer;padding:8px 14px 10px;border-radius:3px;transition:all .18s;letter-spacing:.1em;text-transform:none;position:relative;}
   .nav button::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:1px;background:var(--espresso);transition:left .2s,right .2s;}
   .nav button:hover{color:var(--espresso);}
@@ -126,7 +126,7 @@
 
     /* the sticky bar itself becomes the drawer */
     .nav{
-      position:fixed;top:0;left:0;bottom:0;
+      gap:0;position:fixed;top:0;left:0;bottom:0;
       width:min(78vw,300px);height:100%;
       margin-left:0;transform:translateX(-100%);
       flex-direction:column;justify-content:flex-start;align-items:stretch;
