@@ -133,15 +133,15 @@
   /* ── Hero Photo Banner ── */
   .hero-banner{
     position:relative;
-    margin-top:-2.5rem;
-    margin-left:calc(50% - 50vw);
-    width:100vw;
+    margin:-2.5rem auto 0;
+    width:100%;
+    max-width:660px;
     overflow:hidden;
-    /* 60% of the original 65vh/400/680 — object-fit:cover on the img means the
-       shorter box crops the photo rather than squashing it */
-    height:39vh;
-    min-height:240px;
-    max-height:408px;
+    /* object-fit:cover on the img means a shorter box crops the photo
+       rather than squashing it */
+    height:34vh;
+    min-height:220px;
+    max-height:360px;
   }
   .hero-banner-img{
     width:100%;height:100%;
@@ -1016,7 +1016,7 @@
   /* ── Responsive ── */
   @media(max-width:600px){
     .nav button{font-size:15px;padding:6px 8px;letter-spacing:.08em}
-    .hero-banner{margin-top:-2rem;min-height:180px}
+    .hero-banner{margin-top:-2rem;min-height:180px;max-width:none}
     .page{padding:1.5rem 1rem 3rem}
     .story-body-section{margin:2rem -1rem 0;}
 
