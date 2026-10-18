@@ -156,6 +156,25 @@
     box-shadow:0 6px 28px rgba(43,26,15,0.18),0 1px 6px rgba(0,0,0,0.08);
   }
   .belt-photo img{height:100%;width:auto;display:block;}
+  /* sit above the edge fades, which are z-index 10 */
+  .belt-controls{
+    position:absolute;top:16px;right:20px;z-index:20;
+    display:flex;gap:8px;align-items:center;
+  }
+  .ctrl-btn{
+    width:42px;height:42px;border-radius:50%;
+    background:rgba(250,244,232,0.88);
+    border:0.5px solid rgba(196,169,122,0.55);
+    color:var(--espresso);
+    font-family:'Cinzel',Georgia,serif;font-size:14px;font-weight:500;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;line-height:1;padding:0;user-select:none;
+    box-shadow:0 2px 10px rgba(0,0,0,0.12);
+    transition:background .18s,transform .18s;
+  }
+  .ctrl-btn:hover{background:rgba(250,244,232,1);transform:scale(1.08);}
+  .ctrl-btn:focus-visible{outline:2px solid var(--gold-dark);outline-offset:2px;}
+  .ctrl-btn.active{background:var(--gold);color:#FAF4E8;border-color:var(--gold-dark);}
 
   /* ── Hero (below photo) ── */
   .hero-ornament{
@@ -1024,6 +1043,8 @@
   @media(max-width:600px){
     .nav button{font-size:15px;padding:6px 8px;letter-spacing:.08em}
     .belt-photo{height:32vh;min-height:200px}
+    .belt-controls{top:12px;right:12px}
+    .ctrl-btn{width:44px;height:44px}
     .belt-wrap::before,.belt-wrap::after{width:56px}
     .page{padding:1.5rem 1rem 3rem}
     .story-body-section{margin:2rem -1rem 0;}
@@ -1291,6 +1312,12 @@
     <!-- ── Scrolling photo belt (same mechanism as Travel Photos) ── -->
     <div class="belt-wrap">
       <div class="belt-track" id="belt"></div>
+      <div class="belt-controls">
+        <button type="button" class="ctrl-btn" id="beltPause"
+                aria-pressed="false" aria-label="Pause the photos" title="Pause">&#9646;&#9646;</button>
+        <button type="button" class="ctrl-btn" id="beltFF"
+                aria-pressed="false" aria-label="Speed up the photos" title="Speed up">&times;1</button>
+      </div>
     </div>
 
 
@@ -1835,7 +1862,29 @@ setInterval(updateCountdown, 60*1000);
   buildSet().forEach(el => belt.appendChild(el));
 
   let pos = 0, halfWidth = 0, lastTime = null;
-  const SPEED = 55; // px per second
+  let isPaused = false, isFast = false;
+  const SPEED = 55, FAST_SPEED = SPEED * 2; // px per second; the button says x2
+
+  const pauseBtn = document.getElementById('beltPause');
+  const ffBtn = document.getElementById('beltFF');
+
+  if (pauseBtn) pauseBtn.addEventListener('click', function () {
+    isPaused = !isPaused;
+    pauseBtn.innerHTML = isPaused ? '&#9654;' : '&#9646;&#9646;';
+    pauseBtn.title = isPaused ? 'Play' : 'Pause';
+    pauseBtn.setAttribute('aria-label', isPaused ? 'Play the photos' : 'Pause the photos');
+    pauseBtn.setAttribute('aria-pressed', isPaused ? 'true' : 'false');
+    pauseBtn.classList.toggle('active', isPaused);
+  });
+
+  if (ffBtn) ffBtn.addEventListener('click', function () {
+    isFast = !isFast;
+    ffBtn.innerHTML = isFast ? '&times;2' : '&times;1';
+    ffBtn.title = isFast ? 'Normal speed' : 'Speed up';
+    ffBtn.setAttribute('aria-label', isFast ? 'Return the photos to normal speed' : 'Speed up the photos');
+    ffBtn.setAttribute('aria-pressed', isFast ? 'true' : 'false');
+    ffBtn.classList.toggle('active', isFast);
+  });
 
   // Each photo is width:auto, so the track has no width until the images
   // decode. Re-measure as they arrive and on resize, rather than guessing
@@ -1852,8 +1901,9 @@ setInterval(updateCountdown, 60*1000);
     if (lastTime === null) lastTime = ts;
     const dt = Math.min((ts - lastTime) / 1000, 0.1);
     lastTime = ts;
-    if (halfWidth > 0) {
-      pos += SPEED * dt;
+    // lastTime advances every frame, paused or not, so resuming never jumps
+    if (!isPaused && halfWidth > 0) {
+      pos += (isFast ? FAST_SPEED : SPEED) * dt;
       if (pos >= halfWidth) pos -= halfWidth;
       belt.style.transform = 'translateX(-' + pos + 'px)';
     }
