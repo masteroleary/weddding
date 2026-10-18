@@ -140,6 +140,8 @@
     width:100vw;
     margin-left:calc(50% - 50vw);
     margin-top:-1.25rem;
+    min-height:calc(100vh - 412px);
+    display:flex;align-items:center;
     overflow:hidden;
   }
   .belt-wrap::before,.belt-wrap::after{
@@ -147,10 +149,10 @@
   }
   .belt-wrap::before{left:0;background:linear-gradient(to right,#FAF4E8 0%,transparent 100%);}
   .belt-wrap::after{right:0;background:linear-gradient(to left,#FAF4E8 0%,transparent 100%);}
-  .belt-track{display:flex;gap:0;width:max-content;will-change:transform;}
+  .belt-track{display:flex;gap:0;width:max-content;flex-shrink:0;will-change:transform;}
   .belt-photo{
     flex-shrink:0;
-    height:44vh;min-height:250px;max-height:430px;
+    height:calc(100vh - 410px);min-height:300px;max-height:720px;
     width:auto;border-radius:3px;overflow:hidden;
     position:relative;background:#FAF4E8;
     box-shadow:0 6px 28px rgba(43,26,15,0.18),0 1px 6px rgba(0,0,0,0.08);
@@ -1045,7 +1047,8 @@
   /* ── Responsive ── */
   @media(max-width:600px){
     .nav button{font-size:15px;padding:6px 8px;letter-spacing:.08em}
-    .belt-photo{height:32vh;min-height:200px}
+    .belt-photo{height:calc(100vh - 300px);min-height:240px;max-height:520px}
+    .belt-wrap{min-height:calc(100vh - 300px)}
     .belt-controls{top:10px;right:10px}
     .ctrl-btn{width:34px;height:34px;font-size:12px;opacity:.6}
     .belt-wrap::before,.belt-wrap::after{width:56px}
@@ -1183,9 +1186,9 @@
   .wd-details .carousel-btn:hover{transform:scale(1.1) rotate(-3deg);}
   .wd-details .carousel-btn.next:hover{transform:scale(1.1) rotate(3deg);}
   .wd-details .carousel-btn svg{width:80px; height:55px;}
-  .wd-details /* ── Venue Banner (full-width hero) ── */ .venue-banner{width:100vw; margin-left:calc(-50vw + 50%); text-align:center; padding:4rem 2rem 3.5rem; background:linear-gradient(180deg, rgba(196,169,122,0.18) 0%, rgba(239,229,208,0.0) 100%); border-top:1px solid rgba(196,169,122,0.5); border-bottom:1px solid rgba(196,169,122,0.5); position:relative; overflow:hidden;}
+  .wd-details /* ── Venue Banner (full-width hero) ── */ .venue-banner{width:100vw; margin-left:calc(-50vw + 50%); text-align:center; padding:1.25rem 2rem 3.5rem; background:linear-gradient(180deg, rgba(196,169,122,0.18) 0%, rgba(239,229,208,0.0) 100%); border-top:1px solid rgba(196,169,122,0.5); border-bottom:1px solid rgba(196,169,122,0.5); position:relative; overflow:hidden;}
   .wd-details /* top & bottom gold rule lines */ .venue-banner::before, .wd-details .venue-banner::after{content:'';display:block; height:0.5px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:0 auto;width:60%;}
-  .wd-details .venue-banner::before{margin-bottom:2rem}
+  .wd-details .venue-banner::before{display:none}
   .wd-details .venue-banner::after{margin-top:2rem}
   .wd-details .venue-banner-inner{padding:.5rem 0;position:relative;z-index:1}
   .wd-details .venue-address{font-family:'Cinzel',Georgia,serif; font-size:18px;letter-spacing:.14em;color:var(--text-muted); margin-bottom:.75rem;}
@@ -1201,7 +1204,7 @@
   @media(max-width:600px){
     .wd-details .monogram{font-size:50px}
     .wd-details .page{padding:1.5rem 1rem 3rem}
-    .wd-details /* Celebration hero */ .venue-banner{padding:2.5rem 1.25rem 2rem}
+    .wd-details /* Celebration hero */ .venue-banner{padding:1rem 1.25rem 2rem}
     .wd-details .venue-place{font-size:17px}
     .wd-details .venue-address{font-size:16px}
     .wd-details /* Map buttons — stack on mobile */ .venue-banner .map-btns{flex-direction:column;align-items:center}
@@ -1294,7 +1297,7 @@
 <nav class="nav" id="siteNav">
     <button class="active" onclick="window.location.href='index.htm'">Details</button>
     <button onclick="window.location.href='our-story-flipbook.html'">Our Story</button>
-    <button onclick="window.location.href='party.htm'">Wedding Party</button>
+    <button onclick="window.location.href='party.htm'">Party</button>
     <button class="nav-rsvp" onclick="window.location.href='rsvp.htm'">
       <span style="position:relative;z-index:2;">RSVP</span>
       <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="none" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#C4A97A" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#C4A97A" opacity="0.85"/></svg>
