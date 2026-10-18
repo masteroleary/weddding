@@ -21,6 +21,15 @@
     z-index:100;border-bottom:none;
     width:100vw;margin-left:50%;transform:translateX(-50%);
   }
+  /* Each half takes an equal share of the bar (flex:1 1 0), so RSVP lands
+     exactly in the middle whatever the tab names are. The halves hug
+     inwards, which keeps every gap the same as the gap between the groups
+     and RSVP — the leftover space ends up at the two outer edges, where
+     there is nothing to look uneven against. */
+  .nav-group{display:flex;align-items:center;flex:1 1 0;min-width:max-content;gap:inherit;}
+  .nav-group-left{justify-content:flex-end;}
+  .nav-group-right{justify-content:flex-start;}
+
   .nav button{background:transparent;border:none;font-size:17px;font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;color:#7A6040;cursor:pointer;padding:8px 14px 10px;border-radius:3px;transition:all .18s;letter-spacing:.1em;text-transform:none;position:relative;}
   .nav button::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:1px;background:var(--espresso);transition:left .2s,right .2s;}
   .nav button:hover{color:var(--espresso);}
@@ -157,6 +166,7 @@
       transition:transform .32s cubic-bezier(.4,0,.2,1);
       z-index:1001;
     }
+    .nav-group{display:contents;}
     .nav.open{transform:translateX(0);}
     .nav::before{display:none;}
     .nav button{
@@ -201,16 +211,20 @@
 </div>
 <div class="nav-scrim" id="navScrim"></div>
 <nav class="nav" id="siteNav">
-    <button onclick="window.location.href='index.htm'">Wedding Details</button>
-    <button onclick="window.location.href='our-story-flipbook.html'">Our Story</button>
-    <button onclick="window.location.href='party.htm'">Wedding Party</button>
+    <span class="nav-group nav-group-left">
+      <button onclick="window.location.href='index.htm'">Wedding Details</button>
+      <button onclick="window.location.href='our-story-flipbook.html'">Our Story</button>
+      <button onclick="window.location.href='party.htm'">Wedding Party</button>
+    </span>
     <button class="nav-rsvp" onclick="window.location.href='rsvp.htm'">
       <span style="position:relative;z-index:2;">RSVP</span>
       <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="none" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#C4A97A" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#C4A97A" opacity="0.85"/></svg>
     </button>
-    <button onclick="window.location.href='registry.htm'">Registry</button>
-    <button onclick="window.location.href='todo.htm'">Things to Do</button>
-    <button onclick="window.location.href='faq.htm'">FAQ</button>
+    <span class="nav-group nav-group-right">
+      <button onclick="window.location.href='registry.htm'">Registry</button>
+      <button onclick="window.location.href='todo.htm'">Things to Do</button>
+      <button onclick="window.location.href='faq.htm'">FAQ</button>
+    </span>
   </nav>
 
 <div class="page-header">
