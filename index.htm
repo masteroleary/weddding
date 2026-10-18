@@ -136,19 +136,21 @@
      and slid with translateX, so the loop has no visible seam. The wrap's
      gradients fade both edges back into the page. */
   .belt-wrap{
-    position:relative;width:100%;
+    position:relative;
+    width:100vw;
+    margin-left:calc(50% - 50vw);
     margin-top:-1.25rem;
     overflow:hidden;
   }
   .belt-wrap::before,.belt-wrap::after{
-    content:'';position:absolute;top:0;bottom:0;width:80px;z-index:10;pointer-events:none;
+    content:'';position:absolute;top:0;bottom:0;width:120px;z-index:10;pointer-events:none;
   }
   .belt-wrap::before{left:0;background:linear-gradient(to right,#FAF4E8 0%,transparent 100%);}
   .belt-wrap::after{right:0;background:linear-gradient(to left,#FAF4E8 0%,transparent 100%);}
   .belt-track{display:flex;gap:0;width:max-content;will-change:transform;}
   .belt-photo{
     flex-shrink:0;
-    height:34vh;min-height:210px;max-height:340px;
+    height:44vh;min-height:250px;max-height:430px;
     width:auto;border-radius:3px;overflow:hidden;
     position:relative;background:#FAF4E8;
     box-shadow:0 6px 28px rgba(43,26,15,0.18),0 1px 6px rgba(0,0,0,0.08);
@@ -1021,8 +1023,8 @@
   /* ── Responsive ── */
   @media(max-width:600px){
     .nav button{font-size:15px;padding:6px 8px;letter-spacing:.08em}
-    .belt-photo{height:26vh;min-height:170px}
-    .belt-wrap::before,.belt-wrap::after{width:44px}
+    .belt-photo{height:32vh;min-height:200px}
+    .belt-wrap::before,.belt-wrap::after{width:56px}
     .page{padding:1.5rem 1rem 3rem}
     .story-body-section{margin:2rem -1rem 0;}
 
