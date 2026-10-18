@@ -1046,13 +1046,6 @@
     }
     /* centred on the bar, not on the space left of the button, so the
        hamburger's width never pulls it off-centre */
-    .nav-bar-title{
-      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      font-family:'Great Vibes',cursive;
-      font-size:clamp(23px,6.6vw,27px);letter-spacing:.01em;line-height:1;
-      text-transform:none;color:var(--espresso);
-      white-space:nowrap;pointer-events:none;
-    }
     .nav-toggle-bars{position:relative;display:block;width:22px;height:1.5px;background:var(--espresso);}
     .nav-toggle-bars::before,.nav-toggle-bars::after{
       content:'';position:absolute;left:0;display:block;width:22px;height:1.5px;
@@ -1164,7 +1157,6 @@
   }
   .wd-details /* ── RSVP Stamp ── */ .stamp-rsvp{display:inline-block; text-decoration:none; cursor:pointer; filter:drop-shadow(0 4px 14px rgba(43,26,15,0.18)); transition:transform .22s ease, filter .22s ease; vertical-align:middle;}
   @media(max-width:780px){
-    .wd-details /* centred on the bar, .wd-details not on the space left of the button, .wd-details so the hamburger's width never pulls it off-centre */ .nav-bar-title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%); font-family:'Great Vibes',cursive; font-size:clamp(23px,6.6vw,27px);letter-spacing:.01em;line-height:1; text-transform:none;color:var(--espresso); white-space:nowrap;pointer-events:none;}
     .wd-details /* the sticky bar itself becomes the drawer */ .nav{position:fixed;top:0;left:0;bottom:0; width:min(78vw,300px);height:100%; margin-left:0;transform:translateX(-100%); flex-direction:column;justify-content:flex-start;align-items:stretch; padding:4.75rem 0 2rem;overflow-y:auto;overflow-x:hidden; background:#FAF4E8;border-bottom:none; border-right:1px solid rgba(196,169,122,0.45); box-shadow:6px 0 28px rgba(43,26,15,0.18); transition:transform .32s cubic-bezier(.4,0,.2,1); z-index:1001;}
   }
 
@@ -1255,7 +1247,6 @@
           aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
     <span class="nav-toggle-bars" aria-hidden="true"></span>
   </button>
-  <span class="nav-bar-title">Chelsea &amp; Matt</span>
 </div>
 <div class="nav-scrim" id="navScrim"></div>
 <nav class="nav" id="siteNav">

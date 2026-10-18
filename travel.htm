@@ -841,13 +841,6 @@
     }
     /* centred on the bar, not on the space left of the button, so the
        hamburger's width never pulls it off-centre */
-    .nav-bar-title{
-      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      font-family:'Great Vibes',cursive;
-      font-size:clamp(23px,6.6vw,27px);letter-spacing:.01em;line-height:1;
-      text-transform:none;color:var(--espresso);
-      white-space:nowrap;pointer-events:none;
-    }
     .nav-toggle-bars{position:relative;display:block;width:22px;height:1.5px;background:var(--espresso);}
     .nav-toggle-bars::before,.nav-toggle-bars::after{
       content:'';position:absolute;left:0;display:block;width:22px;height:1.5px;
@@ -1062,7 +1055,6 @@
           aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
     <span class="nav-toggle-bars" aria-hidden="true"></span>
   </button>
-  <span class="nav-bar-title">Chelsea &amp; Matt</span>
 </div>
 <div class="nav-scrim" id="navScrim"></div>
 <nav class="nav" id="siteNav">
