@@ -1201,6 +1201,35 @@
     .intro-meta,.intro-countdown{font-size:15px;letter-spacing:.09em;text-indent:.09em;}
   }
 
+
+  /* ── Section heading ──
+     Pinyon Script, the same hand as the monogram, so the two read as one
+     set rather than two unrelated scripts. Reuses the .hero-rule ornament,
+     which the old header left behind.
+     Sits at the end of the sheet deliberately: the previous copy was
+     anchored inside the photo-belt block and was deleted along with it. */
+  .wd-heading{text-align:center;margin:0 auto 2.25rem;padding:0 1rem;}
+  .wd-heading-text{
+    font-family:'Pinyon Script',cursive;
+    /* a step smaller than before: this wording is half again as long */
+    font-size:clamp(36px,5.4vw,58px);
+    font-weight:400;letter-spacing:.01em;
+    color:var(--brown);
+    /* script descenders need room, or the rule below clips the tails */
+    line-height:1.35;
+  }
+  .wd-heading-sub{
+    font-size:15px;font-style:italic;font-weight:300;
+    color:var(--text-muted);
+    margin-top:.15rem;
+  }
+  .wd-heading .hero-rule{margin:.4rem auto 0;max-width:230px;}
+
+  @media(max-width:600px){
+    .wd-heading{margin:0 auto 1.6rem;}
+    .wd-heading .hero-rule{max-width:170px;}
+  }
+
 </style>
 </head>
 <body>
@@ -1249,8 +1278,6 @@
       <img src="images/hero-banner.jpg" alt="Chelsea and Matt at Zion" class="hero-banner-img"/>
     </div>
 
-    <!-- ── Announcement ── -->
-    <p class="getting-married">We&rsquo;re getting married!</p>
 
   <!-- ══ WEDDING DETAILS ══ -->
   <div class="wd-details">
@@ -1281,7 +1308,7 @@
       <div class="venue-banner-inner">
         <!-- ── Section heading ── -->
         <div class="wd-heading">
-          <h2 class="wd-heading-text">Wedding Details</h2>
+          <h2 class="wd-heading-text">We&rsquo;re getting married!</h2>
           <p class="wd-heading-sub">Everything you need to know for the big day</p>
           <div class="hero-rule"><div class="hero-diamond"></div></div>
         </div>
