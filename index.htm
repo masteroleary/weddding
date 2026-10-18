@@ -161,7 +161,7 @@
      Pinyon Script, the same hand as the monogram, so the two read as one
      set rather than two unrelated scripts. Reuses the .hero-rule ornament,
      which the old header left behind. */
-  .wd-heading{text-align:center;margin:3.25rem auto 2.75rem;padding:0 1.5rem;}
+  .wd-heading{text-align:center;margin:0 auto 2.25rem;padding:0 1rem;}
   .wd-heading-text{
     font-family:'Pinyon Script',cursive;
     font-size:clamp(42px,6.2vw,64px);
@@ -180,7 +180,7 @@
   .wd-heading .hero-rule{margin:.4rem auto 0;max-width:230px;}
 
   @media(max-width:600px){
-    .wd-heading{margin:2.25rem auto 2rem;}
+    .wd-heading{margin:0 auto 1.6rem;}
     .wd-heading .hero-rule{max-width:170px;}
   }
   /* sit above the edge fades, which are z-index 10 */
@@ -1318,12 +1318,6 @@
       </div>
     </div>
 
-  <!-- ── Section heading ── -->
-  <div class="wd-heading">
-    <h2 class="wd-heading-text">Wedding Details</h2>
-    <p class="wd-heading-sub">Everything you need to know for the big day</p>
-    <div class="hero-rule"><div class="hero-diamond"></div></div>
-  </div>
 
   <!-- ══ WEDDING DETAILS ══ -->
   <div class="wd-details">
@@ -1352,6 +1346,12 @@
       </svg>
 
       <div class="venue-banner-inner">
+        <!-- ── Section heading ── -->
+        <div class="wd-heading">
+          <h2 class="wd-heading-text">Wedding Details</h2>
+          <p class="wd-heading-sub">Everything you need to know for the big day</p>
+          <div class="hero-rule"><div class="hero-diamond"></div></div>
+        </div>
         <div class="venue-place">Hotel Colonnade</div>
         <div class="venue-address">180 Aragon Ave &nbsp;·&nbsp; Coral Gables, FL 33134</div>
         <div class="map-btns" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:.75rem;">
