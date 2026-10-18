@@ -160,9 +160,20 @@
     .nav button::after{left:22px;right:auto;width:0;background:var(--gold);}
     .nav button.active::after{left:22px;right:auto;width:26px;}
     .nav-rsvp{
-      align-self:flex-start;margin:.7rem 22px .3rem;
-      padding:11px 20px !important;
+      /* The drawer is a flex column, and the groups are display:contents, so
+         every tab is a flex item here — order:2 drops RSVP below the rest
+         without touching the markup or the desktop bar. */
+      order:2;
+      align-self:stretch;
+      justify-content:center;
+      margin:1.15rem 20px .25rem;
+      padding:13px 18px !important;
+      border-radius:3px !important;
+      background:rgba(196,169,122,0.18);
     }
+    /* the swirl is sized for the narrow bar; in a full-width drawer button
+       the CSS border does the job on its own */
+    .nav-rsvp .rsvp-swirl{display:none;}
     body.nav-open{overflow:hidden;}
   }
 </style>
