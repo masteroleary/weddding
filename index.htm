@@ -132,13 +132,12 @@
 
   /* ── Hero Photo Banner ── */
   /* ── Home hero photo ──
-     Width tracks the nav: the tabs span 82-87% of the window, so 85vw runs
-     out to roughly where the first and last tab words sit. */
+     Full-bleed, and uncropped, so its height follows the photo's own 3:2
+     shape: about 960px tall on a 1440px-wide window. */
   .hero-banner{
     position:relative;
-    width:85vw;
-    max-width:1800px;
-    left:50%;transform:translateX(-50%);
+    width:100vw;
+    margin-left:calc(50% - 50vw);
     margin-top:-1.25rem;
   }
   .hero-banner-img{
