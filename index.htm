@@ -55,41 +55,33 @@
     display:flex;flex-wrap:nowrap;gap:0;justify-content:space-evenly;overflow-x:auto;
     padding:1.25rem 1rem 0.75rem;
     position:sticky;top:0;
-    background:rgba(245,240,232,0.95);
+    background:#FAF4E8;
     backdrop-filter:blur(6px);
     -webkit-backdrop-filter:blur(6px);
     z-index:100;
-    border-bottom:1px solid rgba(196,169,122,0.4);
+    border-bottom:none;
     width:100vw;
     margin-left:50%;
     transform:translateX(-50%);
   }
-  .nav::before{
-    content:'';
-    display:block;
-    position:absolute;
-    top:0;left:0;right:0;height:3px;
-    background:linear-gradient(90deg,transparent,var(--gold),transparent);
-    opacity:0.6;
-  }
   .nav button{
     background:transparent;border:none;
     font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
-    font-weight:600;
+    font-weight:400;
     color:var(--text-muted);cursor:pointer;
     padding:8px 14px 10px;
     border-radius:3px;
     transition:all .18s;
-    letter-spacing:.06em;
-    text-transform:uppercase;
+    letter-spacing:.1em;
+    text-transform:none;
     position:relative;
   }
   .nav button::after{
     content:'';position:absolute;bottom:0;left:50%;right:50%;
-    height:2px;background:var(--gold);
+    height:1px;background:var(--espresso);
     transition:left .2s,right .2s;
   }
-  .nav button:hover{color:var(--espresso);transform:scale(1.15);}
+  .nav button:hover{color:var(--espresso);}
   .nav button.active{color:var(--espresso)}
   .nav button.active::after{left:12px;right:12px}
 
@@ -1119,7 +1111,6 @@
       z-index:1001;
     }
     .nav.open{transform:translateX(0);}
-    .nav::before{display:none;}
     .nav button{
       text-align:left;padding:14px 22px;font-size:16px;border-radius:0;
     }
@@ -1207,9 +1198,10 @@
   }
 
   /* ══ Home intro ══
-     Monogram, names, then date / location / days-to-go. Those last three
-     deliberately share one face (Cinzel) so they read as a single block.
-     text-indent cancels the trailing letter-space, which otherwise pushes
+     Follows the reference screenshot: a small engraved monogram, the names
+     in widely tracked caps, then date + place on one line with the
+     days-to-go beneath, both in the same face at a much smaller size.
+     text-indent cancels each trailing letter-space, which otherwise drags
      centred tracked text visibly to the left. */
   .home-intro{text-align:center;padding:3.5rem 1.5rem 2.25rem;}
   .intro-monogram{
@@ -1217,33 +1209,31 @@
     font-size:clamp(56px,8vw,88px);font-weight:400;
     letter-spacing:.02em;text-indent:.02em;
     color:var(--espresso);line-height:1.15;
+    margin-bottom:1.1rem;
   }
   .intro-names{
     font-family:'Cormorant Garamond',Georgia,serif;
-    font-size:clamp(30px,5vw,44px);font-weight:300;
-    letter-spacing:.1em;text-indent:.1em;
-    color:var(--espresso);line-height:1.2;
+    font-size:clamp(26px,4.3vw,40px);font-weight:300;
+    text-transform:uppercase;
+    letter-spacing:.22em;text-indent:.22em;
+    color:var(--espresso);line-height:1.3;
   }
-  .intro-amp{color:var(--gold-dark);font-style:italic;}
-  /* open up the divider so the monogram sits clear of the names */
-  .home-intro .hero-rule{margin:1.35rem auto 1.75rem;}
-  .intro-date,.intro-location,.intro-countdown{
-    font-family:'Cinzel',Georgia,serif;
+  /* the reference keeps the ampersand in the same ink as the names */
+  .intro-amp{font-style:normal;}
+  .intro-meta,.intro-countdown{
+    font-family:'Cormorant Garamond',Georgia,serif;
+    font-size:15px;font-weight:400;
+    text-transform:uppercase;
     letter-spacing:.2em;text-indent:.2em;
+    color:var(--text-muted);
   }
-  .intro-date{font-size:18px;color:var(--brown);margin-top:1.5rem;}
-  .intro-location{font-size:15px;color:var(--text-muted);margin-top:.6rem;}
-  .intro-countdown{
-    font-size:15px;text-transform:uppercase;
-    color:var(--gold-dark);margin-top:1.6rem;
-  }
-  .intro-countdown #cd-days{font-size:18px;color:var(--brown);}
+  .intro-meta{margin-top:1.15rem;}
+  .intro-countdown{margin-top:.3rem;}
 
   @media(max-width:600px){
     .home-intro{padding:2.5rem 1.25rem 1.5rem;}
-    .intro-date{font-size:16px;letter-spacing:.15em;text-indent:.15em;margin-top:1.2rem;}
-    .intro-location{letter-spacing:.12em;text-indent:.12em;}
-    .intro-countdown{letter-spacing:.15em;text-indent:.15em;margin-top:1.25rem;}
+    .intro-names{letter-spacing:.16em;text-indent:.16em;}
+    .intro-meta,.intro-countdown{letter-spacing:.13em;text-indent:.13em;}
   }
 
 </style>
@@ -1260,11 +1250,9 @@
       <!-- ── Home intro: monogram, names, date & location, days to go ── -->
       <div class="home-intro">
         <div class="intro-monogram">CM</div>
-        <div class="hero-rule"><div class="hero-diamond"></div></div>
         <div class="intro-names">Chelsea <span class="intro-amp">&amp;</span> Matt</div>
-        <div class="intro-date">April 18, 2027</div>
-        <div class="intro-location">Hotel Colonnade &nbsp;·&nbsp; Coral Gables, Florida</div>
-        <div class="intro-countdown"><span id="cd-days">&mdash;</span> <span id="cd-days-unit">Days</span> to Go</div>
+        <div class="intro-meta">April 18, 2027 &nbsp;&bull;&nbsp; Coral Gables, FL</div>
+        <div class="intro-countdown"><span id="cd-days">&mdash;</span> <span id="cd-days-unit">Days</span> to Go!</div>
       </div>
 
       <div class="nav-bar">
