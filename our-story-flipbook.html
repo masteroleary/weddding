@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>C &amp; M — Our Story</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Cinzel:wght@400;500&family=Pinyon+Script&display=swap');
 
   *{box-sizing:border-box;margin:0;padding:0}
   :root{
@@ -244,6 +244,17 @@
       content:'';position:absolute;top:0;left:0;right:0;height:3px;
       background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6;
     }
+    /* Centred on the bar itself, not on the space beside the button, so
+       the hamburger's width never pulls it off-centre. Phone only, since
+       the whole bar is display:none above 780px. */
+    .nav-bar-mono{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      font-family:'Pinyon Script',cursive;
+      font-size:30px;line-height:1;
+      letter-spacing:.05em;text-indent:.05em;
+      color:var(--espresso);
+      white-space:nowrap;pointer-events:none;
+    }
     .nav-toggle{
       display:flex;align-items:center;justify-content:center;
       width:44px;height:44px;padding:0;
@@ -306,6 +317,7 @@
           aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
     <span class="nav-toggle-bars" aria-hidden="true"></span>
   </button>
+  <span class="nav-bar-mono" aria-hidden="true">CM</span>
 </div>
 <div class="nav-scrim" id="navScrim"></div>
 <nav class="nav" id="siteNav">
