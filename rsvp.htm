@@ -96,14 +96,22 @@
     align-items:center;
     justify-content:center;
     padding:8px 14px 8px !important;
-    color:#FAF4E8 !important;
+    color:#2B1A0F !important;
     font-weight:700 !important;
     font-family:'Cinzel',Georgia,serif !important;
     font-size:16px !important;
     letter-spacing:.18em !important;
-    border:none !important;
-    border-radius:0 !important;
+    border:1px solid #C4A97A !important;
+    border-radius:2px !important;
   }
+  /* Outlined nav RSVP: keep the border on hover, wash in a faint gold tint */
+  .nav-rsvp:hover,
+  .nav-rsvp:focus-visible{
+    background:rgba(196,169,122,.16) !important;
+    border-color:#9A7B4F !important;
+    color:#2B1A0F !important;
+  }
+
   .rsvp-swirl{
     position:absolute;
     top:50%;left:50%;
@@ -924,7 +932,7 @@
     <button onclick="window.location.href='party.htm'">Wedding Party</button>
     <button class="nav-rsvp active" onclick="window.location.href='rsvp.htm'">
       <span style="position:relative;z-index:2;">RSVP</span>
-      <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="#C4A97A" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#FAF4E8" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#FAF4E8" opacity="0.85"/></svg>
+      <svg class="rsvp-swirl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 38" aria-hidden="true"><rect x="0" y="0" width="140" height="38" fill="none" rx="1"/><polygon points="18,12 21,19 18,26 15,19" fill="#C4A97A" opacity="0.85"/><polygon points="122,12 125,19 122,26 119,19" fill="#C4A97A" opacity="0.85"/></svg>
     </button>
     <button onclick="window.location.href='our-story-flipbook.html'">Our Story</button>
     <button onclick="window.location.href='travel-photos.html'">Travel Photos</button>
