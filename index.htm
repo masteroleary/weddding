@@ -131,24 +131,29 @@
   @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
   /* ── Hero Photo Banner ── */
-  .hero-banner{
-    position:relative;
-    margin:-2.5rem auto 0;
-    width:100%;
-    max-width:660px;
+  /* ── Scrolling photo belt ──
+     Ported from Travel Photos: the row of photos is built twice end to end
+     and slid with translateX, so the loop has no visible seam. The wrap's
+     gradients fade both edges back into the page. */
+  .belt-wrap{
+    position:relative;width:100%;
+    margin-top:-1.25rem;
     overflow:hidden;
-    /* object-fit:cover on the img means a shorter box crops the photo
-       rather than squashing it */
-    height:34vh;
-    min-height:220px;
-    max-height:360px;
   }
-  .hero-banner-img{
-    width:100%;height:100%;
-    object-fit:cover;
-    object-position:center 38%;
-    display:block;
+  .belt-wrap::before,.belt-wrap::after{
+    content:'';position:absolute;top:0;bottom:0;width:80px;z-index:10;pointer-events:none;
   }
+  .belt-wrap::before{left:0;background:linear-gradient(to right,#FAF4E8 0%,transparent 100%);}
+  .belt-wrap::after{right:0;background:linear-gradient(to left,#FAF4E8 0%,transparent 100%);}
+  .belt-track{display:flex;gap:0;width:max-content;will-change:transform;}
+  .belt-photo{
+    flex-shrink:0;
+    height:34vh;min-height:210px;max-height:340px;
+    width:auto;border-radius:3px;overflow:hidden;
+    position:relative;background:#FAF4E8;
+    box-shadow:0 6px 28px rgba(43,26,15,0.18),0 1px 6px rgba(0,0,0,0.08);
+  }
+  .belt-photo img{height:100%;width:auto;display:block;}
 
   /* ── Hero (below photo) ── */
   .hero-ornament{
@@ -1016,7 +1021,8 @@
   /* ── Responsive ── */
   @media(max-width:600px){
     .nav button{font-size:15px;padding:6px 8px;letter-spacing:.08em}
-    .hero-banner{margin-top:-2rem;min-height:180px;max-width:none}
+    .belt-photo{height:26vh;min-height:170px}
+    .belt-wrap::before,.belt-wrap::after{width:44px}
     .page{padding:1.5rem 1rem 3rem}
     .story-body-section{margin:2rem -1rem 0;}
 
@@ -1280,9 +1286,9 @@
   <!-- ══ HOME ══ -->
   <div class="page visible" id="page-home">
 
-    <!-- ── Full-width hero photo ── -->
-    <div class="hero-banner">
-      <img src="images/hero.jpg" alt="Chelsea and Matt at Zion" class="hero-banner-img"/>
+    <!-- ── Scrolling photo belt (same mechanism as Travel Photos) ── -->
+    <div class="belt-wrap">
+      <div class="belt-track" id="belt"></div>
     </div>
 
 
@@ -1783,6 +1789,77 @@ function updateCountdown() {
 updateCountdown();
 // a days-only figure does not need a per-second tick
 setInterval(updateCountdown, 60*1000);
+
+/* ── Scrolling photo belt ──
+   Same mechanism as Travel Photos: the row is built twice end to end, then
+   slid left; once it has travelled the width of one copy it jumps back by
+   exactly that, so the seam never shows.
+
+   Uses the carousel-*.jpg set only. The IMG_*.jpeg originals also on Travel
+   Photos run 400-700KB each and would put roughly 7MB on the home page. */
+(function () {
+  const belt = document.getElementById('belt');
+  if (!belt) return;
+
+  const photos = [
+    'images/carousel-01.jpg', 'images/carousel-02.jpg', 'images/carousel-03.jpg',
+    'images/carousel-04.jpg', 'images/carousel-05.jpg', 'images/carousel-06.jpg',
+    'images/carousel-07.jpg', 'images/carousel-08.jpg', 'images/carousel-09.jpg',
+    'images/carousel-10.jpg', 'images/carousel-11.jpg', 'images/carousel-12.jpg',
+    'images/carousel-13.jpg', 'images/carousel-14.jpg', 'images/carousel-15.jpg',
+    'images/carousel-16.jpg', 'images/carousel-17.jpg', 'images/carousel-18.jpg',
+    'images/carousel-19.jpg'
+  ];
+
+  const order = [...photos];
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+
+  function buildSet() {
+    return order.map((src, i) => {
+      const cell = document.createElement('div');
+      cell.className = 'belt-photo';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = 'Chelsea and Matt, photo ' + (i + 1);
+      img.decoding = 'async';
+      cell.appendChild(img);
+      return cell;
+    });
+  }
+  buildSet().forEach(el => belt.appendChild(el));
+  buildSet().forEach(el => belt.appendChild(el));
+
+  let pos = 0, halfWidth = 0, lastTime = null;
+  const SPEED = 55; // px per second
+
+  // Each photo is width:auto, so the track has no width until the images
+  // decode. Re-measure as they arrive and on resize, rather than guessing
+  // with a fixed timeout.
+  function measure() { halfWidth = belt.scrollWidth / 2; }
+  belt.querySelectorAll('img').forEach(img => {
+    if (!img.complete) img.addEventListener('load', measure, { once: true });
+  });
+  window.addEventListener('load', measure);
+  window.addEventListener('resize', measure);
+  measure();
+
+  function tick(ts) {
+    if (lastTime === null) lastTime = ts;
+    const dt = Math.min((ts - lastTime) / 1000, 0.1);
+    lastTime = ts;
+    if (halfWidth > 0) {
+      pos += SPEED * dt;
+      if (pos >= halfWidth) pos -= halfWidth;
+      belt.style.transform = 'translateX(-' + pos + 'px)';
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
 
 
 // RV end scene animation - Safari compatible
