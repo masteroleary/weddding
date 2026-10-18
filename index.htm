@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>C &amp; M — April 18, 2027</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500&family=Great+Vibes&family=Dancing+Script:wght@400;500;600;700&family=Caveat:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;500&family=Great+Vibes&family=Dancing+Script:wght@400;500;600;700&family=Caveat:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Allura&display=swap');
 
   *{box-sizing:border-box;margin:0;padding:0}
 
@@ -1213,10 +1213,10 @@
      centred tracked text visibly to the left. */
   .home-intro{text-align:center;padding:3.5rem 1.5rem 2.25rem;}
   .intro-monogram{
-    font-family:'Great Vibes',cursive;
-    font-size:clamp(88px,14.5vw,152px);font-weight:400;
-    letter-spacing:.05em;text-indent:.05em;
-    color:var(--espresso);line-height:1.12;
+    font-family:'Allura',cursive;
+    font-size:clamp(74px,11.5vw,124px);font-weight:400;
+    letter-spacing:.04em;text-indent:.04em;
+    color:var(--espresso);line-height:1.1;
   }
   .intro-names{
     font-family:'Cormorant Garamond',Georgia,serif;
@@ -1225,6 +1225,8 @@
     color:var(--espresso);line-height:1.2;
   }
   .intro-amp{color:var(--gold-dark);font-style:italic;}
+  /* open up the divider so the monogram sits clear of the names */
+  .home-intro .hero-rule{margin:1.35rem auto 1.75rem;}
   .intro-date,.intro-location,.intro-countdown{
     font-family:'Cinzel',Georgia,serif;
     letter-spacing:.2em;text-indent:.2em;
