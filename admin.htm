@@ -185,6 +185,9 @@ const SCRIPT_URL     = 'https://script.google.com/macros/s/AKfycbwHjqHq7hBQAveEA
       </ol>
     </div>
 
+    <!-- Shown when the Google Sheet cannot be reached or reports an error -->
+    <div class="setup-banner" id="connect-warning" style="display:none"></div>
+
     <!-- Stats row -->
     <div class="stats-row">
       <div class="stat-card"><span class="stat-num" id="stat-total">0</span><span class="stat-label">Total RSVPs</span></div>
@@ -271,22 +274,59 @@ function init() {
 }
 
 async function loadData() {
+  let rJson = null, sJson = null, problem = '';
   try {
     const [rRes, sRes] = await Promise.all([
       fetch(SCRIPT_URL + '?type=rsvps'),
       fetch(SCRIPT_URL + '?type=songs')
     ]);
-    const rJson = await rRes.json();
-    const sJson = await sRes.json();
-    const rsvpRows = (rJson.data || []).slice(1);
-    const songRows = (sJson.data || []).slice(1);
-    renderRsvpsSheet(rsvpRows);
-    renderSongsSheet(songRows);
-    updateStatsSheet(rsvpRows, songRows);
-  } catch(e) {
-    document.getElementById('rsvp-content').innerHTML = '<p class="loading">Could not connect. Check your SCRIPT_URL is correct.</p>';
-    document.getElementById('song-content').innerHTML = '<p class="loading">Could not connect.</p>';
+    rJson = await rRes.json();
+    sJson = await sRes.json();
+    // The script answers 200 even when it failed inside, so nothing is thrown
+    // and this used to render an empty table — indistinguishable from "nobody
+    // has replied yet" when in fact nothing was being saved at all.
+    if (rJson && rJson.status === 'error') {
+      problem = rJson.message || 'the script reported an error';
+    }
+  } catch (e) {
+    problem = e.message || 'the script could not be reached';
   }
+
+  if (problem) {
+    showConnectWarning(problem);
+    // Fall back to this browser's own saved copies, so a test RSVP made on
+    // this device is still visible rather than silently missing.
+    const rsvps = JSON.parse(localStorage.getItem('wdg_rsvps') || '[]');
+    const songs = JSON.parse(localStorage.getItem('wdg_songs') || '[]');
+    renderRsvpsLocal(rsvps);
+    renderSongsLocal(songs);
+    updateStats(rsvps, songs);
+    return;
+  }
+
+  const rsvpRows = (rJson.data || []).slice(1);
+  const songRows = (sJson.data || []).slice(1);
+  renderRsvpsSheet(rsvpRows);
+  renderSongsSheet(songRows);
+  updateStatsSheet(rsvpRows, songRows);
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"]/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
+
+function showConnectWarning(message) {
+  const el = document.getElementById('connect-warning');
+  el.innerHTML =
+    '<h3>\u26A0 Not connected to Google Sheets</h3>' +
+    '<p>Replies are <strong>not being saved</strong>. The script said: <code>' +
+      escapeHtml(message) + '</code></p>' +
+    '<p>Anything shown below came from <strong>this browser only</strong> \u2014 your own ' +
+      'test submissions on this device. Guests replying from their own phones leave ' +
+      'no record here, or anywhere, until the Apps Script is redeployed.</p>';
+  el.style.display = 'block';
 }
 
 // ── Stats ─────────────────────────────────────────────────────
