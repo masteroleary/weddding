@@ -880,8 +880,14 @@
     min-height:1.45em;margin:.9rem 0 .35rem;text-align:center;
     font-size:15px;font-style:italic;color:#8C2F2F;
   }
-  .quiz-nav{display:flex;align-items:stretch;gap:.9rem}
-  .quiz-nav .submit-btn{margin-top:0}
+  .quiz-nav{display:flex;align-items:stretch;justify-content:center;gap:.9rem}
+  /* Sized to its words and centred rather than spanning the column: full
+     width made a short label sit in a very long bar. Shrinks before it
+     would overflow a narrow screen. */
+  .quiz-nav .submit-btn{
+    margin-top:0;width:auto;flex:0 1 auto;
+    padding:21px clamp(1.3rem,5vw,3.4rem);
+  }
   .quiz-back{
     flex:0 0 auto;padding:15px 1.6rem;
     font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
