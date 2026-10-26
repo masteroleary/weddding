@@ -837,6 +837,52 @@
   .guest-name-input{width:100%;padding:10px 13px;font-size:15px;font-family:"Cormorant Garamond",Georgia,serif;border-radius:4px;border:0.5px solid rgba(139,105,20,0.4);background:rgba(255,250,242,0.92);color:var(--espresso);outline:none;transition:border .18s;box-sizing:border-box;}
   .guest-name-input:focus{border-color:var(--gold-dark);box-shadow:0 0 0 3px rgba(154,123,79,0.1);}
 
+  /* ── Quiz-style RSVP: one question per screen ──
+     Every step lives in the DOM the whole time; only .active is shown, so the
+     answers already given are still readable by submitRSVP() at the end. */
+  .quiz-progress{margin-bottom:1.75rem;text-align:center;scroll-margin-top:100px}
+  .quiz-dots{display:flex;justify-content:center;align-items:center;gap:.55rem;margin-bottom:.65rem;height:12px}
+  .quiz-dot{
+    width:8px;height:8px;border-radius:50%;
+    border:0.5px solid rgba(139,105,20,0.5);background:transparent;
+    transition:background .22s ease,transform .22s ease;
+  }
+  .quiz-dot.done{background:var(--gold)}
+  .quiz-dot.current{background:var(--gold-dark);transform:scale(1.5)}
+  .quiz-count{
+    font-size:13px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold-dark);
+  }
+  .quiz-step{display:none}
+  .quiz-step.active{display:block;animation:quizStepIn .34s ease both}
+  @keyframes quizStepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .quiz-sublabel{
+    display:block;font-size:15px;font-weight:500;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gold-dark);margin-bottom:.6rem;
+  }
+  .quiz-fineprint{
+    font-style:italic;color:var(--text-muted);font-size:15px;
+    margin:.9rem 0 0;line-height:1.6;
+  }
+  .quiz-error{
+    min-height:1.45em;margin:.9rem 0 .35rem;text-align:center;
+    font-size:15px;font-style:italic;color:#8C2F2F;
+  }
+  .quiz-nav{display:flex;align-items:stretch;gap:.9rem}
+  .quiz-nav .submit-btn{margin-top:0}
+  .quiz-back{
+    flex:0 0 auto;padding:15px 1.6rem;
+    font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+    border:1px solid var(--border);border-radius:4px;
+    background:transparent;color:var(--gold-dark);
+    cursor:pointer;transition:border-color .18s,color .18s;
+  }
+  .quiz-back:hover{border-color:var(--gold-dark);color:var(--espresso)}
+  @media (prefers-reduced-motion:reduce){
+    .quiz-step.active{animation:none}
+  }
+
   /* ── Mobile drawer nav ──
      Eight links will not sit across a phone, so below 780px the sticky bar
      becomes a slide-out drawer behind a hamburger. The bar keeps the nav's
@@ -1089,80 +1135,100 @@
     </div>
     <div class="rsvp-wrap" id="rsvp-form-wrap">
 
-      <!-- Will you attend — top, big buttons -->
-      <div class="form-group" style="margin-bottom:2rem;">
-        <label>Will you be joining us?</label>
-        <div class="attend-group">
-          <button type="button" class="attend-btn" id="btn-yes" onclick="selectAttend('yes')">
-            <span class="btn-icon">🥂</span>
-            <span class="btn-label">Joyfully Accepts</span>
-          </button>
-          <button type="button" class="attend-btn" id="btn-no" onclick="selectAttend('no')">
-            <span class="btn-icon">🤍</span>
-            <span class="btn-label">Regretfully Declines</span>
-          </button>
+      <div class="quiz-progress" id="quizProgress">
+        <div class="quiz-dots" id="quizDots" aria-hidden="true"></div>
+        <div class="quiz-count" id="quizCount">Question 1 of 5</div>
+      </div>
+
+      <!-- 1 · Will you attend -->
+      <section class="quiz-step active" id="step-attend" data-step="attend">
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Will you be joining us?</label>
+          <div class="attend-group">
+            <button type="button" class="attend-btn" id="btn-yes" onclick="selectAttend('yes')">
+              <span class="btn-icon">🥂</span>
+              <span class="btn-label">Joyfully Accepts</span>
+            </button>
+            <button type="button" class="attend-btn" id="btn-no" onclick="selectAttend('no')">
+              <span class="btn-icon">🤍</span>
+              <span class="btn-label">Regretfully Declines</span>
+            </button>
+          </div>
+          <select id="rsvp-attend" style="display:none">
+            <option value="">Select one...</option>
+            <option value="Joyfully accepts">Joyfully accepts</option>
+            <option value="Regretfully declines">Regretfully declines</option>
+          </select>
         </div>
-        <select id="rsvp-attend" style="display:none">
-          <option value="">Select one...</option>
-          <option value="Joyfully accepts">Joyfully accepts</option>
-          <option value="Regretfully declines">Regretfully declines</option>
-        </select>
-      </div>
+      </section>
 
-<!-- Number of guests -->
-      <div class="form-group">
-        <label>Number of Guests (including yourself)</label>
-        <select id="rsvp-guests" onchange="updateGuestNames()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
-      </div>
-
-      <!-- Dynamic guest name fields -->
-      <div id="guest-names" style="margin-top:.75rem;display:none">
-        <label style="display:block;font-size:15px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.6rem;">Guest Names</label>
-        <div id="guest-name-fields" style="display:flex;flex-direction:column;gap:.5rem;"></div>
-      </div>
-
-      <p style="font-style:italic;color:var(--text-muted);font-size:15px;margin:.5rem 0 .75rem;line-height:1.6;">(To ensure an intimate celebration, we are able to accommodate only those guests listed on your invitation. If a plus one has been reserved for you, it will be indicated. Thank you for understanding.)</p>
-      <div class="note-box" style="margin-top:.75rem;margin-bottom:0;">Please do not bring gifts to the venue — we'd love for you to ship them in advance or contribute online. Thank you so much for your generosity!</div>
-
-      <hr style="border:none;border-top:1px solid rgba(196,169,122,0.3);margin:2rem 0 1.5rem;">
-
-      <!-- Meal preference — card style -->
-      <div class="form-group">
-        <label>Meal Preference (for each guest in your party)</label>
-        <div class="meal-cards">
-          <label class="meal-card" onclick="selectMeal(this)">
-            <input type="radio" name="meal" value="Beef Tenderloin">
-            <span class="meal-icon">🥩</span><span>Beef Tenderloin</span><span class="meal-check">✓</span>
-          </label>
-          <label class="meal-card" onclick="selectMeal(this)">
-            <input type="radio" name="meal" value="Pan-Seared Salmon">
-            <span class="meal-icon">🐟</span><span>Pan-Seared Salmon</span><span class="meal-check">✓</span>
-          </label>
-          <label class="meal-card" onclick="selectMeal(this)">
-            <input type="radio" name="meal" value="Wild Mushroom Risotto (V, GF)">
-            <span class="meal-icon">🍄</span><span>Wild Mushroom Risotto (V, GF)</span><span class="meal-check">✓</span>
-          </label>
+      <!-- 2 · Who is in the party. Last step for anyone who declines: a name is
+           all we need to know who to mark down. -->
+      <section class="quiz-step" id="step-names" data-step="names">
+        <div class="form-group">
+          <label id="guests-count-label">Number of Guests (including yourself)</label>
+          <select id="rsvp-guests" onchange="updateGuestNames()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
         </div>
-      </div>
 
-      <!-- Dietary -->
-      <div class="form-group">
-        <label>Dietary Restrictions / Allergies</label>
-        <textarea id="rsvp-dietary" placeholder="Let us know of any allergies or dietary needs..."></textarea>
-      </div>
+        <div id="guest-names" style="margin-top:.75rem;display:none">
+          <label class="quiz-sublabel" id="guest-names-label">Guest Names</label>
+          <div id="guest-name-fields" style="display:flex;flex-direction:column;gap:.5rem;"></div>
+        </div>
 
-      <!-- Song -->
-      <div class="form-group">
-        <label>Song Request</label>
-        <input type="text" id="rsvp-song" placeholder="What song will get you on the dance floor?">
-      </div>
+        <p class="quiz-fineprint" id="guests-fineprint">(To ensure an intimate celebration, we are able to accommodate only those guests listed on your invitation. If a plus one has been reserved for you, it will be indicated. Thank you for understanding.)</p>
+      </section>
 
-      <button class="submit-btn" onclick="submitRSVP()">Submit RSVP</button>
+      <!-- 3 · Meal -->
+      <section class="quiz-step" id="step-meal" data-step="meal">
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Meal Preference (for each guest in your party)</label>
+          <div class="meal-cards">
+            <label class="meal-card" onclick="selectMeal(this)">
+              <input type="radio" name="meal" value="Beef Tenderloin">
+              <span class="meal-icon">🥩</span><span>Beef Tenderloin</span><span class="meal-check">✓</span>
+            </label>
+            <label class="meal-card" onclick="selectMeal(this)">
+              <input type="radio" name="meal" value="Pan-Seared Salmon">
+              <span class="meal-icon">🐟</span><span>Pan-Seared Salmon</span><span class="meal-check">✓</span>
+            </label>
+            <label class="meal-card" onclick="selectMeal(this)">
+              <input type="radio" name="meal" value="Wild Mushroom Risotto (V, GF)">
+              <span class="meal-icon">🍄</span><span>Wild Mushroom Risotto (V, GF)</span><span class="meal-check">✓</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 · Dietary -->
+      <section class="quiz-step" id="step-dietary" data-step="dietary">
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Dietary Restrictions / Allergies</label>
+          <textarea id="rsvp-dietary" placeholder="Let us know of any allergies or dietary needs..."></textarea>
+          <p class="quiz-fineprint">(Nothing to report? Just press Next.)</p>
+        </div>
+      </section>
+
+      <!-- 5 · Song -->
+      <section class="quiz-step" id="step-song" data-step="song">
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Song Request</label>
+          <input type="text" id="rsvp-song" placeholder="What song will get you on the dance floor?">
+        </div>
+        <div class="note-box">Please do not bring gifts to the venue — we'd love for you to ship them in advance or contribute online. Thank you so much for your generosity!</div>
+      </section>
+
+      <p class="quiz-error" id="quizError" role="alert" aria-live="polite"></p>
+
+      <div class="quiz-nav">
+        <button type="button" class="quiz-back" id="quizBack" onclick="quizBack()">Back</button>
+        <button type="button" class="submit-btn" id="quizNext" onclick="quizNext()">Next</button>
+      </div>
     </div>
+
     <div class="rsvp-thanks" id="rsvp-thanks">
-      <div style="font-size:32px;margin-bottom:1rem">🥂</div>
-      <p style="font-size:24px;font-style:italic;color:#2B1A0F;margin-bottom:.75rem">Thank you!</p>
-      <p>We've received your RSVP and can't wait to celebrate with you.<br>A confirmation will be sent to your email shortly.</p>
+      <div style="font-size:32px;margin-bottom:1rem" id="thanks-icon">🥂</div>
+      <p style="font-size:24px;font-style:italic;color:#2B1A0F;margin-bottom:.75rem" id="thanks-head">Thank you!</p>
+      <p id="thanks-body">We've received your RSVP and can't wait to celebrate with you.</p>
     </div>
   </div>
 
@@ -1409,24 +1475,140 @@ function playEndScene() {
   }, 3300);
 }
 
-window.addEventListener("load", updateGuestNames);
+window.addEventListener("load", function () {
+  updateGuestNames();
+  renderQuiz();
+});
 
 function updateGuestNames() {
   var count = parseInt(document.getElementById('rsvp-guests').value) || 1;
   var wrap = document.getElementById('guest-names');
   var fields = document.getElementById('guest-name-fields');
+  // The row is rebuilt whenever the count or the yes/no answer changes, so
+  // carry the names already typed across instead of clearing them.
+  var typed = Array.prototype.map.call(
+    fields.querySelectorAll('.guest-name-input'), function (i) { return i.value; });
   wrap.style.display = 'block';
   fields.innerHTML = '';
   for (var i = 1; i <= count; i++) {
     var inp = document.createElement('input');
     inp.type = 'text';
     inp.id = 'guest-name-' + i;
-    inp.placeholder = i === 1 ? 'Your name' : 'Guest ' + i + ' name';
+    inp.placeholder = guestPlaceholder(i);
     inp.className = 'guest-name-input';
+    inp.value = typed[i - 1] || '';
     fields.appendChild(inp);
   }
 }
 
+function guestPlaceholder(i) {
+  if (quizPath === 'no') return i === 1 ? 'Your name' : 'Name ' + i;
+  return i === 1 ? 'Your name' : 'Guest ' + i + ' name';
+}
+
+
+/* ── Quiz flow ──
+   One question per screen. Anyone who declines only ever sees two: the
+   yes/no, then their name — that is all we need to mark them down, so the
+   meal, dietary and song questions are left out of their flow entirely. */
+var QUIZ_FLOWS = {
+  yes: ['attend', 'names', 'meal', 'dietary', 'song'],
+  no:  ['attend', 'names']
+};
+var quizPath = null;   // 'yes' | 'no', set the moment they answer question 1
+var quizIndex = 0;
+
+// Before they answer, the dots show the longer flow; picking an answer re-renders.
+function quizFlow() { return QUIZ_FLOWS[quizPath] || QUIZ_FLOWS.yes; }
+
+function renderQuiz() {
+  var flow = quizFlow();
+  if (quizIndex > flow.length - 1) quizIndex = flow.length - 1;
+  var current = flow[quizIndex];
+  var last = quizIndex === flow.length - 1;
+
+  document.querySelectorAll('.quiz-step').forEach(function (step) {
+    step.classList.toggle('active', step.dataset.step === current);
+  });
+
+  var dots = document.getElementById('quizDots');
+  dots.innerHTML = '';
+  flow.forEach(function (_, i) {
+    var dot = document.createElement('span');
+    dot.className = 'quiz-dot' + (i < quizIndex ? ' done' : i === quizIndex ? ' current' : '');
+    dots.appendChild(dot);
+  });
+
+  document.getElementById('quizCount').textContent =
+    'Question ' + (quizIndex + 1) + ' of ' + flow.length;
+  // Dropped rather than just hidden on question 1, so Next fills the row
+  // instead of sitting beside an empty Back-sized gap.
+  document.getElementById('quizBack').style.display = quizIndex === 0 ? 'none' : '';
+  document.getElementById('quizNext').textContent = last ? 'Submit RSVP' : 'Next';
+  document.getElementById('quizError').textContent = '';
+}
+
+function applyPathCopy() {
+  var declining = quizPath === 'no';
+  document.getElementById('guests-count-label').textContent = declining
+    ? 'How many of you are unable to attend?'
+    : 'Number of Guests (including yourself)';
+  document.getElementById('guest-names-label').textContent = declining ? 'Name(s)' : 'Guest Names';
+  // The invitation fine print is about seats at the reception, so it has
+  // nothing to say to someone who is declining.
+  document.getElementById('guests-fineprint').style.display = declining ? 'none' : 'block';
+  updateGuestNames();
+}
+
+function stepError(id) {
+  if (id === 'attend') {
+    return document.getElementById('rsvp-attend').value ? '' : 'Please let us know whether you can join us.';
+  }
+  if (id === 'names') {
+    var first = document.getElementById('guest-name-1');
+    if (first && first.value.trim()) return '';
+    return quizPath === 'no'
+      ? 'Please add your name so we know who to mark down.'
+      : 'Please add your name.';
+  }
+  if (id === 'meal') {
+    return document.querySelector('input[name="meal"]:checked') ? '' : 'Please choose a meal to continue.';
+  }
+  return ''; // dietary and song are optional
+}
+
+function quizNext() {
+  var flow = quizFlow();
+  var err = stepError(flow[quizIndex]);
+  if (err) {
+    document.getElementById('quizError').textContent = err;
+    return;
+  }
+  if (quizIndex === flow.length - 1) {
+    submitRSVP();
+    return;
+  }
+  quizIndex++;
+  renderQuiz();
+  focusStep();
+}
+
+function quizBack() {
+  if (quizIndex === 0) return;
+  quizIndex--;
+  renderQuiz();
+  focusStep();
+}
+
+function focusStep() {
+  document.getElementById('quizProgress').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  // Only on pointer-sized screens: focusing a field on a phone throws up the
+  // keyboard over the question they are meant to be reading.
+  if (window.innerWidth <= 780) return;
+  var active = document.querySelector('.quiz-step.active');
+  var field = active && active.querySelector('input[type="text"],textarea,select');
+  if (field) field.focus();
+}
 
 function selectAttend(choice) {
   const sel = document.getElementById('rsvp-attend');
@@ -1441,12 +1623,28 @@ function selectAttend(choice) {
     sel.value = 'Regretfully declines';
     btnNo.classList.add('selected-no');
   }
+  quizPath = choice;
+  applyPathCopy();
+  renderQuiz();
 }
 
 function selectMeal(card) {
   document.querySelectorAll('.meal-card').forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
+  document.getElementById('quizError').textContent = '';
 }
+
+// Enter moves to the next question, the way a quiz should. Textareas keep
+// Enter for new lines.
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Enter') return;
+  var wrap = document.getElementById('rsvp-form-wrap');
+  if (!wrap || wrap.style.display === 'none') return;
+  if (!wrap.contains(e.target) || e.target.tagName === 'TEXTAREA') return;
+  if (e.target.classList.contains('attend-btn') || e.target.closest('.meal-card')) return;
+  e.preventDefault();
+  quizNext();
+});
 
 
 var WEDDING_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHjqHq7hBQAveEA0hOCx6xAY1IJQ3uA4J6OxAHhVAfvPUMGhxBcA_7_HYVQ8P5piZBmw/exec'; // Set this to your Google Apps Script URL
@@ -1454,12 +1652,21 @@ var WEDDING_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwHjqHq7hBQAve
 function submitRSVP() {
   const attend = document.getElementById('rsvp-attend').value;
   if (!attend) {
-    alert('Please select whether you will attend.');
+    quizIndex = 0;
+    renderQuiz();
+    document.getElementById('quizError').textContent = 'Please let us know whether you can join us.';
     return;
   }
-  const meal = (document.querySelector('input[name="meal"]:checked') || {}).value || '';
+  const declining = quizPath === 'no';
+  // Someone who answered the later questions and then switched to declining
+  // still has those fields filled in; they are not part of their answer.
+  const meal = declining ? '' : ((document.querySelector('input[name="meal"]:checked') || {}).value || '');
   const count = parseInt(document.getElementById('rsvp-guests').value) || 1;
-  const guestNames = Array.from({length:count},(_,i)=>(document.getElementById('guest-name-'+(i+1))||{}).value||'').join(', ');
+  // Trim and drop the blanks: a party of three who only named two used to
+  // land in the sheet as "Jane, John, ", which is awkward to read back.
+  const guestNames = Array.from({length:count},
+      (_,i)=>((document.getElementById('guest-name-'+(i+1))||{}).value||'').trim())
+    .filter(Boolean).join(', ');
   const entry = {
     type: 'rsvp',
     name: guestNames,
@@ -1467,8 +1674,8 @@ function submitRSVP() {
     guests: document.getElementById('rsvp-guests').value,
     guestNames,
     meal,
-    dietary: document.getElementById('rsvp-dietary').value,
-    songRequest: document.getElementById('rsvp-song').value
+    dietary: declining ? '' : document.getElementById('rsvp-dietary').value,
+    songRequest: declining ? '' : document.getElementById('rsvp-song').value
   };
   // Save to localStorage
   const saved = JSON.parse(localStorage.getItem('wdg_rsvps') || '[]');
@@ -1478,8 +1685,22 @@ function submitRSVP() {
   if (typeof WEDDING_SCRIPT_URL !== 'undefined' && WEDDING_SCRIPT_URL) {
     fetch(WEDDING_SCRIPT_URL, {method:'POST', mode:'no-cors', body:JSON.stringify(entry)}).catch(()=>{});
   }
+  // Set both ways round, so going back and changing the answer cannot leave
+  // the wrong message standing.
+  if (declining) {
+    document.getElementById('thanks-icon').textContent = '🤍';
+    document.getElementById('thanks-head').textContent = 'Thank you for letting us know.';
+    document.getElementById('thanks-body').textContent =
+      "We're sorry you can't be with us, and we'll be thinking of you on the day.";
+  } else {
+    document.getElementById('thanks-icon').textContent = '🥂';
+    document.getElementById('thanks-head').textContent = 'Thank you!';
+    document.getElementById('thanks-body').textContent =
+      "We've received your RSVP and can't wait to celebrate with you.";
+  }
   document.getElementById('rsvp-form-wrap').style.display = 'none';
   document.getElementById('rsvp-thanks').style.display = 'block';
+  document.getElementById('rsvp-thanks').scrollIntoView({ block: 'center', behavior: 'smooth' });
 }
 </script>
 
