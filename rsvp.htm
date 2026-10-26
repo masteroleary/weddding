@@ -29,6 +29,11 @@
 
   body{
     font-family:'Cormorant Garamond',Georgia,serif;
+    /* Cormorant defaults to old-style figures, where "1" is a half-height
+       stub easily misread as an l. Lining figures sit at cap height, so
+       "March 1, 2027" and "Question 1 of 5" are legible at a glance. */
+    font-variant-numeric:lining-nums;
+    font-feature-settings:"lnum" 1;
     background-color:#FAF4E8;
     color:var(--espresso);
     min-height:100vh;
@@ -211,7 +216,7 @@
     color:var(--espresso);margin-bottom:.5rem;
     line-height:1.08;
   }
-  .page-header p{font-size:20px;font-style:italic;color:var(--text-muted);font-weight:500;letter-spacing:.05em}
+  .page-header p{font-size:clamp(26px,3.4vw,34px);font-style:italic;color:var(--text-muted);font-weight:500;letter-spacing:.04em;line-height:1.35}
 
   /* ── Cards shared ── */
   .card{
@@ -850,7 +855,7 @@
   .quiz-dot.done{background:var(--gold)}
   .quiz-dot.current{background:var(--gold-dark);transform:scale(1.5)}
   .quiz-count{
-    font-size:13px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+    font-size:16px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;
     color:var(--gold-dark);
   }
   .quiz-step{display:none}
