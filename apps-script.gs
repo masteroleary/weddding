@@ -1,80 +1,134 @@
 // ══════════════════════════════════════════════════════════════
 //  Matt & Chelsea Wedding — Google Apps Script Backend
-//  Deploy this as a Web App so the wedding site can save RSVPs
-//  and song requests to Google Sheets.
+//  Saves RSVPs and song requests from the wedding site into a
+//  Google Sheet, and hands them back to admin.htm.
 //
-//  DEPLOY STEPS:
-//  1. Go to script.google.com → New project
-//  2. Paste this entire file, replacing any starter code
-//  3. Click Deploy → New deployment → Web app
-//  4. Execute as: Me  |  Who has access: Anyone
-//  5. Click Deploy and copy the Web App URL
-//  6. Paste that URL into:
-//       admin.htm   → const SCRIPT_URL = '...'
-//       rsvp.htm    → var WEDDING_SCRIPT_URL = '...'
-//       details.htm → var WEDDING_SCRIPT_URL = '...'
+//  TO UPDATE THE LIVE SCRIPT:
+//  1. Go to script.google.com and open the wedding project
+//  2. Select all the old code and paste this file over it
+//  3. Save (the disk icon)
+//  4. Deploy → Manage deployments → the pencil icon →
+//     Version: "New version" → Deploy
+//  5. Approve the permissions prompt if one appears
+//
+//  Step 4 keeps the SAME web app URL, so nothing in the website
+//  needs changing.
+//
+//  The script finds its own spreadsheet: if this project is bound
+//  to one it uses that, otherwise it creates "Wedding RSVPs" in
+//  the owner's Google Drive the first time it runs and remembers
+//  it from then on. Nothing to paste, no IDs to look up.
 // ══════════════════════════════════════════════════════════════
+
+var SHEET_NAME_PROP = 'SHEET_ID';
+var SPREADSHEET_TITLE = 'Wedding RSVPs';
+
+// The previous version called SpreadsheetApp.getActiveSpreadsheet()
+// directly. That returns null in a standalone script — one created at
+// script.google.com rather than from inside a sheet — so every read and
+// every save failed with "Cannot read properties of null".
+function getSpreadsheet_() {
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty(SHEET_NAME_PROP);
+
+  if (id) {
+    try {
+      return SpreadsheetApp.openById(id);
+    } catch (err) {
+      // Remembered sheet was deleted or lost; fall through and make a new one.
+      props.deleteProperty(SHEET_NAME_PROP);
+    }
+  }
+
+  // If this project IS bound to a spreadsheet, keep using it so any
+  // responses already collected there stay with the rest.
+  var bound = SpreadsheetApp.getActiveSpreadsheet();
+  if (bound) {
+    props.setProperty(SHEET_NAME_PROP, bound.getId());
+    return bound;
+  }
+
+  // Lock so two RSVPs landing at once cannot create two spreadsheets.
+  var lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    id = props.getProperty(SHEET_NAME_PROP);
+    if (id) return SpreadsheetApp.openById(id);
+    var made = SpreadsheetApp.create(SPREADSHEET_TITLE);
+    props.setProperty(SHEET_NAME_PROP, made.getId());
+    return made;
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function getSheet_(ss, name, headers) {
+  var sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    sheet.appendRow(headers);
+    sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold');
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
+function json_(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    var data = JSON.parse(e.postData.contents);
+    var ss = getSpreadsheet_();
 
     if (data.type === 'song') {
       // ── Song Request ────────────────────────────
-      let sheet = ss.getSheetByName('Songs');
-      if (!sheet) {
-        sheet = ss.insertSheet('Songs');
-        sheet.appendRow(['Timestamp', 'Artist & Song']);
-        sheet.getRange(1, 1, 1, 2).setFontWeight('bold');
-      }
-      sheet.appendRow([new Date(), data.song]);
+      var songs = getSheet_(ss, 'Songs', ['Timestamp', 'Artist & Song']);
+      songs.appendRow([new Date(), data.song || '']);
 
     } else {
       // ── RSVP ────────────────────────────────────
-      let sheet = ss.getSheetByName('RSVPs');
-      if (!sheet) {
-        sheet = ss.insertSheet('RSVPs');
-        sheet.appendRow(['Timestamp', 'Name', 'Attending', 'Guests', 'Meal', 'Dietary Restrictions', 'Song Request']);
-        sheet.getRange(1, 1, 1, 7).setFontWeight('bold');
-      }
-      sheet.appendRow([
+      var rsvps = getSheet_(ss, 'RSVPs', [
+        'Timestamp', 'Name', 'Attending', 'Guests',
+        'Meal', 'Dietary Restrictions', 'Song Request'
+      ]);
+      rsvps.appendRow([
         new Date(),
-        data.name       || '',
-        data.attending  || '',
-        data.guests     || '',
-        data.meal       || '',
-        data.dietary    || '',
-        data.songRequest|| ''
+        data.name        || '',
+        data.attending   || '',
+        data.guests      || '',
+        data.meal        || '',
+        data.dietary     || '',
+        data.songRequest || ''
       ]);
     }
 
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: 'ok' }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return json_({ status: 'ok' });
 
-  } catch(err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: 'error', message: err.message }))
-      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return json_({ status: 'error', message: err.message });
   }
 }
 
 function doGet(e) {
   try {
-    const type = (e.parameter.type || 'rsvps').toLowerCase();
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sheetName = type === 'songs' ? 'Songs' : 'RSVPs';
-    const sheet = ss.getSheetByName(sheetName);
-    const data = sheet ? sheet.getDataRange().getValues() : [[]];
+    var type = ((e && e.parameter && e.parameter.type) || 'rsvps').toLowerCase();
+    var ss = getSpreadsheet_();
 
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: 'ok', data: data }))
-      .setMimeType(ContentService.MimeType.JSON);
+    // ?type=link just reports where the responses are being kept.
+    if (type === 'link') {
+      return json_({ status: 'ok', sheetUrl: ss.getUrl(), title: ss.getName() });
+    }
 
-  } catch(err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ status: 'error', data: [], message: err.message }))
-      .setMimeType(ContentService.MimeType.JSON);
+    var sheet = ss.getSheetByName(type === 'songs' ? 'Songs' : 'RSVPs');
+    var data = sheet ? sheet.getDataRange().getValues() : [[]];
+
+    return json_({ status: 'ok', data: data, sheetUrl: ss.getUrl() });
+
+  } catch (err) {
+    return json_({ status: 'error', data: [], message: err.message });
   }
 }
