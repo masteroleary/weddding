@@ -883,6 +883,59 @@
     .quiz-step.active{animation:none}
   }
 
+  /* ── Guest list ── */
+  .guest-list{display:flex;flex-direction:column;gap:.55rem;margin-top:.65rem}
+  .guest-row{display:flex;align-items:stretch;gap:.5rem}
+  .guest-row .guest-name-input{flex:1 1 auto;min-width:0}
+  .guest-remove{
+    flex:0 0 auto;width:42px;line-height:1;
+    font-size:19px;font-family:'Cormorant Garamond',Georgia,serif;
+    border:0.5px solid rgba(139,105,20,0.4);border-radius:4px;
+    background:transparent;color:var(--gold-dark);cursor:pointer;
+    transition:border-color .18s,color .18s,background .18s;
+  }
+  .guest-remove:hover{border-color:#9B3C3C;color:#8C2F2F;background:rgba(155,60,60,0.07)}
+  .add-guest-btn{
+    width:100%;margin-top:.7rem;padding:12px;
+    font-size:15px;font-family:'Cormorant Garamond',Georgia,serif;
+    font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+    border:1px dashed rgba(139,105,20,0.5);border-radius:4px;
+    background:transparent;color:var(--gold-dark);cursor:pointer;
+    transition:border-color .18s,color .18s,background .18s;
+  }
+  .add-guest-btn:hover{
+    border-color:var(--gold-dark);color:var(--espresso);
+    background:rgba(196,169,122,0.1);
+  }
+  .add-guest-note{
+    margin:.6rem 0 0;text-align:center;
+    font-size:15px;font-style:italic;color:var(--text-muted);
+  }
+
+  /* ── Per-guest meal picker ── */
+  .meal-block + .meal-block{
+    margin-top:1.4rem;padding-top:1.4rem;
+    border-top:0.5px solid rgba(196,169,122,0.3);
+  }
+  .meal-block-name{
+    display:block;font-size:19px;font-style:italic;
+    color:var(--espresso);margin-bottom:.1rem;
+  }
+  .meal-block .meal-cards{margin-top:.5rem}
+  /* A meal card is a <label>, so .form-group label — display:block, uppercase,
+     gold, wide tracking — outranked .meal-card and flattened the cards into a
+     run of text. Restated here at matching specificity to win it back. */
+  .form-group .meal-card{
+    display:flex;align-items:center;gap:1rem;margin-bottom:0;
+    font-size:15px;font-weight:400;letter-spacing:0;text-transform:none;
+    color:var(--espresso);
+  }
+  .form-group .meal-card.selected{font-weight:600;color:var(--espresso)}
+  .form-group .meal-check{
+    margin-left:auto;font-size:15px;letter-spacing:0;
+    text-transform:none;color:var(--gold-dark);
+  }
+
   /* ── Mobile drawer nav ──
      Eight links will not sit across a phone, so below 780px the sticky bar
      becomes a slide-out drawer behind a hamburger. The bar keeps the nav's
@@ -1162,40 +1215,25 @@
         </div>
       </section>
 
-      <!-- 2 · Who is in the party. Last step for anyone who declines: a name is
-           all we need to know who to mark down. -->
+      <!-- 2 · The party. Names are added one at a time; the meal question on
+           the next screen is built from whoever is listed here. Last step for
+           anyone who declines — a name is all we need to mark them down. -->
       <section class="quiz-step" id="step-names" data-step="names">
-        <div class="form-group">
-          <label id="guests-count-label">Number of Guests (including yourself)</label>
-          <select id="rsvp-guests" onchange="updateGuestNames()"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+        <div class="form-group" style="margin-bottom:0;">
+          <label id="guests-label">Who's coming?</label>
+          <div class="guest-list" id="guest-list"></div>
+          <button type="button" class="add-guest-btn" id="addGuestBtn" onclick="addGuest()">+ Add another guest</button>
+          <p class="add-guest-note" id="addGuestNote" style="display:none">That's the most we can seat from one invitation.</p>
         </div>
-
-        <div id="guest-names" style="margin-top:.75rem;display:none">
-          <label class="quiz-sublabel" id="guest-names-label">Guest Names</label>
-          <div id="guest-name-fields" style="display:flex;flex-direction:column;gap:.5rem;"></div>
-        </div>
-
         <p class="quiz-fineprint" id="guests-fineprint">(To ensure an intimate celebration, we are able to accommodate only those guests listed on your invitation. If a plus one has been reserved for you, it will be indicated. Thank you for understanding.)</p>
       </section>
 
-      <!-- 3 · Meal -->
+      <!-- 3 · Meal, one picker per guest. Rebuilt from the names each time
+           this step is opened, so editing the party keeps the two in step. -->
       <section class="quiz-step" id="step-meal" data-step="meal">
         <div class="form-group" style="margin-bottom:0;">
-          <label>Meal Preference (for each guest in your party)</label>
-          <div class="meal-cards">
-            <label class="meal-card" onclick="selectMeal(this)">
-              <input type="radio" name="meal" value="Beef Tenderloin">
-              <span class="meal-icon">🥩</span><span>Beef Tenderloin</span><span class="meal-check">✓</span>
-            </label>
-            <label class="meal-card" onclick="selectMeal(this)">
-              <input type="radio" name="meal" value="Pan-Seared Salmon">
-              <span class="meal-icon">🐟</span><span>Pan-Seared Salmon</span><span class="meal-check">✓</span>
-            </label>
-            <label class="meal-card" onclick="selectMeal(this)">
-              <input type="radio" name="meal" value="Wild Mushroom Risotto (V, GF)">
-              <span class="meal-icon">🍄</span><span>Wild Mushroom Risotto (V, GF)</span><span class="meal-check">✓</span>
-            </label>
-          </div>
+          <label id="meal-label">What would you like to eat?</label>
+          <div id="meal-blocks"></div>
         </div>
       </section>
 
@@ -1476,34 +1514,155 @@ function playEndScene() {
 }
 
 window.addEventListener("load", function () {
-  updateGuestNames();
+  renderGuestList();
   renderQuiz();
 });
 
-function updateGuestNames() {
-  var count = parseInt(document.getElementById('rsvp-guests').value) || 1;
-  var wrap = document.getElementById('guest-names');
-  var fields = document.getElementById('guest-name-fields');
-  // The row is rebuilt whenever the count or the yes/no answer changes, so
-  // carry the names already typed across instead of clearing them.
-  var typed = Array.prototype.map.call(
-    fields.querySelectorAll('.guest-name-input'), function (i) { return i.value; });
-  wrap.style.display = 'block';
-  fields.innerHTML = '';
-  for (var i = 1; i <= count; i++) {
+
+/* ── The party ──
+   Names are held in guestCount rows rather than a count dropdown, so adding
+   someone is one button press. The meal question is built from these rows. */
+var MAX_GUESTS = 6;
+var guestCount = 1;
+
+function guestPlaceholder(i) {
+  if (i === 1) return 'Your name';
+  return quizPath === 'no' ? 'Name ' + i : 'Guest ' + i + ' name';
+}
+
+function guestNameValues() {
+  var out = [];
+  for (var i = 1; i <= guestCount; i++) {
+    var el = document.getElementById('guest-name-' + i);
+    out.push(el ? el.value.trim() : '');
+  }
+  return out;
+}
+
+function renderGuestList() {
+  var list = document.getElementById('guest-list');
+  // Rebuilt whenever a guest is added or removed, or the yes/no answer
+  // changes the placeholders, so carry what is already typed across.
+  var typed = guestNameValues();
+  list.innerHTML = '';
+  for (var i = 1; i <= guestCount; i++) {
+    var row = document.createElement('div');
+    row.className = 'guest-row';
+
     var inp = document.createElement('input');
     inp.type = 'text';
     inp.id = 'guest-name-' + i;
-    inp.placeholder = guestPlaceholder(i);
     inp.className = 'guest-name-input';
+    inp.placeholder = guestPlaceholder(i);
     inp.value = typed[i - 1] || '';
-    fields.appendChild(inp);
+    row.appendChild(inp);
+
+    // Row 1 is whoever is filling the form in, so it has nothing to remove.
+    if (i > 1) {
+      var rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'guest-remove';
+      rm.innerHTML = '&times;';
+      rm.title = 'Remove this guest';
+      rm.setAttribute('aria-label', 'Remove guest ' + i);
+      rm.onclick = (function (n) { return function () { removeGuest(n); }; })(i);
+      row.appendChild(rm);
+    }
+    list.appendChild(row);
   }
+
+  var atMax = guestCount >= MAX_GUESTS;
+  document.getElementById('addGuestBtn').style.display = atMax ? 'none' : 'block';
+  document.getElementById('addGuestNote').style.display = atMax ? 'block' : 'none';
 }
 
-function guestPlaceholder(i) {
-  if (quizPath === 'no') return i === 1 ? 'Your name' : 'Name ' + i;
-  return i === 1 ? 'Your name' : 'Guest ' + i + ' name';
+function addGuest() {
+  if (guestCount >= MAX_GUESTS) return;
+  guestCount++;
+  renderGuestList();
+  document.getElementById('quizError').textContent = '';
+  var added = document.getElementById('guest-name-' + guestCount);
+  if (added && window.innerWidth > 780) added.focus();
+}
+
+function removeGuest(i) {
+  if (guestCount <= 1) return;
+  var names = guestNameValues();
+  var meals = guestMealValues();
+  names.splice(i - 1, 1);
+  meals.splice(i - 1, 1);
+  guestCount--;
+  renderGuestList();
+  names.forEach(function (v, n) {
+    var el = document.getElementById('guest-name-' + (n + 1));
+    if (el) el.value = v;
+  });
+  // Keep each remaining guest's meal with them rather than with their old row.
+  pendingMeals = meals;
+  document.getElementById('quizError').textContent = '';
+}
+
+
+/* ── Meals, one picker per guest ── */
+var MEALS = [
+  { value: 'Beef Tenderloin',               icon: '🥩' },
+  { value: 'Pan-Seared Salmon',             icon: '🐟' },
+  { value: 'Wild Mushroom Risotto (V, GF)', icon: '🍄' }
+];
+var pendingMeals = [];   // choices carried across a rebuild of the pickers
+
+function guestMealValues() {
+  var out = [];
+  for (var i = 1; i <= guestCount; i++) {
+    // While a set is pending, the pickers still on screen belong to the old
+    // party: after removing guest 2, the radio named meal-2 is the removed
+    // guest's, so reading it would hand their meal to whoever shuffled up.
+    if (pendingMeals.length) { out.push(pendingMeals[i - 1] || ''); continue; }
+    var picked = document.querySelector('input[name="meal-' + i + '"]:checked');
+    out.push(picked ? picked.value : '');
+  }
+  return out;
+}
+
+function renderMealBlocks() {
+  var names = guestNameValues();
+  var chosen = guestMealValues();
+  var wrap = document.getElementById('meal-blocks');
+  wrap.innerHTML = '';
+  document.getElementById('meal-label').textContent = guestCount > 1
+    ? 'What would everyone like to eat?'
+    : 'What would you like to eat?';
+
+  for (var i = 1; i <= guestCount; i++) {
+    var block = document.createElement('div');
+    block.className = 'meal-block';
+
+    // With one guest the question above already says who it is for.
+    if (guestCount > 1) {
+      var who = document.createElement('span');
+      who.className = 'meal-block-name';
+      who.textContent = names[i - 1] || 'Guest ' + i;
+      block.appendChild(who);
+    }
+
+    var cards = document.createElement('div');
+    cards.className = 'meal-cards';
+    MEALS.forEach(function (meal, n) {
+      var card = document.createElement('label');
+      card.className = 'meal-card' + (chosen[i - 1] === meal.value ? ' selected' : '');
+      card.innerHTML =
+        '<input type="radio" name="meal-' + i + '" value="' + meal.value + '"' +
+        (chosen[i - 1] === meal.value ? ' checked' : '') + '>' +
+        '<span class="meal-icon">' + meal.icon + '</span>' +
+        '<span>' + meal.value + '</span>' +
+        '<span class="meal-check">✓</span>';
+      card.onclick = function () { selectMeal(this); };
+      cards.appendChild(card);
+    });
+    block.appendChild(cards);
+    wrap.appendChild(block);
+  }
+  pendingMeals = [];
 }
 
 
@@ -1530,6 +1689,8 @@ function renderQuiz() {
   document.querySelectorAll('.quiz-step').forEach(function (step) {
     step.classList.toggle('active', step.dataset.step === current);
   });
+  // Built on arrival, so a party edited on the previous screen is reflected.
+  if (current === 'meal') renderMealBlocks();
 
   var dots = document.getElementById('quizDots');
   dots.innerHTML = '';
@@ -1550,14 +1711,16 @@ function renderQuiz() {
 
 function applyPathCopy() {
   var declining = quizPath === 'no';
-  document.getElementById('guests-count-label').textContent = declining
-    ? 'How many of you are unable to attend?'
-    : 'Number of Guests (including yourself)';
-  document.getElementById('guest-names-label').textContent = declining ? 'Name(s)' : 'Guest Names';
+  document.getElementById('guests-label').textContent = declining
+    ? "Who won't be able to make it?"
+    : "Who's coming?";
+  document.getElementById('addGuestBtn').textContent = declining
+    ? '+ Add another name'
+    : '+ Add another guest';
   // The invitation fine print is about seats at the reception, so it has
   // nothing to say to someone who is declining.
   document.getElementById('guests-fineprint').style.display = declining ? 'none' : 'block';
-  updateGuestNames();
+  renderGuestList();
 }
 
 function stepError(id) {
@@ -1565,14 +1728,23 @@ function stepError(id) {
     return document.getElementById('rsvp-attend').value ? '' : 'Please let us know whether you can join us.';
   }
   if (id === 'names') {
-    var first = document.getElementById('guest-name-1');
-    if (first && first.value.trim()) return '';
-    return quizPath === 'no'
-      ? 'Please add your name so we know who to mark down.'
-      : 'Please add your name.';
+    var names = guestNameValues();
+    if (!names[0]) {
+      return quizPath === 'no'
+        ? 'Please add your name so we know who to mark down.'
+        : 'Please add your name.';
+    }
+    // An added-then-left-blank row would show up on the meal screen as
+    // "Guest 3" with nobody attached to it.
+    if (names.indexOf('') !== -1) return 'Please name everyone you have added, or remove the empty row.';
+    return '';
   }
   if (id === 'meal') {
-    return document.querySelector('input[name="meal"]:checked') ? '' : 'Please choose a meal to continue.';
+    var meals = guestMealValues();
+    var missing = meals.indexOf('');
+    if (missing === -1) return '';
+    if (guestCount === 1) return 'Please choose a meal to continue.';
+    return 'Please choose a meal for ' + (guestNameValues()[missing] || 'guest ' + (missing + 1)) + '.';
   }
   return ''; // dietary and song are optional
 }
@@ -1629,7 +1801,9 @@ function selectAttend(choice) {
 }
 
 function selectMeal(card) {
-  document.querySelectorAll('.meal-card').forEach(c => c.classList.remove('selected'));
+  // Scoped to this guest's own cards: each guest picks independently.
+  var scope = card.closest('.meal-cards') || document;
+  scope.querySelectorAll('.meal-card').forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
   document.getElementById('quizError').textContent = '';
 }
@@ -1658,22 +1832,25 @@ function submitRSVP() {
     return;
   }
   const declining = quizPath === 'no';
+  const names = guestNameValues().filter(Boolean);
+  const meals = guestMealValues();
   // Someone who answered the later questions and then switched to declining
   // still has those fields filled in; they are not part of their answer.
-  const meal = declining ? '' : ((document.querySelector('input[name="meal"]:checked') || {}).value || '');
-  const count = parseInt(document.getElementById('rsvp-guests').value) || 1;
-  // Trim and drop the blanks: a party of three who only named two used to
-  // land in the sheet as "Jane, John, ", which is awkward to read back.
-  const guestNames = Array.from({length:count},
-      (_,i)=>((document.getElementById('guest-name-'+(i+1))||{}).value||'').trim())
-    .filter(Boolean).join(', ');
+  const party = declining ? [] : names.map((n, i) => ({ name: n, meal: meals[i] || '' }));
+  // The sheet and the admin table both hold Meal as a single string, so a
+  // party of two reads back as "Jane — Beef; John — Salmon" rather than
+  // needing a column per guest.
+  const meal = declining ? ''
+    : party.length > 1 ? party.map(g => g.name + ' — ' + g.meal).join('; ')
+    : (party[0] || {}).meal || '';
   const entry = {
     type: 'rsvp',
-    name: guestNames,
+    name: names.join(', '),
     attending: attend,
-    guests: document.getElementById('rsvp-guests').value,
-    guestNames,
+    guests: String(names.length),
+    guestNames: names.join(', '),
     meal,
+    party,
     dietary: declining ? '' : document.getElementById('rsvp-dietary').value,
     songRequest: declining ? '' : document.getElementById('rsvp-song').value
   };
