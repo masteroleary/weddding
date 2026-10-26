@@ -922,6 +922,15 @@
     color:var(--espresso);margin-bottom:.1rem;
   }
   .meal-block .meal-cards{margin-top:.5rem}
+
+  /* ── Per-guest dietary notes ── */
+  #diet-blocks{margin-top:.65rem}
+  .diet-block + .diet-block{margin-top:.9rem}
+  .form-group .diet-name{
+    display:block;margin-bottom:.3rem;
+    font-size:19px;font-style:italic;font-weight:400;
+    letter-spacing:0;text-transform:none;color:var(--espresso);
+  }
   /* A meal card is a <label>, so .form-group label — display:block, uppercase,
      gold, wide tracking — outranked .meal-card and flattened the cards into a
      run of text. Restated here at matching specificity to win it back. */
@@ -1240,9 +1249,9 @@
       <!-- 4 · Dietary -->
       <section class="quiz-step" id="step-dietary" data-step="dietary">
         <div class="form-group" style="margin-bottom:0;">
-          <label>Dietary Restrictions / Allergies</label>
-          <textarea id="rsvp-dietary" placeholder="Let us know of any allergies or dietary needs..."></textarea>
-          <p class="quiz-fineprint">(Nothing to report? Just press Next.)</p>
+          <label id="diet-label">Dietary Restrictions / Allergies</label>
+          <div id="diet-blocks"></div>
+          <p class="quiz-fineprint" id="diet-fineprint">(Nothing to report? Just press Next.)</p>
         </div>
       </section>
 
@@ -1251,8 +1260,8 @@
         <div class="form-group" style="margin-bottom:0;">
           <label>Song Request</label>
           <input type="text" id="rsvp-song" placeholder="What song will get you on the dance floor?">
+          <p class="quiz-fineprint">(Optional — press Submit to skip it.)</p>
         </div>
-        <div class="note-box">Please do not bring gifts to the venue — we'd love for you to ship them in advance or contribute online. Thank you so much for your generosity!</div>
       </section>
 
       <p class="quiz-error" id="quizError" role="alert" aria-live="polite"></p>
@@ -1578,27 +1587,45 @@ function renderGuestList() {
 
 function addGuest() {
   if (guestCount >= MAX_GUESTS) return;
+  var meals = guestMealValues();
+  var diets = guestDietValues();
   guestCount++;
+  pendingMeals = meals;
+  pendingDiets = diets;
+  clearAnswerBlocks();
   renderGuestList();
   document.getElementById('quizError').textContent = '';
   var added = document.getElementById('guest-name-' + guestCount);
   if (added && window.innerWidth > 780) added.focus();
 }
 
+// The rendered meal pickers and dietary rows belong to the party as it stood
+// when they were built. Once the party changes they are the wrong rows to read
+// back, so drop them and let the pending lists carry the answers over to the
+// rebuild. Without this, removing guest 2 hands their answers to guest 3.
+function clearAnswerBlocks() {
+  document.getElementById('meal-blocks').innerHTML = '';
+  document.getElementById('diet-blocks').innerHTML = '';
+}
+
 function removeGuest(i) {
   if (guestCount <= 1) return;
   var names = guestNameValues();
   var meals = guestMealValues();
+  var diets = guestDietValues();
   names.splice(i - 1, 1);
   meals.splice(i - 1, 1);
+  diets.splice(i - 1, 1);
   guestCount--;
   renderGuestList();
   names.forEach(function (v, n) {
     var el = document.getElementById('guest-name-' + (n + 1));
     if (el) el.value = v;
   });
-  // Keep each remaining guest's meal with them rather than with their old row.
+  // Keep each remaining guest's meal and notes with them, not with their old row.
   pendingMeals = meals;
+  pendingDiets = diets;
+  clearAnswerBlocks();
   document.getElementById('quizError').textContent = '';
 }
 
@@ -1666,6 +1693,62 @@ function renderMealBlocks() {
 }
 
 
+/* ── Dietary notes, one line per guest ──
+   Kept per guest for the same reason as the meals: "no shellfish" is no use
+   to a caterer without knowing whose plate it belongs on. */
+var pendingDiets = [];
+
+function guestDietValues() {
+  var out = [];
+  for (var i = 1; i <= guestCount; i++) {
+    if (pendingDiets.length) { out.push(pendingDiets[i - 1] || ''); continue; }
+    var el = document.getElementById('guest-diet-' + i);
+    out.push(el ? el.value.trim() : '');
+  }
+  return out;
+}
+
+function renderDietBlocks() {
+  var names = guestNameValues();
+  var noted = guestDietValues();
+  var wrap = document.getElementById('diet-blocks');
+  wrap.innerHTML = '';
+  var many = guestCount > 1;
+  document.getElementById('diet-label').textContent = many
+    ? 'Any dietary restrictions or allergies?'
+    : 'Dietary Restrictions / Allergies';
+  document.getElementById('diet-fineprint').textContent = many
+    ? '(Leave anyone with nothing to report blank.)'
+    : '(Nothing to report? Just press Next.)';
+
+  for (var i = 1; i <= guestCount; i++) {
+    var block = document.createElement('div');
+    block.className = 'diet-block';
+
+    // With one guest the question is plainly about them.
+    if (many) {
+      var who = document.createElement('label');
+      who.className = 'diet-name';
+      who.htmlFor = 'guest-diet-' + i;
+      who.textContent = names[i - 1] || 'Guest ' + i;
+      block.appendChild(who);
+    }
+
+    var inp = document.createElement('input');
+    inp.type = 'text';
+    inp.id = 'guest-diet-' + i;
+    inp.className = 'guest-name-input diet-input';
+    inp.placeholder = many
+      ? 'Allergies or dietary needs — leave blank if none'
+      : 'Let us know of any allergies or dietary needs...';
+    inp.value = noted[i - 1] || '';
+    block.appendChild(inp);
+    wrap.appendChild(block);
+  }
+  pendingDiets = [];
+}
+
+
 /* ── Quiz flow ──
    One question per screen. Anyone who declines only ever sees two: the
    yes/no, then their name — that is all we need to mark them down, so the
@@ -1691,6 +1774,7 @@ function renderQuiz() {
   });
   // Built on arrival, so a party edited on the previous screen is reflected.
   if (current === 'meal') renderMealBlocks();
+  if (current === 'dietary') renderDietBlocks();
 
   var dots = document.getElementById('quizDots');
   dots.innerHTML = '';
@@ -1834,15 +1918,22 @@ function submitRSVP() {
   const declining = quizPath === 'no';
   const names = guestNameValues().filter(Boolean);
   const meals = guestMealValues();
+  const diets = guestDietValues();
   // Someone who answered the later questions and then switched to declining
   // still has those fields filled in; they are not part of their answer.
-  const party = declining ? [] : names.map((n, i) => ({ name: n, meal: meals[i] || '' }));
-  // The sheet and the admin table both hold Meal as a single string, so a
-  // party of two reads back as "Jane — Beef; John — Salmon" rather than
-  // needing a column per guest.
+  const party = declining ? [] : names.map((n, i) => ({
+    name: n, meal: meals[i] || '', dietary: diets[i] || ''
+  }));
+  // The sheet and the admin table hold Meal and Dietary as single strings, so
+  // a party of two reads back as "Jane — Beef; John — Salmon" rather than
+  // needing a column per guest. Only guests with a note are named in Dietary,
+  // and a lone guest keeps the bare text the sheet has always held.
   const meal = declining ? ''
     : party.length > 1 ? party.map(g => g.name + ' — ' + g.meal).join('; ')
     : (party[0] || {}).meal || '';
+  const dietary = declining ? ''
+    : party.length > 1 ? party.filter(g => g.dietary).map(g => g.name + ' — ' + g.dietary).join('; ')
+    : (party[0] || {}).dietary || '';
   const entry = {
     type: 'rsvp',
     name: names.join(', '),
@@ -1851,7 +1942,7 @@ function submitRSVP() {
     guestNames: names.join(', '),
     meal,
     party,
-    dietary: declining ? '' : document.getElementById('rsvp-dietary').value,
+    dietary,
     songRequest: declining ? '' : document.getElementById('rsvp-song').value
   };
   // Save to localStorage
