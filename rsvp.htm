@@ -303,13 +303,20 @@
   .submit-btn{
     width:100%;padding:21px;
     font-size:18px;font-family:'Cormorant Garamond',Georgia,serif;
-    font-weight:500;letter-spacing:.2em;text-transform:uppercase;
+    font-weight:600;letter-spacing:.2em;text-transform:uppercase;
     border:none;border-radius:4px;
-    background:var(--espresso);color:var(--cream);
+    /* Gold rather than espresso: the dark fill read as a heavy block on a
+       cream page. Dark type on light gold keeps it the loudest thing on the
+       screen without the weight. */
+    background:linear-gradient(135deg,#C9A87C,#B8935F);color:#3E2208;
+    box-shadow:0 4px 16px rgba(139,105,20,0.25);
     cursor:pointer;margin-top:.75rem;
-    transition:opacity .18s,transform .1s;
+    transition:box-shadow .18s,transform .1s,filter .18s;
   }
-  .submit-btn:hover{opacity:.88}
+  .submit-btn:hover{
+    filter:brightness(1.04);
+    box-shadow:0 7px 24px rgba(139,105,20,0.34);
+  }
   .submit-btn:active{transform:scale(0.99)}
   .rsvp-thanks{
     text-align:center;padding:3rem 1rem;display:none;
